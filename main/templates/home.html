@@ -1,17 +1,10 @@
+{% extends 'base.html' %}
 {% load static %}
-<title>home</title>
-<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-<br>
-<br>
-<br>
-<br>
-<br>
 
-<br>
-<br>
-<br><br><br><br>
-<img class="image" src="/media/base.png" width="30%" >
-<br>
-<br>
-<br>
-<a href="{% url 'main:board' %}" class=button>시작</a>
+{% block content %}
+<img class="image" src="/static/image/찐로고.png" width="30%">
+<div class="container">
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
+</div>
+{% endblock %}

@@ -1,22 +1,38 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-<br>
-<br>
-<br>
-<br>
-<br>
 
-<br>
-<br>
-<br><br><br><br>
-<img class="image" src="/media/base.png" width="30%" >
-<br>
-<br>
-<br>
 
-<a href="{% url 'main:login' %}" class=button>로그인</a>
-<a href="{% url 'main:signup' %}" class=button>회원가입</a>
+{% block content %}
+{% comment %} <div class="container-fluid mt-5>
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3 mb-3">
+            <div class="row" >
+        <img src="/static/image/찐로고.png" class="center-block" width="30%" onclick="location.href='{% url 'main:home' %}'">
+            </div>
+        </div> {% endcomment %}
+<style>
+    .wrapper {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+
+      }
+      
+      .content {
+
+        padding: 3rem;
+        border-radius: 1rem;
+      }
+</style>
+        
+<div class="wrapper" >
+  <div class="content">
+    <img src="/static/image/찐로고.png"width="40%" class="center-block" onclick="location.href='{% url 'main:home' %}'">
+  </div>
+</div>
+{% endblock %}
+
 
 
 
