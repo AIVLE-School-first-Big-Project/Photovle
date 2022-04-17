@@ -1,4 +1,33 @@
-<link rel="stylesheet"
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block content %}
+<div class="container my-3">
+    <div style="text-align: center;">
+        <h1>로그인</h1>
+        <form method="POST" class="post-form" action="{% url 'main:login' %}">
+            {% csrf_token %}
+            {% include "form_errors.html" %}
+            <div class="form-group">
+                <label for="username">아이디:</label>
+                <input type="text" class="form-control" name="username" id="username" value="{{ form.username.value|default_if_none:'' }}">
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호:</label>
+                <input type="password" class="form-control" name="password" id="password" value="{{ form.password.value|default_if_none:'' }}">
+            </div>
+            <button type="submit" class="btn btn-primary">로그인</button>
+        </form>
+        <a href="{% provider_login_url 'google' %}">구글 로그인</a><br>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+<!-- <link rel="stylesheet"
 href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <title>Login</title>
 <div class="container my-3">
@@ -18,4 +47,4 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <button type="submit" class="btn btn-primary">로그인</button>
     </form>
     <a href="{% url 'main:signup' %}">회원가입</a>
-</div>
+</div> -->
