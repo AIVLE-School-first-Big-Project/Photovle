@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,7 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'aht&e0)f3awx^q4ir40booie@ek@m*t!2@d6qg%)q&v0ond@^)'
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
+secrets = None
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
+SECRET_KEY = secrets['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,9 +45,6 @@ INSTALLED_APPS = [
     'bootstrap4',
     'main.apps.MainConfig',
 
-    # other apps
-    'phonenumber_field',
-
     # allauth
     'allauth',
     'allauth.account',
@@ -51,7 +52,15 @@ INSTALLED_APPS = [
 
     # provider 소셜로그인 제공업체
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.kakao',
+
 ]
+# kakao client key
+SOCIAL_OUTH_CONFIG = {
+    'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
+    'KAKAO_REDIRECT_URI': secrets['KAKAO_REDIRECT_URI'],
+    'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

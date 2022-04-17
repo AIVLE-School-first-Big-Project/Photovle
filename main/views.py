@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
-
+import os
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -46,6 +46,7 @@ def signup(request):
 def logout(request):
     auth.logout(request)
     return redirect('main:home')
+
 
 ######################## 게시판 ############################
 def board(request):
