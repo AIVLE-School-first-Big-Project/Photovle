@@ -1,4 +1,22 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+<div class="container">
+	<form method="POST">
+		{% csrf_token %}
+		{% bootstrap_form boardForm %}
+		<input class="btn btn-dark" type="submit" value="수정" onclick="location.href='/{{board.pk}}/update'">
+	</form>
+</div>
+{% endblock %}
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -74,4 +92,4 @@
 
     </div>
 </body>
-</html>
+</html> -->

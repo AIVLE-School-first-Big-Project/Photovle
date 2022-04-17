@@ -1,17 +1,18 @@
+{% extends 'base.html' %}
 {% load static %}
-<title>home</title>
-<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
-<br>
-<br>
-<br>
-<br>
-<br>
 
-<br>
-<br>
-<br><br><br><br>
-<img class="image" src="/media/base.png" width="30%" >
-<br>
-<br>
-<br>
-<a href="{% url 'main:board' %}" class=button>시작</a>
+{% block content %}
+<div class="wrapper" style="text-align: center;">
+    <img class="image" src="/static/image/찐로고.png" width="30%">
+</div>
+<div class="container" style="text-align: center;">
+    {% if user.is_authenticated %}
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+    {% else %}
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
+    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
+    {% endif %}
+</div>
+{% endblock %}

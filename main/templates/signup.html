@@ -1,41 +1,36 @@
-<link rel="stylesheet"
-href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<title>회원가입</title>
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
 <div class="container my-3">
-
-    <div class="row my-3">
-        <div class="col-4">
-            <h4>계정생성</h4>
-        </div>
-        <div class="col-8 text-right">
-            <a href="{% url 'main:login' %}">로그인</a>
-        </div>
-    </div>
-    <form method="post" class="post-form">
-
+    <form method="post" class = "post-form" action="{% url 'main:signup' %}">
         {% csrf_token %}
-
         {% include "form_errors.html" %}
         <div class="form-group">
             <label for="username">사용자 이름</label>
             <input type="text" class="form-control" name="username" id="username"
-                value="{{ form.username.value | default_if_none:'' }}">
+                   value="{{ form.username.value|default_if_none:'' }}">
         </div>
         <div class="form-group">
             <label for="password1">비밀번호</label>
-            <input type="password" class="form-control" name="password1"
-            id="password1" value="{{ form.password1.value | default_if_none:'' }}">
+            <input type="password" class="form-control" name="password1" id="password1"
+                   value="{{ form.password1.value|default_if_none:'' }}">
         </div>
         <div class="form-group">
             <label for="password2">비밀번호 확인</label>
-            <input type="password" class="form-control" name="password2"
-            id="password2" value="{{ form.password2.value | default_if_none:'' }}">
+            <input type="password" class="form-control" name="password2" id="password2"
+                   value="{{ form.password2.value|default_if_none:'' }}">
         </div>
         <div class="form-group">
             <label for="email">이메일</label>
-            <input type="text" class="form-control" name="email"
-            id="email" value="{{ form.email.value | default_if_none:'' }}">
+            <input type="text" class="form-control" name="email" id="email"
+                   value="{{ form.email.value|default_if_none:'' }}">
         </div>
-        <button type="submit" class="btn btn-primary">회원가입</button>
+        <div class="form-group">
+            <label for="phone">전화번호</label>
+            <input type="text" class="form-control" name="phone" id="phone"
+                   value="{{ form.phone.value|default_if_none:'' }}">
+        </div>
+        <button type="submit" class="btn btn-primary">생성하기</button>
     </form>
 </div>
+{% endblock %}

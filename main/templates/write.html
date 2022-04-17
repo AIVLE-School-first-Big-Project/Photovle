@@ -1,46 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+{% comment %} <head>
     <meta charset="UTF-8">
     <title>Title</title>
-</head>
-<style type="text/css">
-        .content {
-            max-width:500px;
-            margin: auto;
-            padding:10px;
-        }
-
-		.board_for_read {
-			width: 100%;
-			background-color:#f1f1f1;
-		}
-
-		#title {
-			height: 32px;
-			width: 100%;
-			border-radius: 0.5em;
-			border: none;
-			font-family: inherit;
-			font-size: inherit;
-		}
-
-        textarea {
-			width: 100%;
-            font-family: inherit;
-            font-size: 100%;
-			resize: none;
-			border-radius: 0.5em;
-			padding-block: 10px;
-			border: 0px;
-        }
-
-		.td_title {
-			background-color: #d8d8d8
-		}
-    </style>
+</head> {% endcomment %}
 <body>
-    <div class="content">
+    {% comment %} <div class="content">
 		<form action="{% url 'main:write_board' %}" method="post">
 		{% csrf_token %}
 
@@ -71,6 +39,14 @@
 			<a href="{% url 'main:board' %}">> Home</a>
 		</div>
 
-    </div>
+    </div> {% endcomment %}
+	<div>
+		<form action="{% url 'main:write_board' %}" method="POST" style="max-width: 500px; margin: 4rem;">
+			{% csrf_token %}
+			{% bootstrap_form boardForm %}
+			<button type="submit" class="btn btn-primary rounded-pill col-12">게시물 업로드</button>
+		</form>
+	</div>
 </body>
+{% endblock %}
 </html>
