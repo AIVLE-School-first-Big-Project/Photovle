@@ -41,7 +41,7 @@
 
     </div> {% endcomment %}
 	<div>
-		<form action="{% url 'main:write_board' %}" method="POST" style="max-width: 500px; margin: 4rem;">
+		<form method="POST" action="{% url 'main:write' %}" enctype="multipart/form-data">
 			{% csrf_token %}
 			{% bootstrap_form boardForm %}
 			<button type="submit" class="btn btn-primary rounded-pill col-12">게시물 업로드</button>

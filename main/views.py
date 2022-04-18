@@ -8,9 +8,15 @@ from django.utils import timezone
 from django.contrib import auth
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from fsspec import filesystem
 from .models import *
 from .forms import *
 import os
+from django.http import FileResponse
+from django.core.files.storage import FileSystemStorage
+from django.views.generic.detail import SingleObjectMixin
+from mimetypes import guess_type
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -61,45 +67,58 @@ def board(request):
     page_obj = paginator.get_page(page)
     context={ 
                  'page_obj':page_obj,
-                 'title':'게시판'
+                 'title':'게시판',
+                 'board':board
         }
     return render(request, 'board.html', context)
 
-def detail(request, pk):
+def detail(request, pk):    # pk = board_id
     board = get_object_or_404(Board, id=pk)
     reply_form = ReplyForm()
     context = {
         'board':board,
         'reply_form':reply_form,
+        'pk':pk
     }
     return render(request, 'detail.html', context)
 
 def write(request):
-    boardForm = BoardForm
-    board = Board.objects.all()
-    context = {
-        'boardForm':boardForm,
-        'board':board,
-    }
-    return render(request, 'write.html', context)
-    # return render(request, 'write.html')
-
-def write_board(request):
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
         user = request.user
-        
+        upload_files = request.FILES.get('upload_files')
         board = Board(
             title = title,
             content = content,
             user = user,
-            pub_date=timezone.now()
+            pub_date=timezone.now(),
+            upload_files = upload_files,
         )
         board.save()
         return redirect('main:board')
+    else:
+        boardForm = BoardForm
+    context = {
+        'boardForm':boardForm,
+    }
+    return render(request, 'write.html', context)
+    # return render(request, 'write.html')
+    
 
-def update(request, pk):
+def download(request, pk):  # pk = board_id
+    board = Board.objects.get(id=pk)
+
+    filepath = os.path.abspath('media/')
+    file_name = os.path.basename('media/'+board.upload_files.name)
+    url = guess_type(file_name)
+
+    fs = FileSystemStorage(filepath)
+    response = FileResponse(fs.open(file_name, 'rb'), content_type='application/download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % file_name
+    return response
+
+def update(request, pk):    # pk = board_id
     # b = Board.objects.get(id=id)
     # tmp = Board.objects.get(id=id)
     # if request.method == "POST":
@@ -131,12 +150,12 @@ def update(request, pk):
         return render(request, 'update.html', {'boardForm':boardForm})
 
 
-def delete(request, pk):
+def delete(request, pk):    # pk = board_id
     board = Board.objects.get(id=pk)
     board.delete()
     return redirect('main:board')
 
-def create_reply(request, pk):
+def create_reply(request, pk):  # pk = board_id
     reply_form = ReplyForm(request.POST)
     if reply_form.is_valid():
         temp_form = reply_form.save(commit=False)
@@ -146,8 +165,19 @@ def create_reply(request, pk):
         temp_form.save()
     return HttpResponseRedirect(reverse('main:detail', args=(pk,)))
 
-def delete_reply(request, pk):
+def delete_reply(request, pk):  # pk = rep_id
     reply = Reply.objects.get(id=pk)
     pk = reply.board_id
     reply.delete()
     return HttpResponseRedirect(reverse('main:detail', args=(pk,)))
+
+def mypost(request):
+    board = Board.objects.filter(user=request.user).order_by("-pub_date")
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(board, 10)
+    page_obj = paginator.get_page(page)
+    context={ 
+                 'page_obj':page_obj,
+                 'title':'나의 게시글'
+        }
+    return render(request, 'mypost.html', context)

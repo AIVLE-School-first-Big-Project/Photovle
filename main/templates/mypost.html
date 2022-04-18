@@ -5,20 +5,7 @@
         <div class="header">
             <h2>{{ title }}</h2>
         </div>
-        <div style="text-align: right;">
-            {% if user.is_authenticated %}
-                <a href="{% url 'main:write' %}">글쓰기</a>
-                <br>
-                <a href="{% url 'main:mypost' %}">나의 게시글</a>
-            {% else %}
-                <a href="{% url 'main:login' %}">글쓰기</a>
-            {% endif %}
-        </div>
-        {% if user.is_authenticated %}
-        <div style="text-align: right;">
-            <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-        </div>
-        {% endif %}
+        <button class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
         <div style="height: 280px;">
             <table style="text-align: center; width: 700px; border: 1px solid black;">
                 <thead>
