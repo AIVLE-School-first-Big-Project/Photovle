@@ -7,7 +7,7 @@ from . import views
 app_name='main'
 
 urlpatterns = [
-    path('index/', views.index, name='index'),
+    path('', views.index, name='index'),
     path('home/', views.home, name='home'),
 # 카카오 로그인
     # path('home/login/kakao/', views.kakao_login, name='kakao-login'),
