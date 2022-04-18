@@ -101,7 +101,11 @@
             <h2>{{ title }}</h2>
         </div>
         <div style="text-align: right;">
-            <a href="{% url 'main:write' %}">글쓰기</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'main:write' %}">글쓰기</a>
+            {% else %}
+                <a href="{% url 'main:login' %}">글쓰기</a>
+            {% endif %}
         </div>
         {% if user.is_authenticated %}
         <div style="text-align: right;">

@@ -8,9 +8,15 @@ from django.utils import timezone
 from django.contrib import auth
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from fsspec import filesystem
 from .models import *
 from .forms import *
 import os
+from django.http import FileResponse
+from django.core.files.storage import FileSystemStorage
+from django.views.generic.detail import SingleObjectMixin
+from mimetypes import guess_type
+
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
@@ -71,33 +77,45 @@ def detail(request, pk):
     context = {
         'board':board,
         'reply_form':reply_form,
+        'pk':pk
     }
     return render(request, 'detail.html', context)
 
 def write(request):
-    boardForm = BoardForm
-    board = Board.objects.all()
-    context = {
-        'boardForm':boardForm,
-        'board':board,
-    }
-    return render(request, 'write.html', context)
-    # return render(request, 'write.html')
-
-def write_board(request):
     if request.method == 'POST':
         title = request.POST['title']
         content = request.POST['content']
         user = request.user
-        
+        upload_files = request.FILES.get('upload_files')
         board = Board(
             title = title,
             content = content,
             user = user,
-            pub_date=timezone.now()
+            pub_date=timezone.now(),
+            upload_files = upload_files,
         )
         board.save()
         return redirect('main:board')
+    else:
+        boardForm = BoardForm
+    context = {
+        'boardForm':boardForm,
+    }
+    return render(request, 'write.html', context)
+    # return render(request, 'write.html')
+    
+
+def download(request, pk):
+    board = Board.objects.get(id=pk)
+
+    filepath = os.path.abspath('media/')
+    file_name = os.path.basename('media/'+board.upload_files.name)
+    url = guess_type(file_name)
+
+    fs = FileSystemStorage(filepath)
+    response = FileResponse(fs.open(file_name, 'rb'), content_type='application/download')
+    response['Content-Disposition'] = 'attachment; filename=%s' % file_name
+    return response
 
 def update(request, pk):
     # b = Board.objects.get(id=id)
