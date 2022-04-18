@@ -30,7 +30,7 @@ class Board(models.Model):
 class Reply(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    comment = models.TextField(max_length=400)
+    comment = models.CharField(max_length=400)
     rep_date = models.DateTimeField()
 
     def __str__(self):

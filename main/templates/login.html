@@ -35,7 +35,9 @@
       </div>
         
       <div class="login-content">
-        <form action="index.html">
+        <form action="{% url 'main:login' %}" method='POST'>
+          {% csrf_token %}
+            {% include "form_errors.html" %}
           <h2 class="title" style="text-align=left">Login</h2>
           이미지 레이블링 보조 작업자
           <div class="input-div one">
@@ -44,7 +46,7 @@
             </div>
             <div class="div">
               <h5>Username</h5>
-              <input type="text" class="input">
+              <input type="text" class="form-control" name="username" id="username" value="{{ form.username.value|default_if_none:'' }}">
             </div>
           </div>
           <div class="input-div pass">
@@ -53,7 +55,7 @@
             </div>
             <div class="div">
               <h5>Password</h5>
-              <input type="password" class="input">
+              <input type="password" class="form-control" name="password" id="password" value="{{ form.password.value|default_if_none:'' }}">
             </div>
           </div>
           <a href="#">Forgot Password?</a>
