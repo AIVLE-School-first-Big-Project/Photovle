@@ -2,17 +2,46 @@
 {% load static %}
 
 {% block content %}
+
+<style>
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      
+      .content {
+        font-family: system-ui, serif;
+        font-size: 2rem;
+        padding: 3rem;
+        border-radius: 1rem;
+
+      }
+</style>
+
 <div class="wrapper" style="text-align: center;">
-    <img class="image" src="/static/image/찐로고.png" width="30%">
-</div>
-<div class="container" style="text-align: center;">
-    {% if user.is_authenticated %}
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-    {% else %}
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
-    <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
-    {% endif %}
+    
+    <div class="content" style="text-align: center;">
+        <div>
+            <img class="image" src="/static/image/찐로고.png" width="30%">
+        </div>
+        <div style="margin-top:30px">
+            {% if user.is_authenticated %}
+            <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+            {% else %}
+            <div>
+                <button type="button" style="background-color: ##708ae8;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+            </div>
+            <div>
+                <button type="button" style="background-color: ##708ae8;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
+            </div>
+            <div>
+                <button type="button" style="background-color: ##708ae8;" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
