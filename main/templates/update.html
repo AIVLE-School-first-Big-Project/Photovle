@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% load bootstrap4 %}
+{% comment %} {% load bootstrap4 %} {% endcomment %}
 {% block content %}
 
 <div class="container">
 	<form method="POST">
 		{% csrf_token %}
-		{% bootstrap_form boardForm %}
+		{% comment %} {% bootstrap_form boardForm %} {% endcomment %}
 		<input class="btn btn-dark" type="submit" value="수정" onclick="location.href='/{{board.pk}}/update'">
 	</form>
 </div>
