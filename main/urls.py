@@ -7,7 +7,7 @@ from . import views
 app_name='main'
 
 urlpatterns = [
-    path('index/', views.index, name='index'),
+    path('', views.index, name='index'),
     path('home/', views.home, name='home'),
 # 회원가입, 로그인
     path('home/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
