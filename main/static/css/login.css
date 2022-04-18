@@ -109,7 +109,7 @@
     bottom: -2px;
     width: 0%;
     height: 2px;
-    background-color: #38d39f;
+    background-color: #708ae8;
     transition: 0.4s;
   }
   .input-div:before {
@@ -127,7 +127,7 @@
     font-size: 15px;
   }
   .input-div.focus > .i > i {
-    color: #38d39f;
+    color: #708ae8;
   }
   .input-div > div > input {
     position: absolute;
@@ -155,7 +155,7 @@
     transition: 0.3s;
   }
   a:hover {
-    color: #38d39f;
+    color: #708ae8;
   }
   .btn {
     display: block;
