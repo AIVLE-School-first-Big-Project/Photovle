@@ -7,13 +7,7 @@
     font-family: "Poppins", sans-serif;
     overflow: hidden;
   }
-  /* .wave {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    height: 10%;
-    z-index: -1;
-  } */
+
   .container {
     width: 100vw;
     height: 100vh;
@@ -58,7 +52,7 @@
     width: 500px;
   }
   form {
-    width: 360px;
+    width: 95%;
   }
   .login-content img {
     height: 100px;
@@ -208,3 +202,17 @@
       justify-content: center;
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
