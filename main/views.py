@@ -67,11 +67,12 @@ def board(request):
     page_obj = paginator.get_page(page)
     context={ 
                  'page_obj':page_obj,
-                 'title':'게시판'
+                 'title':'게시판',
+                 'board':board
         }
     return render(request, 'board.html', context)
 
-def detail(request, pk):
+def detail(request, pk):    # pk = board_id
     board = get_object_or_404(Board, id=pk)
     reply_form = ReplyForm()
     context = {
@@ -105,7 +106,7 @@ def write(request):
     # return render(request, 'write.html')
     
 
-def download(request, pk):
+def download(request, pk):  # pk = board_id
     board = Board.objects.get(id=pk)
 
     filepath = os.path.abspath('media/')
@@ -117,7 +118,7 @@ def download(request, pk):
     response['Content-Disposition'] = 'attachment; filename=%s' % file_name
     return response
 
-def update(request, pk):
+def update(request, pk):    # pk = board_id
     # b = Board.objects.get(id=id)
     # tmp = Board.objects.get(id=id)
     # if request.method == "POST":
@@ -149,12 +150,12 @@ def update(request, pk):
         return render(request, 'update.html', {'boardForm':boardForm})
 
 
-def delete(request, pk):
+def delete(request, pk):    # pk = board_id
     board = Board.objects.get(id=pk)
     board.delete()
     return redirect('main:board')
 
-def create_reply(request, pk):
+def create_reply(request, pk):  # pk = board_id
     reply_form = ReplyForm(request.POST)
     if reply_form.is_valid():
         temp_form = reply_form.save(commit=False)
@@ -164,8 +165,19 @@ def create_reply(request, pk):
         temp_form.save()
     return HttpResponseRedirect(reverse('main:detail', args=(pk,)))
 
-def delete_reply(request, pk):
+def delete_reply(request, pk):  # pk = rep_id
     reply = Reply.objects.get(id=pk)
     pk = reply.board_id
     reply.delete()
     return HttpResponseRedirect(reverse('main:detail', args=(pk,)))
+
+def mypost(request):
+    board = Board.objects.filter(user=request.user).order_by("-pub_date")
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(board, 10)
+    page_obj = paginator.get_page(page)
+    context={ 
+                 'page_obj':page_obj,
+                 'title':'나의 게시글'
+        }
+    return render(request, 'mypost.html', context)

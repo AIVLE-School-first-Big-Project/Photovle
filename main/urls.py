@@ -21,6 +21,7 @@ urlpatterns = [
     # path('write/write_board', views.write_board, name='write_board'),
     path('<int:pk>/update', views.update, name='update'),
     path('<int:pk>/delete', views.delete, name='delete'),
+    path('mypost/', views.mypost, name='mypost'),
 # 댓글
     path('<int:pk>/create_reply', views.create_reply, name='create_reply'),
     path('<int:pk>/delete_reply', views.delete_reply, name='delete_reply'),
