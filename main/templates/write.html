@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
+<<<<<<< HEAD
 {% load bootstrap4 %}
 
+=======
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+>>>>>>> origin/HEAD
 {% comment %} <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -42,10 +48,16 @@
 	<div>
 		<form method="POST" action="{% url 'main:write' %}" enctype="multipart/form-data">
 			{% csrf_token %}
-			{% bootstrap_form boardForm %}
+			<table>
+				{{ boardForm }}
+			</table>
 			<button type="submit" class="btn btn-primary rounded-pill col-12">게시물 업로드</button>
 		</form>
 	</div>
 
 {% endblock %}
+<<<<<<< HEAD
 
+=======
+</html>
+>>>>>>> origin/HEAD
