@@ -7,6 +7,7 @@ from .models import *
 
 # 유저 생성 form
 class UserForm(UserCreationForm):
+    name = forms.CharField(label='이름')
     email = forms.EmailField(label="이메일")
     phone = forms.CharField(label='전화번호')
     class Meta:

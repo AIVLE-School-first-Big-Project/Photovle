@@ -49,7 +49,9 @@
                 <div class="card" style="border-radius: 1rem; align-items:center;">
                     <div class="col-md-6 col-lg-7 d-flex align-items-center">
                         <div class="card-body p-4 p-lg-5 text-black">
-                            <form>
+                            <form method="POST" class="post-form" action="{% url 'main:signup' %}">
+                                {% csrf_token %}
+                                {% include "form_errors.html" %}
                                 <div class="d-flex align-items-center mb-3 pb-1">
                                     <i class="fas fa-cubes fa-2x " style="color: #ff6219;"></i>
                                     <span class="h1 fw-bold mb-0">Sign up</span>
@@ -58,28 +60,31 @@
                                 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example17">이름</label>
-                                    <input type="ID" id="form2Example17" class="form-control form-control-lg" placeholder="Please enter your Name"/>
-                                </div>
-    
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">Email</label>
-                                    <input type="Name" id="form2Example27" class="form-control form-control-lg" placeholder="Please enter your Email"/>
+                                    <input type="text" name="name" id="name" class="form-control form-control-lg" placeholder="Please enter your Name"/>
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example17">ID</label>
-                                    <input type="email" id="form2Example17" class="form-control form-control-lg" placeholder="Please enter your ID"/>
+                                    <input type="text" name="username" id="username" class="form-control form-control-lg" placeholder="Please enter your ID"/>
                                 </div>
   
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example27">Password</label>
-                                    <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="Please enter your Password"/>
+                                    <input type="password" name="password1" id="password1" class="form-control form-control-lg" placeholder="Please enter your Password"/>
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example27">Confirm Password</label>
-                                    <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="Please confirm your Password"/>
+                                    <input type="password" name="password2" id="password2" class="form-control form-control-lg" placeholder="Please confirm your Password"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form2Example27">Email</label>
+                                    <input type="email" name="email" id="email" class="form-control form-control-lg" placeholder="Please enter your Email"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form2Example27">phone number</label>
+                                    <input type="text" name="phone" id="phone" class="form-control form-control-lg" placeholder="Please enter your Email"/>
                                 </div>
                                 <div class="pt-1 mb-4 d-grid gap-2">
-                                    <button class="btn btn-lg btn-block" type="button" style="background-color: #708ae8; color:white; width:100%">Done</button>
+                                    <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:100%">Create New Account</button>
                                 </div>
                             </form>
   

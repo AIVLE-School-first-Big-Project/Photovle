@@ -49,6 +49,7 @@ def signup(request):
     #         return redirect('main:board')
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
+    
 def logout(request):
     auth.logout(request)
     return redirect('main:home')
