@@ -5,8 +5,10 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 # 장고유저 기반의 커스텀 유저모델
 class User(AbstractUser):
-    phone = models.CharField("전화번호", max_length=20, blank=True)
+    phone = models.CharField("전화번호", max_length=20, blank=False)
+    name = models.CharField("이름", max_length=20, blank=False)
     first_name = None
+    last_name = None
     class Meta:
         db_table = 'user'
 

@@ -8,10 +8,10 @@ from .models import *
 # 유저 생성 form
 class UserForm(UserCreationForm):
     email = forms.EmailField(label="이메일")
-    phone = forms.IntegerField(label='전화번호')
+    phone = forms.CharField(label='전화번호')
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'email', 'phone')
+        fields = ('name', 'username', 'password1', 'password2', 'email', 'phone')
 
 # 게시판 글쓰기 form
 class BoardForm(ModelForm):
