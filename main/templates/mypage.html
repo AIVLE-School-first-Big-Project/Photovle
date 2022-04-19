@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>마이페이지</h2>
+    
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">이름</td>
+        <td style="padding:10px;">
+            <input type="text" name="name" id="name" value="{{ user.name }}" readonly/>
+        </td>
+    </div>
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">ID</td>
+        <td style="padding:10px;">
+            <input type="text" id="id" value="{{ user.username }}" readonly/>
+        </td>
+    </div>
+
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">전화번호</td>
+        <td style="padding:10px;">
+            <input type="tel" id="phone" value="{{ user.phone }}" readonly/>
+        </td>
+    </div>
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">이메일</td>
+        <td style="padding:10px;">
+            <input type="email" id="email" value="{{ user.email }}" readonly/>
+        </td>
+    </div>
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">비밀번호</td>
+        <td style="padding:10px;">
+            <input type="password" id="title" value="{{ user.password }}" readonly/>
+        </td>
+    </div>
+    <div class="pt-1 mb-4 d-grid gap-2">
+        <button class="btn btn-lg btn-block" type="button" style="background-color: #708ae8; color:white; width:100%">로그아웃</button>
+    </div>
+    <div class="pt-1 mb-4 d-grid gap-2">
+        <button class="btn btn-lg btn-block" type="button" style="background-color: #86878b; color:white; width:100%">회원탈퇴</button>
+    </div>
+{% endblock %}

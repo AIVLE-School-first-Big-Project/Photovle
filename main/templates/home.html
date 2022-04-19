@@ -35,18 +35,22 @@
                 <div>
                     <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
                 </div>
-            
-            <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+                <div>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:mypage' %}'">마이페이지</button>
+                </div>
+                <div>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+                </div>
             {% else %}
-            <div>
-                <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-            </div>
-            <div>
-                <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
-            </div>
-            <div>
-                <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
-            </div>
+                <div>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+                </div>
+                <div>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
+                </div>
+                <div>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
+                </div>
             {% endif %}
         </div>
     </div>

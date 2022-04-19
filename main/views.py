@@ -24,6 +24,7 @@ def index(request):
 def home(request):
     return render(request, 'home.html')
 
+#######################회원관련################################
 def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -49,10 +50,18 @@ def signup(request):
     #         return redirect('main:board')
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
-    
+
 def logout(request):
     auth.logout(request)
     return redirect('main:home')
+
+@login_required
+def mypage(request):
+    user = request.user
+    context = {
+        'user':user
+    }
+    return render(request, 'mypage.html', context)
 
 
 ######################## 게시판 ############################
