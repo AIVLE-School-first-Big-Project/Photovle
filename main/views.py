@@ -36,7 +36,7 @@ def signup(request):
             return redirect('main:board')
     else:
         form = UserForm()
-    return render(request, 'signup.html', {'form':form})
+    return render(request, 'signup1.html', {'form':form})
     # if request.user.is_authenticated:
     #     return redirect('main:index')
     #     if request.POST['password1'] == request.POST['password2']:
@@ -210,3 +210,8 @@ def mypost(request):
                  'title':'나의 게시글'
         }
     return render(request, 'mypost.html', context)
+
+######################## Canvas ############################
+
+def canvas(request):
+    return render(request, 'canvas.html')
