@@ -1,6 +1,88 @@
-{% extends base.html%}
+{% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    안녕
+<link rel="stylesheet" href="/static/js/canvas.js">
+
+{% comment %} 
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/sidebar.css">
+<div class="menu">
+<label for="expand-menu"><div>메뉴</div></label><input type="checkbox" id="expand-menu" name="expand-menu">
+<ul>
+    <li><a href="#" class="item"><div>프로필</div></a></li>
+    <li><a href="#" class="item"><div>데이터사용량</div></a></li>
+    <li><a href="#" class="item"><div>내URL</div></a></li>
+    <li><a href="#" class="item"><div>구매내역</div></a></li>
+    <li><a href="#" class="item"><div>추천목록</div></a></li>
+    <li><a href="#" class="item"><div>설정</div></a></li>
+</ul>
+</div> {% endcomment %}
+
+<style>
+    .logo{
+        display:flex;
+        height:75px;
+        width:349px;
+        margin-top:40px;
+        margin-left:50px;
+    }
+    .flex{
+        display:flex;
+    }
+    .task{
+        display:flex;
+        flex-direction:column;
+        width:390px;
+        height:800px;
+        background-color:white;
+    }
+    .button {
+        display: flex;
+        justify-content: center;
+    }
+    #chooseFile{
+        visibility: hidden;
+    }
+    label {
+        cursor: pointer;
+        font-size: 1em;
+    }
+    .canvas{
+        height:800;
+        width:1500px;
+        background-color:white;
+        margin-left:10px;
+    }
+    .camera{
+        align-items:center;
+        margin-top:40%;
+        height:250px;
+        width:350px;
+    }
+</style>
+
+<div>
+    <img class="logo"src="/static/image/찐로고.png">
+</div>
+<div class="flex">
+    <div class="task">
+        <img class="camera" src="/static/image/camera.png">
+        <form method="post" enctype="multipart/form-data">
+            <div class="button">
+                <label for="chooseFile">
+                    <button accept="img/" required multiple style="background-color: #708ae8; border:none; width:100%;" class="btn btn-primary">동영상 업로드</button>
+                </label>
+            </div>
+            <input type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
+        </form>
+    </div>
+    <div class="canvas">
+
+    </div>
+</div>
+
+
+
+
 {% endblock %}
