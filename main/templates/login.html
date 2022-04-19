@@ -25,6 +25,7 @@
 {% endblock %} {% endcomment %}
 
 {% block content %}
+
 <section class="vh-100">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -76,9 +77,47 @@
             </div>
           </div>
         </div>
+    </section>
+{% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/login.css'%}">
+<link rel="stylesheet" type="text/js" href="{% static 'js/login.js'%}">
+
+    <div class="container">
+      <div class="img">
+        <img class="wave" src="/static/image/찐로고.png" width="30%">
+        <img src="/static/image/robot.png">
+      </div>
+        
+      <div class="login-content">
+        <form action="{% url 'main:login' %}" method='POST'>
+          {% csrf_token %}
+            {% include "form_errors.html" %}
+          <h2 class="title" style="text-align=left">Login</h2>
+          이미지 레이블링 보조 작업자
+          <div class="input-div one">
+            <div class="i">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="div">
+              <h5>Username</h5>
+              <input type="text" class="form-control" name="username" id="username" value="{{ form.username.value|default_if_none:'' }}">
+            </div>
+          </div>
+          <div class="input-div pass">
+            <div class="i">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="div">
+              <h5>Password</h5>
+              <input type="password" class="form-control" name="password" id="password" value="{{ form.password.value|default_if_none:'' }}">
+            </div>
+          </div>
+          <a href="#">Forgot Password?</a>
+          <input type="submit" class="btn" style="background-color: #708ae8;" value="Login">
+        </form>
+
       </div>
     </div>
-  </section>
+  </section> {% endcomment %}
 
 
 

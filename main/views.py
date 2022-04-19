@@ -82,6 +82,7 @@ def detail(request, pk):    # pk = board_id
     }
     return render(request, 'detail.html', context)
 
+
 def write(request):
     if request.method == 'POST':
         title = request.POST['title']
@@ -118,6 +119,7 @@ def download(request, pk):  # pk = board_id
     response['Content-Disposition'] = 'attachment; filename=%s' % file_name
     return response
 
+@login_required
 def update(request, pk):    # pk = board_id
     # b = Board.objects.get(id=id)
     # tmp = Board.objects.get(id=id)
@@ -149,28 +151,55 @@ def update(request, pk):    # pk = board_id
         boardForm = BoardForm
         return render(request, 'update.html', {'boardForm':boardForm})
 
-
+@login_required
 def delete(request, pk):    # pk = board_id
     board = Board.objects.get(id=pk)
     board.delete()
     return redirect('main:board')
 
+@login_required
 def create_reply(request, pk):  # pk = board_id
-    reply_form = ReplyForm(request.POST)
-    if reply_form.is_valid():
-        temp_form = reply_form.save(commit=False)
-        temp_form.board = get_object_or_404(Board, id=pk)
-        temp_form.user = request.user
-        temp_form.rep_date = timezone.now()
-        temp_form.save()
-    return HttpResponseRedirect(reverse('main:detail', args=(pk,)))
+    if request.method == 'POST':
+        form = ReplyForm(request.POST)
+        if form.is_valid():
+            temp_form = form.save(commit=False)
+            temp_form.board = get_object_or_404(Board, id=pk)
+            temp_form.user = request.user
+            temp_form.rep_date = timezone.now()
+            temp_form.save()
+            return redirect('main:detail', pk)
+    else:
+        form = ReplyForm()
+        context = {
+            'form': form
+        }
+    return render(request, 'create_reply.html', context)
 
+@login_required
 def delete_reply(request, pk):  # pk = rep_id
     reply = Reply.objects.get(id=pk)
     pk = reply.board_id
     reply.delete()
     return HttpResponseRedirect(reverse('main:detail', args=(pk,)))
 
+@login_required
+def update_reply(request, pk, rep_pk):  # pk = board_id
+    reply = Reply.objects.get(id=rep_pk)
+    if request.method == 'POST':
+        form = ReplyForm(request.POST, instance=reply)
+        if form.is_valid():
+            temp_form = form.save(commit=False)
+            temp_form.rep_date = timezone.now()
+            temp_form.save()
+            return redirect('main:detail', pk)
+    else:
+        form = ReplyForm(instance=reply)
+        context = {
+            'form': form
+        }
+    return render(request, 'create_reply.html', context)
+
+@login_required
 def mypost(request):
     board = Board.objects.filter(user=request.user).order_by("-pub_date")
     page = int(request.GET.get('page', 1))

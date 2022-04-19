@@ -24,6 +24,7 @@ urlpatterns = [
     path('mypost/', views.mypost, name='mypost'),
 # 댓글
     path('<int:pk>/create_reply', views.create_reply, name='create_reply'),
+    path('<int:pk>/<int:rep_pk>/update_reply', views.update_reply, name='update_reply'),
     path('<int:pk>/delete_reply', views.delete_reply, name='delete_reply'),
     
 ]

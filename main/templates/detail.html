@@ -49,23 +49,21 @@
 			</tbody>
 		</table>
 		<div style="text-align:left;">
-			<a href="{% url 'main:board' %}">> Home</a>
+			<a href="{% url 'main:board' %}">Home</a>
+			{% if user.is_authenticated %}
+				<a href="{% url 'main:create_reply' board.id %}" class="btn btn-primary">댓글쓰기</a>
+			{% endif %}
 			{% if board.user == user %}
 				<a href="{% url 'main:update' board.id %}">수정</a>
 				<a href="{% url 'main:delete' board.id %}">삭제</a>
 			{% endif %}
 		</div>
-		{% if user.is_authenticated %}
-		<form action="{% url 'main:create_reply' board.id %}" method="post">
-		{% csrf_token %}
-		{{ reply_form }}
-		<input type="submit" value="댓글입력">
-		</form>
-		{% endif %}
+		
 		<div class="reply_content">
 			{% for rep in board.reply_set.all %}
 				<span class="reply">{{ rep.user }} {{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}]</span>
 				{% if rep.user == user %}
+					<a href="{% url 'main:update_reply' board.id rep.id %}">수정</a>
 					<a href="{% url 'main:delete_reply' rep.id %}">삭제</a>
 				{% endif %}
 				<br>
