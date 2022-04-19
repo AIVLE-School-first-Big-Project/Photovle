@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="/static/js/canvas.js">
+<link rel="stylesheet" href="/static/css/canvas.css">
 
 {% comment %} 
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:100,300,400,500,700,900&display=swap" rel="stylesheet">
@@ -63,19 +64,39 @@
 </style>
 
 <div>
-    <img class="logo"src="/static/image/찐로고.png">
+    <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
 </div>
 <div class="flex">
     <div class="task">
         <img class="camera" src="/static/image/camera.png">
-        <form method="post" enctype="multipart/form-data">
-            <div class="button">
-                <label for="chooseFile">
-                    <button accept="img/" required multiple style="background-color: #708ae8; border:none; width:100%;" class="btn btn-primary">동영상 업로드</button>
-                </label>
+        <div class="container">
+            <div class="image-upload" id="image-upload">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="button">
+                        <label for="chooseFile">
+                            
+                            <input type="button" accept="img/" required multiple style="background-color: #708ae8; border:none; width:100%;" class="btn btn-primary">동영상 업로드</button>
+                        </label>
+                    </div>
+                    <input type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
+                </form>
+                <div class="fileContainer">
+                    <div class="fileInput">
+                        <p>FILE NAME: </p>
+                        <p id="fileName"></p>
+                    </div>
+                    <div class="buttonContainer">
+                        <div class="submitButton" id="submitButton">SUBMIT</div>
+                    </div>
+                </div>
             </div>
-            <input type="file" id="chooseFile" name="chooseFile" accept="image/*" onchange="loadFile(this)">
-        </form>
+            
+            <div class="image-show" id="image-show"></div>
+        </div>
+        <script src="/static/js/canvas.js"></script>
+            
+        
     </div>
     <div class="canvas">
 

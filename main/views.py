@@ -36,7 +36,7 @@ def signup(request):
             return redirect('main:board')
     else:
         form = UserForm()
-    return render(request, 'signup1.html', {'form':form})
+    return render(request, 'signup.html', {'form':form})
     # if request.user.is_authenticated:
     #     return redirect('main:index')
     #     if request.POST['password1'] == request.POST['password2']:
