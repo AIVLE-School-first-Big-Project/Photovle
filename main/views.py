@@ -112,7 +112,6 @@ def download(request, pk):  # pk = board_id
 
     filepath = os.path.abspath('media/')
     file_name = os.path.basename('media/'+board.upload_files.name)
-    url = guess_type(file_name)
 
     fs = FileSystemStorage(filepath)
     response = FileResponse(fs.open(file_name, 'rb'), content_type='application/download')

@@ -50,16 +50,18 @@
 		</table>
 		<div style="text-align:left;">
 			<a href="{% url 'main:board' %}">Home</a>
-			{% if user.is_authenticated %}
-				<a href="{% url 'main:create_reply' board.id %}" class="btn btn-primary">댓글쓰기</a>
-			{% endif %}
 			{% if board.user == user %}
 				<a href="{% url 'main:update' board.id %}">수정</a>
 				<a href="{% url 'main:delete' board.id %}">삭제</a>
 			{% endif %}
 		</div>
-		
+		<br>
 		<div class="reply_content">
+			<div>
+				{% if user.is_authenticated %}
+					<a href="{% url 'main:create_reply' board.id %}" class="btn btn-primary">댓글쓰기</a>
+				{% endif %}
+			</div>
 			{% for rep in board.reply_set.all %}
 				<span class="reply">{{ rep.user }} {{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}]</span>
 				{% if rep.user == user %}

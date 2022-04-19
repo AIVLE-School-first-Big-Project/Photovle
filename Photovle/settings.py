@@ -55,6 +55,20 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.kakao',
 
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# 다른 부분 오류 시 비밀번호 지워지는 것 방지
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
+
 # kakao client key
 SOCIAL_OUTH_CONFIG = {
     'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
@@ -152,10 +166,7 @@ LOGOUT_REDIRECT_URL = '/home/'
 AUTH_USER_MODEL = 'main.User'
 
 
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
 
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
-
-SITE_ID = 1
+# login session
+ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지
+SESSION_COOKIE_AGE = 3600       # 쿠키 저장 유효시간(단위 sec)
