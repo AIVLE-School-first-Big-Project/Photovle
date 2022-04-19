@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
+<<<<<<< HEAD
+{% load bootstrap4 %}
+
+=======
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
+>>>>>>> origin/HEAD
 {% comment %} <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head> {% endcomment %}
-<body>
-    {% comment %} <div class="content">
+
+{% block content %}
+    <div class="content">
 		<form action="{% url 'main:write_board' %}" method="post">
 		{% csrf_token %}
 
@@ -38,7 +44,7 @@
 			<a href="{% url 'main:board' %}">> Home</a>
 		</div>
 
-    </div> {% endcomment %}
+    </div>
 	<div>
 		<form method="POST" action="{% url 'main:write' %}" enctype="multipart/form-data">
 			{% csrf_token %}
@@ -48,6 +54,10 @@
 			<button type="submit" class="btn btn-primary rounded-pill col-12">게시물 업로드</button>
 		</form>
 	</div>
-</body>
+
 {% endblock %}
+<<<<<<< HEAD
+
+=======
 </html>
+>>>>>>> origin/HEAD
