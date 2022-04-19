@@ -32,8 +32,11 @@
         </div>
         <div class="d-grid gap-2 d-md-block" style="margin-top:30px">
             {% if user.is_authenticated %}
-            <button class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-            <button class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+                <div>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+                </div>
+            
+            <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
             {% else %}
             <div>
                 <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
