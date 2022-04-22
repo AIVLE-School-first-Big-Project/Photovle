@@ -207,7 +207,7 @@ def update_reply(request, pk, rep_pk):  # pk = board_id
         context = {
             'form': form
         }
-    return render(request, 'create_reply.html', context)
+    return render(request, 'update_reply.html', context)
 
 @login_required
 def mypost(request):

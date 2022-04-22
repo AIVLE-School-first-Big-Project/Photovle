@@ -120,17 +120,17 @@
 					</tr>
 				</tbody>
 			</table>
-			</form>
+		</form>
 	
-			<div class="reply_content">
-				{% for rep in board.reply_set.all %}
-					<span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span></br>
-					{% if rep.user == user %}
-						<a href="{% url 'main:update_reply' board.id rep.id %}">수정</a>
-						<a href="{% url 'main:delete_reply' rep.id %}">삭제</a> <br>
-					{% endif %}
-				{% endfor %}
-			</div>
+		<div class="reply_content">
+			{% for rep in board.reply_set.all %}
+				<span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span></br>
+				{% if rep.user == user %}
+					<a href="{% url 'main:update_reply' board.id rep.id %}">수정</a>
+					<a href="{% url 'main:delete_reply' rep.id %}">삭제</a> <br>
+				{% endif %}
+			{% endfor %}
+		</div>
 
 	</div>
 </div>
