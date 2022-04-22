@@ -62,7 +62,7 @@
                       <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" 
                       value="{{ form.password.value|default_if_none:'' }}" placeholder="Please enter your Password"/>
                     </div>
-                    <a class="small text-muted" href="#!">Forgot password?</a>
+                    <a class="small text-muted" href="{% url 'main:password_reset' %}">Forgot password?</a>
                     <div class="pt-1 mb-4 d-grid gap-2">
                       <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:70%" 
                       vlaue='Login'>Login</button>
