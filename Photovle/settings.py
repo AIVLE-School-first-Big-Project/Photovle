@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import json
+from unittest.mock import DEFAULT
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -64,7 +65,16 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# email 전송
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+# EMAIL_HOST_USER와 EMAIL_HOST_PASSWORD는 개인정보이므로 secrets.json에 분리하여 사용
+EMAIL_HOST_USER = secrets['GOOGLE_HOST_USER']
+EMAIL_HOST_PASSWORD = secrets['GOOGLE_HOST_PASSWORD']
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 # 다른 부분 오류 시 비밀번호 지워지는 것 방지
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
@@ -116,7 +126,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -170,3 +180,5 @@ AUTH_USER_MODEL = 'main.User'
 # login session
 ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지
 SESSION_COOKIE_AGE = 3600       # 쿠키 저장 유효시간(단위 sec)
+
+

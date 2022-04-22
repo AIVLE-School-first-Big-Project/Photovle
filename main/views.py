@@ -1,12 +1,10 @@
-from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, UpdateView, ListView
-from django.http import HttpResponseRedirect, HttpResponseForbidden
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login as dj_login
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib import auth
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from fsspec import filesystem
 from .models import *
@@ -14,8 +12,8 @@ from .forms import *
 import os
 from django.http import FileResponse
 from django.core.files.storage import FileSystemStorage
-from django.views.generic.detail import SingleObjectMixin
-from mimetypes import guess_type
+from django.core.mail.message import EmailMessage
+
 
 # Create your views here.
 def index(request):
@@ -25,6 +23,49 @@ def home(request):
     return render(request, 'home.html')
 
 #######################회원관련################################
+def update_user(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('main:mypage')
+    else:
+        form = UserUpdateForm    
+    context = {
+        'form':form
+    }
+    return render(request, 'update_user.html', context)
+
+def update_reply(request, pk, rep_pk):  # pk = board_id
+    reply = Reply.objects.get(id=rep_pk)
+    if request.method == 'POST':
+        form = ReplyForm(request.POST, instance=reply)
+        if form.is_valid():
+            temp_form = form.save(commit=False)
+            temp_form.rep_date = timezone.now()
+            temp_form.save()
+            return redirect('main:detail', pk)
+    else:
+        form = ReplyForm(instance=reply)
+        context = {
+            'form': form
+        }
+    return render(request, 'create_reply.html', context)
+def delete_user(request):
+    user = request.user
+    user.delete()
+    auth.logout(request)
+    return redirect('main:home')
+
+def send_email(request):
+    subject = "message"
+    to = ["dba2486@gmail.com"]
+    from_email = "bestdba2486@gmail.com"
+    message = "메지시 테스트"
+    EmailMessage(subject=subject, body=message, to=to, from_email=from_email).send()
+
+
 def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -73,7 +114,7 @@ def board(request):
     # return render(request, 'board.html', {'title':'게시판', 'board_list':board_list})
     board = Board.objects.all().order_by("-pub_date")
     page = int(request.GET.get('page', 1))
-    paginator = Paginator(board, 10)
+    paginator = Paginator(board, 5)
     page_obj = paginator.get_page(page)
     context={ 
                  'page_obj':page_obj,
