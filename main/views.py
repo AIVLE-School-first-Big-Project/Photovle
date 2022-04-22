@@ -223,7 +223,8 @@ def create_reply(request, pk):  # pk = board_id
         context = {
             'form': form
         }
-    return render(request, 'create_reply.html', context)
+    #eturn render(request, 'create_reply.html', context)
+    return render(request, 'detail.html', context)
 
 @login_required
 def delete_reply(request, pk):  # pk = rep_id
