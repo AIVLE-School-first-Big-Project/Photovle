@@ -1,0 +1,48 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+label{
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 30px;
+    left: 30;
+    transition:.5s;
+}
+.material-icons{
+    font-size: 3rem;
+    margin-right:10px;
+}
+.bookmark-btt{
+    border:none;
+    outline: none;
+    background-color: transparent;
+    font-size: 3rem;
+}
+section{
+    background-color: antiquewhite;
+    color: #fff;
+    width: 200px;
+    padding-top: 30px;
+    padding-left: 30px;
+    position: absolute;
+    top: 0;
+    right: -200px;
+    bottom: 0;
+    transition: 1s ease;
+}
+.bookmark-lists{
+    padding-right: 45px;
+}
+.bookmark{
+    margin: 30px 0;
+}
+.bookmark:nth-child(1){
+    margin-top: 50px;
+}
+.bookmark a{
+    color: #fff;
+    text-decoration: none;
+}

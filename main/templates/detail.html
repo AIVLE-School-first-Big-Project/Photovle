@@ -58,9 +58,17 @@
 			</tr>
 			<tr>
 				<td>
+				{% if board.upload_files %}
+					<a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<img src="/static/image/댓글.svg" style="width:3%;">
 				</td>
 			</tr>
+			
 		</table>
 	</div>
 </div>
@@ -102,14 +110,7 @@
 					<span>{{ board.hits }}</span>
 				</td>
 			</tr>
-			<tr>
-				<td></td>
-				<td>
-				{% if board.upload_files %}
-					<a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
-					{% endif %}
-				</td>
-			</tr>
+			
 
 			<tr>
 				
