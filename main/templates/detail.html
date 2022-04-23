@@ -106,7 +106,7 @@
 				<a href="{% url 'main:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
 			{% endif %}
 		</div> {% endcomment %}
-
+		{% if user.is_authenticated %}
 		<form action="{% url 'main:create_reply' board.id %}" method="post">
 			{% csrf_token %}
 			<table class="board_for_read">
@@ -121,17 +121,16 @@
 				</tbody>
 			</table>
 		</form>
-	
+		{% endif %}
 		<div class="reply_content">
 			{% for rep in board.reply_set.all %}
-				<span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span></br>
+				<span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span><br>
 				{% if rep.user == user %}
-					<a href="{% url 'main:update_reply' board.id rep.id %}">수정</a>
+					<a href="#" onclick="window.open('../{{board.id}}/{{rep.id}}/update_reply/', 'update_reply','width=400, height=300, top=400, left=700')">수정</a>
 					<a href="{% url 'main:delete_reply' rep.id %}">삭제</a> <br>
 				{% endif %}
 			{% endfor %}
 		</div>
-
 	</div>
 </div>
 

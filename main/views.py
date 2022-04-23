@@ -1,10 +1,11 @@
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth import authenticate, login as dj_login
 from django.core.paginator import Paginator
 from django.utils import timezone
-from django.contrib import auth
+from django.contrib import auth, messages
+from django.contrib.auth import authenticate, update_session_auth_hash, login as dj_login
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from fsspec import filesystem
 from .models import *
@@ -23,6 +24,25 @@ def home(request):
     return render(request, 'home.html')
 
 #######################회원관련################################
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, '변경완료')
+            return redirect('main:mypage')
+        else:
+            messages.error(request, '에러')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'form':form
+    }
+    return render(request, 'change_password.html', context)
+
+@login_required
 def update_user(request):
     user = request.user
     if request.method == 'POST':
@@ -31,12 +51,13 @@ def update_user(request):
             form.save()
             return redirect('main:mypage')
     else:
-        form = UserUpdateForm    
+        form = UserUpdateForm(instance=user)    
     context = {
         'form':form
     }
     return render(request, 'update_user.html', context)
 
+@login_required
 def update_reply(request, pk, rep_pk):  # pk = board_id
     reply = Reply.objects.get(id=rep_pk)
     if request.method == 'POST':
@@ -52,6 +73,7 @@ def update_reply(request, pk, rep_pk):  # pk = board_id
             'form': form
         }
     return render(request, 'create_reply.html', context)
+
 def delete_user(request):
     user = request.user
     user.delete()
@@ -224,8 +246,7 @@ def create_reply(request, pk):  # pk = board_id
             'form': form
         }
     #eturn render(request, 'create_reply.html', context)
-    return render(request, 'detail.html', context)
-
+    return HttpResponseRedirect(reverse('main:detail', context))
 @login_required
 def delete_reply(request, pk):  # pk = rep_id
     reply = Reply.objects.get(id=pk)
@@ -248,7 +269,7 @@ def update_reply(request, pk, rep_pk):  # pk = board_id
         context = {
             'form': form
         }
-    return render(request, 'update_reply.html', context)
+    return render(request, 'create_reply.html', context)
 
 @login_required
 def mypost(request):

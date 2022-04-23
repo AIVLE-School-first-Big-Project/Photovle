@@ -16,6 +16,7 @@ urlpatterns = [
     path('home/mypage/', views.mypage, name='mypage'),
     path('home/update_user/', views.update_user, name='update_user'),
     path('home/delete_user/', views.delete_user, name='delete_user'),
+    path('home/change_password/', views.change_password, name='change_password'),
 # 비밀번호초기화
     path('send_email/', views.send_email, name='send_email'),
     path('password_reset/', auth_views.PasswordResetView.as_view(success_url=reverse_lazy('main:password_reset_done')), name='password_reset'),
@@ -33,7 +34,7 @@ urlpatterns = [
     path('mypost/', views.mypost, name='mypost'),
 # 댓글
     path('<int:pk>/create_reply', views.create_reply, name='create_reply'),
-    path('<int:pk>/<int:rep_pk>/update_reply', views.update_reply, name='update_reply'),
+    path('<int:pk>/<int:rep_pk>/update_reply/', views.update_reply, name='update_reply'),
     path('<int:pk>/delete_reply', views.delete_reply, name='delete_reply'),
 # 작업Canvas
     path('canvas/', views.canvas, name='canvas'),
