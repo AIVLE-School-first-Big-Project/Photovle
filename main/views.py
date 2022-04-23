@@ -24,38 +24,8 @@ def home(request):
     return render(request, 'home.html')
 
 #######################회원관련################################
-@login_required
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, '변경완료')
-            return redirect('main:mypage')
-        else:
-            messages.error(request, '에러')
-    else:
-        form = PasswordChangeForm(request.user)
-    context = {
-        'form':form
-    }
-    return render(request, 'change_password.html', context)
 
-@login_required
-def update_user(request):
-    user = request.user
-    if request.method == 'POST':
-        form = UserUpdateForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('main:mypage')
-    else:
-        form = UserUpdateForm(instance=user)    
-    context = {
-        'form':form
-    }
-    return render(request, 'update_user.html', context)
+
 
 @login_required
 def update_reply(request, pk, rep_pk):  # pk = board_id
@@ -74,12 +44,6 @@ def update_reply(request, pk, rep_pk):  # pk = board_id
         }
     return render(request, 'create_reply.html', context)
 
-def delete_user(request):
-    user = request.user
-    user.delete()
-    auth.logout(request)
-    return redirect('main:home')
-
 def send_email(request):
     subject = "message"
     to = ["dba2486@gmail.com"]
@@ -87,7 +51,7 @@ def send_email(request):
     message = "메지시 테스트"
     EmailMessage(subject=subject, body=message, to=to, from_email=from_email).send()
 
-
+# 회원가입
 def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -114,10 +78,12 @@ def signup(request):
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
 
+# 로그아웃
 def logout(request):
     auth.logout(request)
     return redirect('main:home')
 
+# 마이페이지
 @login_required
 def mypage(request):
     user = request.user
@@ -126,8 +92,51 @@ def mypage(request):
     }
     return render(request, 'mypage.html', context)
 
+# 유저정보수정
+@login_required
+def update_user(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('main:mypage')
+    else:
+        form = UserUpdateForm(instance=user)    
+    context = {
+        'form':form
+    }
+    return render(request, 'update_user.html', context)
 
+# 비밀번호변경
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, '변경완료')
+            return redirect('main:mypage')
+        else:
+            messages.error(request, '에러')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'form':form
+    }
+    return render(request, 'change_password.html', context)
+
+# 회원탈퇴
+def delete_user(request):
+    user = request.user
+    user.delete()
+    auth.logout(request)
+    return redirect('main:home')
+   
 ######################## 게시판 ############################
+
+# 게시판 메인페이지
 def board(request):
     # all_boards = Board.objects.all().order_by("-pub_date")
     # paginator = Paginator(all_boards, 5)
@@ -145,6 +154,7 @@ def board(request):
         }
     return render(request, 'board.html', context)
 
+# 게시판 상세페이지
 def detail(request, pk):    # pk = board_id
     board = get_object_or_404(Board, id=pk)
     reply_form = ReplyForm()
@@ -155,7 +165,7 @@ def detail(request, pk):    # pk = board_id
     }
     return render(request, 'detail.html', context)
 
-
+# 게시판 글쓰기
 def write(request):
     if request.method == 'POST':
         title = request.POST['title']
@@ -179,7 +189,7 @@ def write(request):
     return render(request, 'write.html', context)
     # return render(request, 'write.html')
     
-
+# 게시판에 업로드된 파일 다운로드
 def download(request, pk):  # pk = board_id
     board = Board.objects.get(id=pk)
 
@@ -191,6 +201,7 @@ def download(request, pk):  # pk = board_id
     response['Content-Disposition'] = 'attachment; filename=%s' % file_name
     return response
 
+# 게시글 수정
 @login_required
 def update(request, pk):    # pk = board_id
     # b = Board.objects.get(id=id)
@@ -223,12 +234,14 @@ def update(request, pk):    # pk = board_id
         boardForm = BoardForm
         return render(request, 'update.html', {'boardForm':boardForm})
 
+# 게시글 삭제
 @login_required
 def delete(request, pk):    # pk = board_id
     board = Board.objects.get(id=pk)
     board.delete()
     return redirect('main:board')
 
+# 게시글에 댓글작성
 @login_required
 def create_reply(request, pk):  # pk = board_id
     if request.method == 'POST':
@@ -245,8 +258,10 @@ def create_reply(request, pk):  # pk = board_id
         context = {
             'form': form
         }
-    #eturn render(request, 'create_reply.html', context)
+    #return render(request, 'create_reply.html', context)
     return HttpResponseRedirect(reverse('main:detail', context))
+
+# 댓글삭제
 @login_required
 def delete_reply(request, pk):  # pk = rep_id
     reply = Reply.objects.get(id=pk)
@@ -254,23 +269,9 @@ def delete_reply(request, pk):  # pk = rep_id
     reply.delete()
     return HttpResponseRedirect(reverse('main:detail', args=(pk,)))
 
-@login_required
-def update_reply(request, pk, rep_pk):  # pk = board_id
-    reply = Reply.objects.get(id=rep_pk)
-    if request.method == 'POST':
-        form = ReplyForm(request.POST, instance=reply)
-        if form.is_valid():
-            temp_form = form.save(commit=False)
-            temp_form.rep_date = timezone.now()
-            temp_form.save()
-            return redirect('main:detail', pk)
-    else:
-        form = ReplyForm(instance=reply)
-        context = {
-            'form': form
-        }
-    return render(request, 'create_reply.html', context)
 
+
+# 나의 게시글
 @login_required
 def mypost(request):
     board = Board.objects.filter(user=request.user).order_by("-pub_date")
