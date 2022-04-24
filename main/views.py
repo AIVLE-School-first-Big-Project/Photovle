@@ -25,25 +25,6 @@ def home(request):
 
 #######################회원관련################################
 
-
-
-@login_required
-def update_reply(request, pk, rep_pk):  # pk = board_id
-    reply = Reply.objects.get(id=rep_pk)
-    if request.method == 'POST':
-        form = ReplyForm(request.POST, instance=reply)
-        if form.is_valid():
-            temp_form = form.save(commit=False)
-            temp_form.rep_date = timezone.now()
-            temp_form.save()
-            return redirect('main:detail', pk)
-    else:
-        form = ReplyForm(instance=reply)
-        context = {
-            'form': form
-        }
-    return render(request, 'create_reply.html', context)
-
 def send_email(request):
     subject = "message"
     to = ["dba2486@gmail.com"]
@@ -168,23 +149,18 @@ def detail(request, pk):    # pk = board_id
 # 게시판 글쓰기
 def write(request):
     if request.method == 'POST':
-        title = request.POST['title']
-        content = request.POST['content']
-        user = request.user
-        upload_files = request.FILES.get('upload_files')
-        board = Board(
-            title = title,
-            content = content,
-            user = user,
-            pub_date=timezone.now(),
-            upload_files = upload_files,
-        )
-        board.save()
-        return redirect('main:board')
+        form = BoardForm(request.POST)
+        if form.is_valid():
+            temp_form = form.save(commit=False)
+            temp_form.user = request.user
+            temp_form.pub_date = timezone.now()
+            temp_form.upload_files = request.FILES.get('upload_files')
+            temp_form.save()
+            return redirect('main:board')
     else:
-        boardForm = BoardForm
+        form = BoardForm()
     context = {
-        'boardForm':boardForm,
+        'form':form
     }
     return render(request, 'write.html', context)
     # return render(request, 'write.html')
@@ -223,16 +199,45 @@ def update(request, pk):    # pk = board_id
     #     b=Board
     #     return render(request, 'update.html', {'board':b})
     board = Board.objects.get(id=pk)
+    tmp = Board.objects.get(id=pk)
+    # if request.method == 'POST':
+    #     form = BoardForm(request.POST, instance=board)
+    #     if form.is_valid():
+    #         temp_form = form.save(commit=False)
+    #         temp_form.user = request.user
+    #         temp_form.pub_date = timezone.now()
+    #         temp_form.upload_files = request.FILES.get('upload_files')
+    #         temp_form.save()
+    #         return redirect('main:board')
+    # else:
+    #     form = BoardForm()
+    # context = {
+    #     'form':form,
+    #     'pk':pk
+    # }
+    # return render(request, 'update.html', context)
     if request.method == 'POST':
         board.title = request.POST['title']
         board.content = request.POST['content']
         board.user = request.user
         board.pub_date=timezone.now()
+        board.upload_files = request.FILES.get('upload_files')
+        if board.title == '':
+            board.title = tmp.title
+        if board.content == '':
+            board.content = tmp.content
+        if board.upload_files == '':
+            board.upload_files = tmp.upload_files
         board.save()
-        return redirect('main:board')
+        return redirect('main:detail', pk)
     else:
-        boardForm = BoardForm
-        return render(request, 'update.html', {'boardForm':boardForm})
+        form = BoardForm
+    context = {
+        'form':form,
+        'pk':pk
+    }
+    return render(request, 'update.html', context)
+        
 
 # 게시글 삭제
 @login_required
@@ -260,6 +265,24 @@ def create_reply(request, pk):  # pk = board_id
         }
     #return render(request, 'create_reply.html', context)
     return HttpResponseRedirect(reverse('main:detail', context))
+
+# 댓글수정
+@login_required
+def update_reply(request, pk, rep_pk):  # pk = board_id
+    reply = Reply.objects.get(id=rep_pk)
+    if request.method == 'POST':
+        form = ReplyForm(request.POST, instance=reply)
+        if form.is_valid():
+            temp_form = form.save(commit=False)
+            temp_form.rep_date = timezone.now()
+            temp_form.save()
+            return redirect('main:detail', pk)
+    else:
+        form = ReplyForm(instance=reply)
+        context = {
+            'form': form
+        }
+    return render(request, 'create_reply.html', context)
 
 # 댓글삭제
 @login_required

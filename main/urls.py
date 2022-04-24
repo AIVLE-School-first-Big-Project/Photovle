@@ -1,4 +1,4 @@
-from django.urls import path, reverse_lazy
+from django.urls import path
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.conf import settings
