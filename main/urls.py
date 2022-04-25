@@ -1,8 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from . import views
+
+# 라벨링 추가: 강준영
+from rest_framework import routers
+router = routers.DefaultRouter()
 
 app_name='main'
 
@@ -29,7 +33,14 @@ urlpatterns = [
     path('<int:pk>/delete_reply', views.delete_reply, name='delete_reply'),
 # 작업Canvas
     path('canvas/', views.canvas, name='canvas'),
+
+# 테스트TEST
+    path('test/', views.test, name='test'),
     
+    #이미지 라벨링 추가: 강준영
+    path('test2/', views.index),
+    path('image_metadata/', views.image_metadata),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

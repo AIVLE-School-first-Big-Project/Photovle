@@ -16,8 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+# 라벨링 추가: 강준영
+# from rest_framework import routers
+# from image_metadata import views
+# router = routers.DefaultRouter()
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('home/', include('allauth.urls')),
+    
+    # # 강준영 추가
+    # path('test2', views.index),
+    # path('image_metadata/', views.image_metadata),
+    # path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
