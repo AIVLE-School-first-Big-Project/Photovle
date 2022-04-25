@@ -5,8 +5,9 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 # 장고유저 기반의 커스텀 유저모델
 class User(AbstractUser):
-    phone = models.CharField("전화번호", max_length=20, blank=False)
-    name = models.CharField("이름", max_length=20, blank=False)
+    phone = models.CharField("전화번호", max_length=20, unique=True)
+    name = models.CharField("이름", max_length=20)
+    email = models.EmailField("이메일", max_length=50, unique=True)
     first_name = None
     last_name = None
     class Meta:
@@ -15,7 +16,7 @@ class User(AbstractUser):
 # 게시판 모델
 class Board(models.Model):
     title = models.CharField(max_length=200)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(max_length=1000)
     hits = models.PositiveIntegerField(default=0)
     pub_date = models.DateTimeField()
@@ -30,8 +31,8 @@ class Board(models.Model):
 
 # 댓글 모델
 class Reply(models.Model):
-    board = models.ForeignKey(Board, on_delete=models.CASCADE, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.CharField(max_length=400)
     rep_date = models.DateTimeField()
 

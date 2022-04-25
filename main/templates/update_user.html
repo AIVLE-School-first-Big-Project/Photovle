@@ -1,6 +1,24 @@
 
 <form action="" method="post" style="text-align: center;">
     {% csrf_token %}
-    {{ form }}
-<input type="submit" value="수정완료">
+    {% comment %} {{ form }} {% endcomment %}
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">이름</td>
+        <td style="padding:10px;">
+            {{form.name}}
+        </td>
+    </div>
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">전화번호</td>
+        <td style="padding:10px;">
+            {{form.phone}}
+        </td>
+    </div>
+    <div class="form-outline mb-4">
+        <td class="td_title" style="text-align:center; width:20%;">이메일</td>
+        <td style="padding:10px;">
+            {{form.email}}
+        </td>
+    </div>
+    <input type="submit" value="수정완료" onclick="alert('수정되었습니다.')">
 </form>

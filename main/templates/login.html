@@ -56,13 +56,13 @@
                       <input type="text" id="form2Example17" name="username" class="form-control form-control-lg" 
                       value="{{ form.username.value|default_if_none:'' }}" placeholder="Please enter your Email"/>
                     </div>
-  
+   
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form2Example27">Password</label>
                       <input type="password" id="form2Example27" name="password" class="form-control form-control-lg" 
                       value="{{ form.password.value|default_if_none:'' }}" placeholder="Please enter your Password"/>
                     </div>
-                    <a class="small text-muted" href="{% url 'main:password_reset' %}">Forgot password?</a>
+                    <a class="small text-muted" href="{% url 'password_reset' %}">Forgot password?</a>
                     <div class="pt-1 mb-4 d-grid gap-2">
                       <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:70%" 
                       vlaue='Login'>Login</button>
