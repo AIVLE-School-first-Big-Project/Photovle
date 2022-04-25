@@ -17,9 +17,7 @@ urlpatterns = [
     path('home/update_user/', views.update_user, name='update_user'),
     path('home/delete_user/', views.delete_user, name='delete_user'),
     path('home/change_password/', views.change_password, name='change_password'),
-# 비밀번호초기화
-    path('send_email/', views.send_email, name='send_email'),
-    
+
 # 게시판
     path('board/', views.board, name='board'),
     path('<int:pk>/', views.detail, name='detail'),

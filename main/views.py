@@ -24,14 +24,6 @@ def home(request):
     return render(request, 'home.html')
 
 #######################회원관련################################
-
-def send_email(request):
-    subject = "message"
-    to = ["dba2486@gmail.com"]
-    from_email = "bestdba2486@gmail.com"
-    message = "메지시 테스트"
-    EmailMessage(subject=subject, body=message, to=to, from_email=from_email).send()
-
 # 회원가입
 def signup(request):
     if request.method == 'POST':

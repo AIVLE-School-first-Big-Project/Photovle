@@ -82,8 +82,9 @@
 			</tr>
 			<tr>
 				<td>
-					<img src="/static/image/댓글.svg" style="width:3%;" href>
+					<img src="/static/image/댓글.svg" style="width:3%;" href> {% if board.reply_set.count > 0 %} [{{ board.reply_set.count }}] {% endif %}
 				</td>
+				
 			</tr>
 			
 		</table>
