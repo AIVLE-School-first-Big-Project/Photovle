@@ -1,13 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
+
+<style>
+    .logo{
+        margin-left:1rem;
+        margin-top:1rem;
+    }
+    .container{
+        background-color:white;
+        margin-top:50px;
+        
+        border-radius:16px;
+        border-width:3px;
+        box-shadow:5px 5px 5px 5px gray;
+    }
+    .board{
+        width:100%;
+        height:100%;
+        align-items:center;
+        text-align:center;
+        padding:10px;
+    }
+    .table{
+        margin-top:5%;
+        margin-bottom:5%;
+        text-align:left;
+    }
+</style>
+
 <body>
-    <div class="content">
-        <div class="header">
-            <h2>{{ title }}</h2>
+   
+    <div class="logo">
+        <img src="/static/image/찐로고.png"width="20%" onclick="location.href='{% url 'main:home' %}'">
+    </div>
+    {% if user.is_authenticated %}
+    <div style="text-align: right; padding:10px;">
+        <button type="button" class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="board">
+            <h2  style="text-align: left; padding:20px;">{{ title }}</h2>
         </div>
-        <button class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+        
         <div style="height: 280px;">
-            <table style="text-align: center; width: 700px; border: 1px solid black;">
+            <table class="table table-hover">
                 <thead>
                     <tr class="header">
                         <th style="width: 10%;">번호</th>
@@ -41,6 +78,9 @@
                 {% endif %}
                 </tbody>
             </table>
+            <div style="text-align:right;">
+                <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+            </div>
         </div>
         </div>
         <div id="paging">
