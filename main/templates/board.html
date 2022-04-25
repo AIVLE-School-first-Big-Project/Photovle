@@ -59,7 +59,7 @@
                 <tr class="{% cycle '' 'even_bgcolor' %}">
                 <th scope="row">{{ forloop.counter }}</th>
                 <td><a href="{% url 'main:detail' board_list.id %}" style="text-decoration:none;">
-                    {{ board_list.title }}
+                    {{ board_list.title }}   [{{ board_list.reply.count }}]
                 </a></td>
                 <td>{{ board_list.user }}</td>
                 <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>

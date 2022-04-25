@@ -27,6 +27,11 @@
 		width:1100px;
 		height:150px;
 	}
+	table{
+		border-collapse: separate;
+	}
+	
+
 
 </style>
 
@@ -56,11 +61,23 @@
 					</div>
 				</td>
 			</tr>
-			<tr>
+			<tr style="border-spacing: 10px;">
 				<td>
-				{% if board.upload_files %}
-					<a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
+					{% if board.upload_files %}
+					
+					첨부 파일 : <a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
+					<br>
 					{% endif %}
+				</td>
+			</tr>
+			<tr style="text-align:left; border-spacing: 40px;">
+				<td>
+				
+				<button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">목록으로</button>
+				{% if board.user == user %}
+					<a href="{% url 'main:update' board.id %}">수정</a>
+					<a href="{% url 'main:delete' board.id %}">삭제</a>
+				{% endif %}
 				</td>
 			</tr>
 			<tr>
@@ -70,14 +87,8 @@
 			</tr>
 			
 		</table>
-		<div style="text-align:left;">
-			<a href="{% url 'main:board' %}">Home</a>
-			{% if board.user == user %}
-				<a href="{% url 'main:update' board.id %}">수정</a>
-				<a href="{% url 'main:delete' board.id %}">삭제</a>
-			{% endif %}
-		</div>
-		<br>
+		
+		
 		{% comment %} <div class="reply_content">
 			 <div>
 				{% if user.is_authenticated %}
