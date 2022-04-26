@@ -416,6 +416,7 @@ ga('send', 'pageview');
 
 
     </style>
+    
   </head>
 
   <body onload="_via_init()" onresize="_via_update_ui_components()">
@@ -689,9 +690,9 @@ var img_url_list = [
     {% comment %} "https://upload.wikimedia.org/wikipedia/commons/6/62/Farmer_in_Tamil_Nadu_1993.JPG",
     "https://upload.wikimedia.org/wikipedia/commons/c/cb/Rescue_exercise_RCA_2012.jpg",
     "https://upload.wikimedia.org/wikipedia/commons/9/99/Four_pears.jpg", {% endcomment %}
+    //"data:image/*",
 
 ];
-
 //img_url_list.appendChild(img.src);
 //_via_loaded_img_fn_list.push(tmp);
 // 예시 이미지 추후 변경 필요 임의주석
@@ -765,7 +766,6 @@ function responseListener() {
 	_dmiat_is_pull_ongoing = false;
 	var r = this.responseText;
 	var d = JSON.parse(r);
-    console.log(r);
 	// var jsonstr = d['files'][gistfn]['content'];
 	// gist_rawurl = d['files'][gistfn]['raw_url'];
 	// gist_rawsize = d['files'][gistfn]['size'];
@@ -836,9 +836,9 @@ function _dmiat_deposit_metadata() {
 		//console.log('payload : ' + JSON.stringify(payload));
 		//console.log('img_metadata (json) : ' + img_metadata);
 		//console.log('img_metadata (str) : ' + img_metadata_str);
-		gh.open('PATCH', url);
+		.open('PATCH', url);
         gh.setRequestHeader("Content-type", "application/json");
-		gh.send(JSON.stringify(payload));
+		gh.send(JSON.stringify(payloghad));
             } catch(err) {
 		_dmiat_is_deposit_ongoing = false;
                 show_message('Failed to deposit metadata changes.');
@@ -4646,8 +4646,9 @@ function print_current_image_data() {
     -->
 
     {% comment %} 추가한 부분 {% endcomment %}
+
     <ol id="olFrames"></ol>
-    
+    {% comment %} defer 속성 {% endcomment %}
     <script type="text/JavaScript">
     function getVideoImage(path, secs, callback) {
       var me = this, video = document.createElement('video');
@@ -4660,14 +4661,31 @@ function print_current_image_data() {
       video.onseeked = function(e) {
         var canvas = document.createElement('canvas');
         canvas.height = video.videoHeight;
-        canvas.width = video.videoWidth;
+        //canvas.width = video.videoWidth;
         //canvas.height =300
-        //canvas.width =300
+        canvas.width =600
         var ctx = canvas.getContext('2d');
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         //ctx.drawImage(video, 0, 0, 300, 300);
         var img = new Image();
+
+        //<img
+        //    src = {"canvas.toDataURL()"}
+        //    alt = "유저 이미지"
+        //    onload = {() => img_url_list.push(img.src)} />
+
         img.src = canvas.toDataURL();
+
+        // 이미지 온로드 
+        {% comment %} img.onload = function() {
+            alert(`img size: ${img.width} x ${img.height}`);
+            //img_url_list.push(img.src);
+          }; {% endcomment %}
+          
+        img.onerror = function() {
+            alert('이미지 로딩 과정에서 에러 발생');
+          };
+        
         callback.call(me, img, this.currentTime, e);
       };
       video.onerror = function(e) {
@@ -4679,7 +4697,7 @@ function print_current_image_data() {
     function showImageAt(secs) {
       var duration;
       getVideoImage(
-        '/media/Seoul - 21985.mp4',
+        '/media/robot.mp4',
         function(totalTime) {
           duration = totalTime;
           return secs;
@@ -4687,13 +4705,21 @@ function print_current_image_data() {
         function(img, secs, event) {
           if (event.type == 'seeked') {
             var li = document.createElement('li');
-            li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
-            img_url_list.push(img.src);
+            //li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
             li.appendChild(img);
-            document.getElementById('olFrames').appendChild(li);
-            {% comment %} console.log(img_url_list) {% endcomment %}
+            img.height=300
+            img.width=300
+            tmp =document.getElementById('olFrames').appendChild(li);
+            console.log(tmp)
             if (duration >= ++secs) {
-              showImageAt(secs);
+                img.onload = function() {
+                    //alert(`img size: ${img.width} x ${img.height}`);
+                    //img_url_list.push(img.src);
+                    img_url_list.push(img.src);
+                    showImageAt(secs);
+                };
+                //img_url_list.push(img.src);
+                //showImageAt(secs);
             }; 
           }
         }
