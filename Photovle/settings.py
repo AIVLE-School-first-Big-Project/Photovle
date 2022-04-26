@@ -55,6 +55,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
 
+    #이미지 라벨링 추가 : 강준영
+    'rest_framework',
+    'corsheaders',
+    # 'image_metadata',
+    
+
+
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -79,6 +86,13 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # 다른 부분 오류 시 비밀번호 지워지는 것 방지
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
+
 # kakao client key
 SOCIAL_OUTH_CONFIG = {
     'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
@@ -94,7 +108,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
+
+#라벨링추가: 강준영
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:8000',
+#     '127.0.0.1:8000'
+# )
 
 ROOT_URLCONF = 'Photovle.urls'
 

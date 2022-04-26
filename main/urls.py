@@ -1,8 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from . import views
+
+# 라벨링 추가: 강준영
+from rest_framework import routers
+router = routers.DefaultRouter()
 
 app_name='main'
 
@@ -34,6 +38,9 @@ urlpatterns = [
 # 작업Canvas
     path('canvas/', views.canvas, name='canvas'),
     path('index2/', views.index2, name='index2'),
+
+# 테스트TEST
+    path('test/', views.test, name='test'),
     
 ]
 

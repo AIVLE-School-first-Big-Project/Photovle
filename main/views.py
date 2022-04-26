@@ -304,5 +304,9 @@ def mypost(request):
 def canvas(request):
     return render(request, 'canvas.html')
 
+
 def index2(request):
     return render(request, 'index2.html')
+
+def test(request):
+    return render(request, 'test.html')
