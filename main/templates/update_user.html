@@ -1,24 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    table{
+        
+        margin: auto auto;
+    }
+</style>
+
 
 <form action="" method="post" style="text-align: center;">
     {% csrf_token %}
     {% comment %} {{ form }} {% endcomment %}
+<table>
     <div class="form-outline mb-4">
-        <td class="td_title" style="text-align:center; width:20%;">이름</td>
-        <td style="padding:10px;">
-            {{form.name}}
-        </td>
+        <tr>
+            <td class="td_title" style="text-align:center; width:20%;">이름</td>
+            <td style="padding:10px;">
+                {{form.name}}
+            </td>
+        </tr>
     </div>
     <div class="form-outline mb-4">
-        <td class="td_title" style="text-align:center; width:20%;">전화번호</td>
-        <td style="padding:10px;">
-            {{form.phone}}
-        </td>
+        <tr>
+            <td class="td_title" style="text-align:center; width:20%;">전화번호</td>
+            <td style="padding:10px;">
+                {{form.phone}}
+            </td>
+        </tr>
     </div>
     <div class="form-outline mb-4">
-        <td class="td_title" style="text-align:center; width:20%;">이메일</td>
-        <td style="padding:10px;">
-            {{form.email}}
-        </td>
+        <tr>
+            <td class="td_title" style="text-align:center; width:20%;">이메일</td>
+            <td style="padding:10px;">
+                {{form.email}}
+            </td>
+        </tr>
     </div>
-    <input type="submit" value="수정완료" onclick="alert('수정되었습니다.')">
+</table>
+<script language="JavaScript" type="text/javascript">
+    function CloseAndRefresh() 
+     {
+        opener.location.reload(true);
+        self.close();
+     }
+</script>
+    <button type="submit" class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="alert('수정되었습니다.');">수정완료</button>
 </form>
+{% endblock %}
