@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/static/css/canvas.css">
 
 <video width="400" controls>
-    <source src="/media/Seoul - 21985.mp4" type="video/mp4">
+    <source src="/media/loststars.mp4" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
   
@@ -23,8 +23,8 @@
     };
     video.onseeked = function(e) {
       var canvas = document.createElement('canvas');
-      canvas.height = video.videoHeight;
-      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight-300;
+      canvas.width = video.videoWidth-600;
       var ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
       var img = new Image();
@@ -40,7 +40,7 @@
   function showImageAt(secs) {
     var duration;
     getVideoImage(
-      '/media/Seoul - 21985.mp4',
+      '/media/loststars.mp4',
       function(totalTime) {
         duration = totalTime;
         return secs;
@@ -49,8 +49,15 @@
         if (event.type == 'seeked') {
           var li = document.createElement('li');
           li.innerHTML += '<b>Frame at second ' + secs + ':</b><br />';
-          li.appendChild(img);
+          var a = document.createElement('a');
+          a.setAttribute('href', "/main/urltest.html?url=url_list");
+          url_list = [];
+          url_list.push(img.src);
+          a.appendChild(img);
+          li.appendChild(a);
+          {% comment %} li.appendChild(img); {% endcomment %}
           document.getElementById('olFrames').appendChild(li);
+          console.log(url_list);
           if (duration >= ++secs) {
             showImageAt(secs);
           };
