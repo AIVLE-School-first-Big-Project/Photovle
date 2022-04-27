@@ -1,12 +1,12 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Photovle{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <linkz rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
     <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
 
     <style>
@@ -45,8 +45,100 @@
             border-bottom: 1px solid #707070;
             opacity: 1;
             display: flex;
-            align-items:flex-end;
+            justify-content:flex-end;
+            align-items:center;
+            margin-right: 2px;
+            
         }
+        .control-bar-option-area>img{
+            width:30px;
+            height:30px;
+            display:block;
+            padding: 4px;
+        }
+
+        .control-bar-option-area>img:hover{
+            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
+        }
+
+        .image-viewer{
+            width:100%;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            padding-bottom: 50px;
+            
+        }
+
+        .image-viewer>img{
+            height:90px;
+            margin-bottom:12px;
+        }
+
+        .image-viewer>p{
+            color: #707070;
+            opacity: 1;
+            text-align: left;
+            font: normal normal normal 16px/18px Segoe UI;
+        }
+        .image-viewer button{
+            background: #708AE8 0% 0% no-repeat padding-box;
+            border-radius: 7px;
+            opacity: 1;
+            color: #FFFFFF;
+            text-align: center;
+            border:0;
+            width: 160px;
+            padding: 4px 0 4px 0;
+        }
+        /*
+        .input-file [type="file"] {
+            position: absolute;
+            width: 1px;
+            height: 1px; 
+            padding: 0; 
+            margin: -1px; 
+            overflow: hidden; 
+            clip: rect(0, 0, 0, 0); 
+            border: 0 none; 
+            
+        }
+
+        .input-file .file-label { 
+            display: inline-block; 
+            height: 28px; 
+            line-height: 28px; 
+            text-align: center; 
+
+            background: #708AE8 0% 0% no-repeat padding-box;
+            border-radius: 7px;
+            opacity: 1;
+            color: #FFFFFF;
+            text-align: center;
+            border:0;
+            width: 160px;
+            
+        } 
+        
+        .input-file .file-name { 
+            width: 300px; 
+            background: #f5f5f5; 
+            height: 27px; 
+            line-height: 26px; 
+            text-indent: 5px; 
+            border: 1px solid #bbb; 
+        } 
+        
+        .file-focus { 
+            outline: 1px dotted #d2310e; 
+        }
+        */
+
+        .input-file [type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; } .input-file .file-label { display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; } /* 접근성 탭 포커스 스타일 */ .file-focus { outline: 1px dotted #d2310e;
+
+            
 
 
 
@@ -66,8 +158,71 @@
     <div class="canvas-body">
         <div class="control-bar">
             <div class="control-bar-option-area">
-                <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
-                <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
+                <img src="/static/image/icon_check.svg" onclick="">
+                <img src="/static/image/icon_trash_can.svg" onclick="">
+            </div>
+
+            <div class='image-viewer'>
+                <img src="/static/image/icon_camera.png" onclick="">
+                <p>편집할 동영상이 없습니다.</p>
+
+                {% comment %} <div class="input-file"> 
+                    <input type="text" readonly="readonly" class="file-name" /> 
+                    <label for="upload01" class="file-label">파일 업로드</label> 
+                    <input type="file" name="" id="upload01" class="file-upload"/> 
+                </div> {% endcomment %}
+
+                
+                <div class="input-file"> 
+                    <input type="text" readonly="readonly" class="file-name" />
+                    <label for="upload02" class="file-label">Video Upload</label> 
+                    <input type="file" name="" id="upload02" class="file-upload" /> 
+                </div>
+                
+
+                <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js">
+
+                    (function($){
+                        var $fileBox = null;
+                        
+                        $(function() {
+                            init();
+                            console.log("hllo");
+                        })
+                        
+                        function init() {
+                            $fileBox = $('.input-file');
+                            fileLoad();
+                        }
+                        
+                        function fileLoad() {
+                            $.each($fileBox, function(idx){
+                            var $this = $fileBox.eq(idx),
+                                $btnUpload = $this.find('[type="file"]'),
+                                $label = $this.find('.file-label');
+                            
+                            $btnUpload.on('change', function() {
+                                var $target = $(this),
+                                    fileName = $target.val(),
+                                    $fileText = $target.siblings('.file-name');
+                                $fileText.val(fileName);
+                            })
+                            
+                            $btnUpload.on('focusin focusout', function(e) {
+                                e.type == 'focusin' ?
+                                $label.addClass('file-focus') : $label.removeClass('file-focus');
+                            })
+                            
+                        })
+                        }
+                        
+                        
+                    })(jQuery);
+
+                </script>
+
+
+
             </div>
         </div>
 
