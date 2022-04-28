@@ -4763,12 +4763,13 @@ function print_current_image_data() {
             img.height=300
             img.width=300
             tmp =document.getElementById('olFrames').appendChild(li);
-            console.log(tmp)
+            //console.log(tmp)
             if (duration >= ++secs) {
                 img.onload = function() {
                     //alert(`img size: ${img.width} x ${img.height}`);
                     //img_url_list.push(img.src);
                     img_url_list.push(img.src);
+                    console.log(img_url_list);
                     showImageAt(secs);
                 };
                 //img_url_list.push(img.src);

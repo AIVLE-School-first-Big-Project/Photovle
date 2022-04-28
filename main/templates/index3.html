@@ -208,6 +208,9 @@
           document.getElementById('olFrames').appendChild(li);
           if (duration >= ++secs) {
             showImageAt(secs);
+            ilist = [];
+            ilist.push(img.src);
+            console.log(ilist);
             //files.push(img.src)
             //invisible_file_input.push(img.src)
           };

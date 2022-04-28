@@ -190,13 +190,13 @@
                         const file = evt.target.files[0];
                         const video = document.getElementById("video");
 
-                        console.log("hello")
-                        console.log(file)
+                        //console.log("hello")
+                        //console.log(file)
 
                         // 비디오 화면에 추가하기
                         // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환한다.
                         const videourl = URL.createObjectURL(file); 
-                        console.log(videourl)
+                        //console.log(videourl)
                         
                         //video.setAttribute("src", videourl); 
                         //video.play();
@@ -213,15 +213,16 @@
                               var canvas = document.createElement('canvas');
                               //canvas.height = video.videoHeight;
                               //canvas.width = video.videoWidth;
-                              canvas.height = 10;
-                              canvas.width = 10;
+                              canvas.height = 300;
+                              canvas.width = 300;
                               var ctx = canvas.getContext('2d');
                               ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                               //var img = new Image();
                               const img = document.createElement('img');
-                              //img.src = canvas.toDataURL();
+                              img.src = canvas.toDataURL();
                               
-                              img.src = window.URL.createObjectURL(evt.target.files[0]);
+                              
+                              //img.src = window.URL.createObjectURL(evt.target.files[0]);
                               img.onload = function() {window.URL.revokeObjectURL(this.src)};
 
                               callback.call(me, img, this.currentTime, e);
@@ -230,6 +231,8 @@
                               callback.call(me, undefined, undefined, e);
                             };
                             video.src = path;
+                            
+                            
                           }
                         
                         function showImageAt(secs) {
@@ -246,10 +249,17 @@
                                   var li = document.createElement('li');
                                   
                                   li.appendChild(img);
-                                  console.log(img.src);
-                                  document.getElementById('upload_video').appendChild(li);
+                                  img.height=300;
+                                  img.width=300;
+                                  
+                                  //console.log(img.src);
+                                  tmp = document.getElementById('video').appendChild(li);
                                   if (duration >= ++secs) {
                                     showImageAt(secs);
+                                    ilist = [];
+                                    ilist.push(img.src);
+                                    console.log(ilist);
+                                    //console.log(img.src);
                                   };
                                 }
                               }
@@ -267,7 +277,9 @@
                         // console.warn("invalide image file type");
                         // return;
                         // }
+                    
                     });
+                    
                     
                     function valideImageType(image) {
                         const result = ([ 'image/jpeg',
