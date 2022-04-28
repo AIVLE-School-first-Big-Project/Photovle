@@ -164,13 +164,11 @@
                 <p>편집할 동영상이 없습니다.</p>
 
                 <div class="input-file"> 
-                    <!-- <input type="text" readonly="readonly" class="file-name" /> -->
                     <label for="upload_video" class="file-label">파일 업로드</label> 
                     <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
 
                 </div>
                 <video id="video"></video>
-
 
 
                 <button>start</button>
@@ -179,7 +177,7 @@
                 <canvas></canvas>
                 
                 <script>
-                    // ##### 원본 : 영상 불러오기
+                    // 로컬 영상 불러오기
                     const elImage = document.querySelector("#upload_video");
 
                     elImage.addEventListener("change", (evt) => {
@@ -187,25 +185,10 @@
                         const video = document.getElementById("video");
 
                         // 비디오 화면에 추가하기
-                        // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환한다.
+                        // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
                         const videourl = URL.createObjectURL(file); 
 
-                    function valideImageType(image) {
-                        const result = ([ 'image/jpeg',
-                                        'image/png',
-                                        'image/jpg' ].indexOf(image.type) > -1);
-                        return result;
-                    }
-
-                    // const decoder = new VideoDecoder({
-                    //     output: onFrame, // the callback to handle all the VideoFrame objects
-                    //     error: e => console.error(e),
-                    // });
-                    // decoder.configure(config); // depends on the input file, your demuxer should provide it
-                    // demuxer.start((chunk) => { // depends on the demuxer, but you need it to return chunks of video data
-                    //     decoder.decode(chunk); // will trigger our onFrame callback  
-                    // })
-
+                    // 영상 분리하기
                     const frames = [];
                     const button = document.querySelector("button");
                     const select = document.querySelector("select");
@@ -222,35 +205,35 @@
                             readChunk();
 
                             function readChunk() {
-                            reader.read().then(async({ done, value }) => {
-                                if (value) {
-                                const bitmap = await createImageBitmap(value);
-                                const index = frames.length;
-                                frames.push(bitmap);
-                                select.append(new Option("Frame #" + (index + 1), index));
-                                
-                                const imageListUl = document.getElementById("image-list");
-                                const imageItem = document.createElement("li");
-                                const imageCanvas = document.createElement("canvas");
-                                
-                                const imageCtx = imageCanvas.getContext("2d");
-                                imageCanvas.width = 100;
-                                imageCanvas.height = 100;
-                                imageCtx.drawImage(bitmap, 0, 0);
+                                reader.read().then(async({ done, value }) => {
+                                    if (value) {
+                                        const bitmap = await createImageBitmap(value);
+                                        const index = frames.length;
+                                        frames.push(bitmap);
+                                        select.append(new Option("Frame #" + (index + 1), index));
+                                        
+                                        const imageListUl = document.getElementById("image-list");
+                                        const imageItem = document.createElement("li");
+                                        const imageCanvas = document.createElement("canvas");
+                                        
+                                        const imageCtx = imageCanvas.getContext("2d");
+                                        imageCanvas.width = 500;
+                                        imageCanvas.height = 500;
+                                        imageCtx.drawImage(bitmap, 0, 0);
 
-                                imageItem.append(imageCanvas);
-                                imageListUl.append(imageItem);
-                                console.log(imageItem);
-                                console.log(imageListUl);
+                                        imageItem.append(imageCanvas);
+                                        imageListUl.append(imageItem);
+                                        console.log(imageItem);
+                                        console.log(imageListUl);
 
-                                value.close();
-                                }
-                                if (!done && !stopped) {
-                                readChunk();
-                                } else {
-                                select.disabled = false;
-                                }
-                            });
+                                        value.close();
+                                    }
+                                    if (!done && !stopped) {
+                                        readChunk();
+                                    } else {
+                                        select.disabled = false;
+                                    }
+                                });
                             }
                             button.onclick = (evt) => stopped = true;
                             button.textContent = "stop";
@@ -267,12 +250,10 @@
                     };
                     
                     async function getVideoTrack() {
-                        //const video = document.createElement("video");
-                        video.width=600;
-                        video.height=600;
+                        video.width = 600;
+                        video.height = 600;
                         video.crossOrigin = "anonymous";
                         video.src = videourl;
-                        //video.src = "https://upload.wikimedia.org/wikipedia/commons/a/a4/BBH_gravitational_lensing_of_gw150914.webm";
                         document.body.append(video);
                         await video.play();
                         const [track] = video.captureStream().getVideoTracks();
@@ -283,11 +264,6 @@
                 });
 
                 </script>
-
-                <!-- <form onsubmit="return Validate(this);">
-                    File: <input type="file" name="Video file" /><br />
-                    <input type="submit" value="Submit" />
-                </form> -->
             </div>
         </div>
 
