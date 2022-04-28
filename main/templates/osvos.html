@@ -135,11 +135,10 @@
             outline: 1px dotted #d2310e; 
         }
         
-        /*
-        .input-file [type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; } .input-file .file-label { display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; } /* 접근성 탭 포커스 스타일 */ .file-focus { outline: 1px dotted #d2310e; 
-        */
-            
-
+        
+        /* .input-file [type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; } .input-file .file-label { display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; } 접근성 탭 포커스 스타일 .file-focus { outline: 1px dotted #d2310e;  */
+        
+        
 
 
         .edit-bar{
@@ -197,7 +196,7 @@
                         // video.setAttribute("src", videourl); 
                         // video.play()
 
-                        
+                        Validate(file)
                         
 
                         // createObjectURL
@@ -211,21 +210,57 @@
                         // }
                     });
                     
-                    function valideImageType(image) {
-                        const result = ([ 'image/jpeg',
-                                        'image/png',
-                                        'image/jpg' ].indexOf(image.type) > -1);
-                        return result;
+                    // function valideImageType(image) {
+                    //     const result = ([ 'image/jpeg',
+                    //                     'image/png',
+                    //                     'image/jpg' ].indexOf(image.type) > -1);
+                    //     return result;
+                    // }
+
+                    var _validFileExtensions = [".avi", ".mp4"];    
+                    function Validate(oForm) {
+                        console.log("split vedio")
+                        var arrInputs = oForm.getElementsByTagName("input");
+                        
+                        // var arrInputs = oForm;
+                        for (var i = 0; i < arrInputs.length; i++) {    
+                            var oInput = arrInputs[i];
+                            if (oInput.type == "file") {
+                                var sFileName = oInput.value;
+                                if (sFileName.length > 0) {
+                                    var blnValid = false;
+                                    for (var j = 0; j < _validFileExtensions.length; j++) {
+                                        var sCurExtension = _validFileExtensions[j];
+                                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                                            blnValid = true;
+                                            break;
+                                        }
+                                    }
+                                    
+                                    if (!blnValid) {
+                                        alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+                                        return false;
+                                    }
+                                }
+                            }
+                        }
+                        console.log(sCurExtension)
+                    
+                        return true;
                     }
+                    
 
-
-
-                    const img = document.createElement('img')
-                        img.src = window.URL.createObjectURL(files[0])
-                        console.log("image")
-                        console.log(img.src)
-                        img.onload = function() {window.URL.revokeObjectURL(this.src)}
+                    // const img = document.createElement('img')
+                    //     img.src = window.URL.createObjectURL(files[0])
+                    //     console.log("image")
+                    //     console.log(img.src)
+                    //     img.onload = function() {window.URL.revokeObjectURL(this.src)}
                 </script>
+
+                <form onsubmit="return Validate(this);">
+                    File: <input type="file" name="Video file" /><br />
+                    <input type="submit" value="Submit" />
+                </form>
 
                 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js">
 
