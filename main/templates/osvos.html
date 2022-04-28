@@ -14,6 +14,7 @@
             background-image: url('/static/image/background.png');
             background-repeat: no-repeat;
             background-size: cover;
+            overflow: hidden;
         }
         .logo{
             display:flex;
@@ -61,7 +62,8 @@
             filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
         }
 
-        .image-viewer{
+
+        #step1{
             width:100%;
             height:100%;
             display:flex;
@@ -69,21 +71,21 @@
             justify-content:center;
             align-items:center;
             padding-bottom: 50px;
-            
         }
 
-        .image-viewer>img{
+        #step1>img{
             height:90px;
             margin-bottom:12px;
         }
 
-        .image-viewer>p{
+        #step1>p{
             color: #707070;
             opacity: 1;
             text-align: left;
             font: normal normal normal 16px/18px Segoe UI;
         }
-        .image-viewer button{
+
+        button{
             background: #708AE8 0% 0% no-repeat padding-box;
             border-radius: 7px;
             opacity: 1;
@@ -134,15 +136,47 @@
         .file-focus { 
             outline: 1px dotted #d2310e; 
         }
+
+        #step2{
+            background-color: palegoldenrod;
+            width:100%;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:flex-start;
+        }
+
+        .video-area{
+            width: 100%;
+            background-color: red;
+        }
+
+        .preview{
+            width:100%;
+            display: flex;
+            outline: auto;
+            background-color: pink;
+        }
+        
+        #image-area{
+            display: block;
+            overflow: auto;
+        }
     
         .edit-bar{
             width: 100%;
             height:100%;
         }
 
-        video,canvas {
-            max-width: 100%
+        #image-list>li::marker{
+            width: 100;
+            height: 100;
         }
+
+        /* video, canvas {
+            max-width: 100%
+        } */
 
     </style>
 </head>
@@ -159,118 +193,136 @@
                 <img src="/static/image/icon_trash_can.svg" onclick="">
             </div>
         
-            <div class='image-viewer'>
-                <img src="/static/image/icon_camera.png" onclick="">
-                <p>편집할 동영상이 없습니다.</p>
+            <div id='step1'>
+                <div class="step1" id="step1">
+                    <img src="/static/image/icon_camera.png" onclick="">
+                    <p>편집할 동영상이 없습니다.</p>
 
-                <div class="input-file"> 
-                    <label for="upload_video" class="file-label">파일 업로드</label> 
-                    <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
-
+                    <div class="input-file"> 
+                        <label for="upload_video" class="file-label">파일 업로드</label> 
+                        <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
+                    </div>
                 </div>
-                <video id="video"></video>
+            </div>
 
+            <div id='step2'>
+                <!-- 여기서 부터 변경되면 보이기 -->
+                <div class="step2" id="step2" >
+                    <div class="video-area">
+                        <video id="video" style="display: none;"></video>
+                    </div>
 
-                <button>start</button>
-                <select disabled>
-                </select>
-                <canvas></canvas>
-                
-                <script>
-                    // 로컬 영상 불러오기
-                    const elImage = document.querySelector("#upload_video");
-
-                    elImage.addEventListener("change", (evt) => {
-                        const file = evt.target.files[0];
-                        const video = document.getElementById("video");
-
-                        // 비디오 화면에 추가하기
-                        // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
-                        const videourl = URL.createObjectURL(file); 
-
-                    // 영상 분리하기
-                    const frames = [];
-                    const button = document.querySelector("button");
-                    const select = document.querySelector("select");
-                    const canvas = document.querySelector("canvas");
+                    <div class="preview">
+                        <select disabled>
+                        </select>
+                        <button>start</button>
+                    </div>
                     
-                    const ctx = canvas.getContext("2d");
-
-                    button.onclick = async(evt) => {
-                        if (window.MediaStreamTrackProcessor) {
-                            let stopped = false;
-                            const track = await getVideoTrack();
-                            const processor = new MediaStreamTrackProcessor(track);
-                            const reader = processor.readable.getReader();
-                            readChunk();
-
-                            function readChunk() {
-                                reader.read().then(async({ done, value }) => {
-                                    if (value) {
-                                        const bitmap = await createImageBitmap(value);
-                                        const index = frames.length;
-                                        frames.push(bitmap);
-                                        select.append(new Option("Frame #" + (index + 1), index));
-                                        
-                                        const imageListUl = document.getElementById("image-list");
-                                        const imageItem = document.createElement("li");
-                                        const imageCanvas = document.createElement("canvas");
-                                        
-                                        const imageCtx = imageCanvas.getContext("2d");
-                                        imageCanvas.width = 500;
-                                        imageCanvas.height = 500;
-                                        imageCtx.drawImage(bitmap, 0, 0);
-
-                                        imageItem.append(imageCanvas);
-                                        imageListUl.append(imageItem);
-                                        console.log(imageItem);
-                                        console.log(imageListUl);
-
-                                        value.close();
-                                    }
-                                    if (!done && !stopped) {
-                                        readChunk();
-                                    } else {
-                                        select.disabled = false;
-                                    }
-                                });
-                            }
-                            button.onclick = (evt) => stopped = true;
-                            button.textContent = "stop";
-                        } else {
-                            console.error("your browser doesn't support this API yet");
-                        }
-                    };
-
-                    select.onchange = (evt) => {
-                        const frame = frames[select.value];
-                        canvas.width = frame.width;
-                        canvas.height = frame.height;
-                        ctx.drawImage(frame, 0, 0);
-                    };
+                    <div id="image-area">
+                        <ul id="image-list"></ul>
+                    </div>
                     
-                    async function getVideoTrack() {
-                        video.width = 600;
-                        video.height = 600;
-                        video.crossOrigin = "anonymous";
-                        video.src = videourl;
-                        document.body.append(video);
-                        await video.play();
-                        const [track] = video.captureStream().getVideoTracks();
-                        video.onended = (evt) => track.stop();
-                        return track;
-                    }
-
-                });
-
-                </script>
+                </div>
             </div>
         </div>
 
+
+        <script>
+            // 로컬 영상 불러오기
+            const elImage = document.querySelector("#upload_video");
+
+            elImage.addEventListener("change", (evt) => {
+                const file = evt.target.files[0];
+                const video = document.getElementById("video");
+
+                // 비디오 화면에 추가하기
+                // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
+                const videourl = URL.createObjectURL(file); 
+                document.getElementById("step1").style.display ='none';
+                document.getElementById("step2").style.display ='block';
+
+            // 영상 분리하기
+            const frames = [];
+            const button = document.querySelector("button");
+            const select = document.querySelector("select");
+            const canvas = document.querySelector("canvas");
+            
+            const ctx = canvas.getContext("2d");
+
+            button.onclick = async(evt) => {
+                if (window.MediaStreamTrackProcessor) {
+                    let stopped = false;
+                    const track = await getVideoTrack();
+                    const processor = new MediaStreamTrackProcessor(track);
+                    const reader = processor.readable.getReader();
+                    readChunk();
+
+                    function readChunk() {
+                        reader.read().then(async({ done, value }) => {
+                            if (value) {
+                                const bitmap = await createImageBitmap(value);
+                                const index = frames.length;
+                                frames.push(bitmap);
+                                select.append(new Option("Frame #" + (index + 1), index));
+                                
+                                const imageListUl = document.getElementById("image-list");
+                                const imageItem = document.createElement("li");
+                                const imageCanvas = document.createElement("canvas");
+                                
+                                const imageCtx = imageCanvas.getContext("2d");
+                                imageCanvas.width = 500;
+                                imageCanvas.height = 500;
+                                imageCtx.drawImage(bitmap, 0, 0);
+
+                                imageItem.append(imageCanvas);
+                                imageListUl.append(imageItem);
+                                console.log(imageItem);
+                                console.log(imageListUl);
+
+                                value.close();
+                            }
+                            if (!done && !stopped) {
+                                readChunk();
+                            } else {
+                                select.disabled = false;
+                            }
+                        });
+                    }
+                    button.onclick = (evt) => stopped = true;
+                    button.textContent = "stop";
+                } else {
+                    console.error("your browser doesn't support this API yet");
+                }
+            };
+
+            select.onchange = (evt) => {
+                const frame = frames[select.value];
+                canvas.width = frame.width;
+                canvas.height = frame.height;
+                ctx.drawImage(frame, 0, 0);
+            };
+            
+            async function getVideoTrack() {
+                video.width = 300;
+                video.crossOrigin = "anonymous";
+                video.src = videourl;
+                document.body.append(video);
+
+                await video.play();
+                const [track] = video.captureStream().getVideoTracks();
+                video.onended = (evt) => track.stop();
+                return track;
+            }
+
+        });
+
+        </script>
+
         <div class="edit-bar">
+            <canvas> </canvas>
             <!-- <canvas id="canvas-img" style="height: 300px; width: 300px; background-color: red;"></canvas> -->
             <!-- <canvas id="canvas-img"></canvas> -->
-            <ul id="image-list"></ul>
+            
         </div>
 
     </div>    
