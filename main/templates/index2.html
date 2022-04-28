@@ -453,6 +453,9 @@ ga('send', 'pageview');
           <li class="dropdown"><a title="Image" class="drop_menu_item">Image &#9662;</a>
             <div class="dropdown-content">
               <a onclick="sel_local_images()" title="Load (or add) a set of images from local disk">Load or Add Images</a>
+              
+              <a onclick="sel_local_data_file('files_url')" title="Add images from a list of web url or absolute path stored in a text file (one url or path per line)">Add url or path from text file</a>
+              
               <a onclick="show_img_list()" title="Browse currently loaded images">List Images</a>
             </div>
           </li>
@@ -485,6 +488,7 @@ ga('send', 'pageview');
         <ul>
           <li onclick="sel_local_images()" title="Load or Add Images">&ctdot;</li>
           <li onclick="sel_local_data_file('annotations')" title="Import Annotations">&uarr;</li>
+          <li onclick="sel_local_data_file('file_url')" title ="Import Annotations">&uarr;</li>
           <li onclick="download_all_region_data('csv')" title="Save Annotations (as CSV)">&DownArrowBar;</li>
 
           <li style="margin-left: 2em;" onclick="move_to_prev_image()" title="Previous Image">&larr;</li>
@@ -1132,12 +1136,16 @@ function download_all_region_data(type) {
 
 function sel_local_data_file(type) {
     if (invisible_file_input) {
-      invisible_file_input.accept='.csv,.json';
+      invisible_file_input.accept='.csv,.json,.txt';
       switch(type) {
       case 'annotations':
         invisible_file_input.onchange = import_annotations_from_file;
         break;
-  
+        
+      case 'file_url':
+        invisible_file_input.onchange = import_annotations_from_file;
+        break;
+    
       case 'coco_ann':
         _coco_loading_ann = true;
         invisible_file_input.onchange = import_annotations_from_file;
@@ -1969,6 +1977,51 @@ function show_image(image_index) {
         img_reader.readAsText( new Blob([_via_img_metadata[img_id].base64_img_data]) );
     }
 }
+// 새로 작성
+function sel_local_data_file(type) {
+    if (invisible_file_input) {
+      switch(type) {
+      case 'annotations':
+        invisible_file_input.accept='.csv,.json';
+        invisible_file_input.onchange = import_annotations_from_file;
+        break;
+  
+      case 'annotations_coco':
+        invisible_file_input.accept='.json';
+        invisible_file_input.onchange = load_coco_annotations_json_file;
+        break;
+  
+      case 'files_url':
+        invisible_file_input.accept='';
+        invisible_file_input.onchange = import_files_url_from_file;
+        break;
+  
+      case 'attributes':
+        invisible_file_input.accept='json';
+        invisible_file_input.onchange = project_import_attributes_from_file;
+        break;
+  
+      default:
+        console.log('sel_local_data_file() : unknown type ' + type);
+        return;
+      }
+      invisible_file_input.removeAttribute('multiple');
+      invisible_file_input.click();
+    }
+  }
+  
+  //
+  // Data Importer
+  //
+  function import_files_url_from_file(event) {
+    var selected_files = event.target.files;
+    var i, file;
+    for ( i = 0; i < selected_files.length; ++i ) {
+      file = selected_files[i];
+      load_text_file(file, import_files_url_from_csv);
+    }
+  }
+
 
 // transform regions in image space to canvas space
 function _via_load_canvas_regions() {
@@ -4697,7 +4750,7 @@ function print_current_image_data() {
     function showImageAt(secs) {
       var duration;
       getVideoImage(
-        '/media/loststars.mp4',
+        '/media/robot.mp4',
         function(totalTime) {
           duration = totalTime;
           return secs;

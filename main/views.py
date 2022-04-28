@@ -308,5 +308,9 @@ def canvas(request):
 def index2(request):
     return render(request, 'index2.html')
 
+
+def index3(request):
+    return render(request, 'index3.html')
+
 def test(request):
     return render(request, 'test.html')
