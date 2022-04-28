@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Photovle{% endblock %}</title>
-    <linkz rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
     <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
 
     <style>
@@ -169,7 +169,9 @@
                 <div class="input-file"> 
                     {% comment %} <input type="text" readonly="readonly" class="file-name" />  {% endcomment %}
                     <label for="upload_video" class="file-label">파일 업로드</label> 
-                    <input type="file" name="upload_video" id="upload_video" class="file-upload"/> 
+                    <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
+
+                    {% comment %} <input type="file" name="upload_video" id="upload_video" class="file-upload"/>  {% endcomment %}
                 </div>
                 <video id="video"></video>
 
@@ -183,6 +185,7 @@
                 
                 <script>
                     const elImage = document.querySelector("#upload_video");
+
                     elImage.addEventListener("change", (evt) => {
                         const file = evt.target.files[0];
                         const video = document.getElementById("video");
@@ -194,10 +197,65 @@
                         // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환한다.
                         const videourl = URL.createObjectURL(file); 
                         console.log(videourl)
-                        // video.setAttribute("src", videourl); 
-                        // video.play()
-
                         
+                        //video.setAttribute("src", videourl); 
+                        //video.play();
+                       
+                        function getVideoImage(path, secs, callback) {
+                            var me = this;
+                            video.onloadedmetadata = function() {
+                              if ('function' === typeof secs) {
+                                secs = secs(this.duration);
+                              }
+                              this.currentTime = Math.min(Math.max(0, (secs < 0 ? this.duration : 0) + secs), this.duration);
+                            };
+                            video.onseeked = function(e) {
+                              var canvas = document.createElement('canvas');
+                              //canvas.height = video.videoHeight;
+                              //canvas.width = video.videoWidth;
+                              canvas.height = 10;
+                              canvas.width = 10;
+                              var ctx = canvas.getContext('2d');
+                              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                              //var img = new Image();
+                              const img = document.createElement('img');
+                              //img.src = canvas.toDataURL();
+                              
+                              img.src = window.URL.createObjectURL(evt.target.files[0]);
+                              img.onload = function() {window.URL.revokeObjectURL(this.src)};
+
+                              callback.call(me, img, this.currentTime, e);
+                            };
+                            video.onerror = function(e) {
+                              callback.call(me, undefined, undefined, e);
+                            };
+                            video.src = path;
+                          }
+                        
+                        function showImageAt(secs) {
+                            var duration;
+                            getVideoImage(
+                                videourl,
+                              //'/media/robot.mp4',
+                              function(totalTime) {
+                                duration = totalTime;
+                                return secs;
+                              },
+                              function(img, secs, event) {
+                                if (event.type == 'seeked') {
+                                  var li = document.createElement('li');
+                                  
+                                  li.appendChild(img);
+                                  console.log(img.src);
+                                  document.getElementById('upload_video').appendChild(li);
+                                  if (duration >= ++secs) {
+                                    showImageAt(secs);
+                                  };
+                                }
+                              }
+                            );
+                          }
+                          showImageAt(0);
                         
 
                         // createObjectURL
@@ -220,11 +278,11 @@
 
 
 
-                    const img = document.createElement('img')
+                    {% comment %} const img = document.createElement('img')
                         img.src = window.URL.createObjectURL(files[0])
                         console.log("image")
                         console.log(img.src)
-                        img.onload = function() {window.URL.revokeObjectURL(this.src)}
+                        img.onload = function() {window.URL.revokeObjectURL(this.src)} {% endcomment %}
                 </script>
 
                 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js">
