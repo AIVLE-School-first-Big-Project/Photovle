@@ -8,6 +8,7 @@ cryptography==36.0.2
 defusedxml==0.7.1
 Django==4.0.4
 django-allauth==0.50.0
+django-cors-headers==3.11.0
 django-jsonfield==1.4.1
 djangorestframework==3.13.1
 fsspec==2022.3.0
