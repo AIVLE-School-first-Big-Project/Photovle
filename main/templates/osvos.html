@@ -134,13 +134,7 @@
         .file-focus { 
             outline: 1px dotted #d2310e; 
         }
-        
-        
-        /* .input-file [type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; } .input-file .file-label { display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; } 접근성 탭 포커스 스타일 .file-focus { outline: 1px dotted #d2310e;  */
-        
-        
-
-
+    
         .edit-bar{
             width: 100%;
             height:100%;
@@ -174,7 +168,6 @@
                     <label for="upload_video" class="file-label">파일 업로드</label> 
                     <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
 
-                    {% comment %} <input type="file" name="upload_video" id="upload_video" class="file-upload"/>  {% endcomment %}
                 </div>
                 <video id="video"></video>
 
@@ -193,98 +186,10 @@
                         const file = evt.target.files[0];
                         const video = document.getElementById("video");
 
-                        //console.log("hello")
-                        //console.log(file)
-
                         // 비디오 화면에 추가하기
                         // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환한다.
                         const videourl = URL.createObjectURL(file); 
-                        //console.log(videourl)
-                        
-                        //video.setAttribute("src", videourl); 
-                        //video.play();
-                       
-                        function getVideoImage(path, secs, callback) {
-                            var me = this;
-                            video.onloadedmetadata = function() {
-                              if ('function' === typeof secs) {
-                                secs = secs(this.duration);
-                              }
-                              this.currentTime = Math.min(Math.max(0, (secs < 0 ? this.duration : 0) + secs), this.duration);
-                            };
-                            video.onseeked = function(e) {
-                              var canvas = document.createElement('canvas');
-                              video.width=300;
-                              video.height=300;
-                              //canvas.height = video.videoHeight;
-                              //canvas.width = video.videoWidth;
-                              canvas.height = 300;
-                              canvas.width = 300;
-                              var ctx = canvas.getContext('2d');
-                              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                              //var img = new Image();
-                              const img = document.createElement('img');
-                              img.src = canvas.toDataURL();
-                              
-                              
-                              //img.src = window.URL.createObjectURL(evt.target.files[0]);
-                              img.onload = function() {window.URL.revokeObjectURL(this.src)};
 
-                              callback.call(me, img, this.currentTime, e);
-                            };
-                            video.onerror = function(e) {
-                              callback.call(me, undefined, undefined, e);
-                            };
-                            video.src = path;
-                            
-                            
-                          }
-                        
-                        function showImageAt(secs) {
-                            var duration;
-                            getVideoImage(
-                                videourl,
-                              //'/media/robot.mp4',
-                              function(totalTime) {
-                                duration = totalTime;
-                                return secs;
-                              },
-                              function(img, secs, event) {
-                                if (event.type == 'seeked') {
-                                  var li = document.createElement('li');
-                                  
-                                  li.appendChild(img);
-                                  img.height=300;
-                                  img.width=300;
-                                  
-                                  //console.log(img.src);
-                                  tmp = document.getElementById('video').appendChild(li);
-                                  if (duration >= ++secs) {
-                                    showImageAt(secs);
-                                    ilist = [];
-                                    ilist.push(img.src);
-                                    console.log(ilist);
-                                    //console.log(img.src);
-                                  };
-                                }
-                              }
-                            );
-                          }
-                          showImageAt(0);
-                        
-
-                        // createObjectURL
-                        // const elImage = document.querySelector(".thumb_img");
-                        // elImage.src = window.URL.createObjectURL(file);
-
-                        // 영상 들어왔는지 확인
-                        // if(!validImageType(image)) { 
-                        // console.warn("invalide image file type");
-                        // return;
-                        // }
-                    
-                    });
-                    
                     function valideImageType(image) {
                         const result = ([ 'image/jpeg',
                                         'image/png',
@@ -292,24 +197,6 @@
                         return result;
                     }
 
-
-
-                    {% comment %} const img = document.createElement('img')
-                        img.src = window.URL.createObjectURL(files[0])
-                        console.log("image")
-                        console.log(img.src)
-                        img.onload = function() {window.URL.revokeObjectURL(this.src)} {% endcomment %}
-                        console.log(videourl)
-                        // video.setAttribute("src", videourl); 
-                        // video.play()
-
-                        // create instance of video reader
-                    });
-                </script>
-
-                
-
-                <script>
                     // const decoder = new VideoDecoder({
                     //     output: onFrame, // the callback to handle all the VideoFrame objects
                     //     error: e => console.error(e),
@@ -327,7 +214,6 @@
                     const ctx = canvas.getContext("2d");
 
                     button.onclick = async(evt) => {
-                        console.log("hi");
                         if (window.MediaStreamTrackProcessor) {
                             let stopped = false;
                             const track = await getVideoTrack();
@@ -348,8 +234,8 @@
                                 const imageCanvas = document.createElement("canvas");
                                 
                                 const imageCtx = imageCanvas.getContext("2d");
-                                imageCanvas.width = 50;
-                                imageCanvas.height = 50;
+                                imageCanvas.width = 100;
+                                imageCanvas.height = 100;
                                 imageCtx.drawImage(bitmap, 0, 0);
 
                                 imageItem.append(imageCanvas);
@@ -379,11 +265,14 @@
                         canvas.height = frame.height;
                         ctx.drawImage(frame, 0, 0);
                     };
-
+                    
                     async function getVideoTrack() {
-                        const video = document.createElement("video");
+                        //const video = document.createElement("video");
+                        video.width=600;
+                        video.height=600;
                         video.crossOrigin = "anonymous";
-                        video.src = "https://upload.wikimedia.org/wikipedia/commons/a/a4/BBH_gravitational_lensing_of_gw150914.webm";
+                        video.src = videourl;
+                        //video.src = "https://upload.wikimedia.org/wikipedia/commons/a/a4/BBH_gravitational_lensing_of_gw150914.webm";
                         document.body.append(video);
                         await video.play();
                         const [track] = video.captureStream().getVideoTracks();
@@ -391,7 +280,7 @@
                         return track;
                     }
 
-                    
+                });
 
                 </script>
 
@@ -399,8 +288,6 @@
                     File: <input type="file" name="Video file" /><br />
                     <input type="submit" value="Submit" />
                 </form> -->
-
-
             </div>
         </div>
 
