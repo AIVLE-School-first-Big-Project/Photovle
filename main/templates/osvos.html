@@ -263,6 +263,8 @@
                                 const bitmap = await createImageBitmap(value);
                                 const index = frames.length;
                                 frames.push(bitmap);
+                                
+                                // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
                                 select.append(new Option("Frame #" + (index + 1), index));
                                 
                                 const imageListUl = document.getElementById("image-list");
@@ -270,9 +272,10 @@
                                 const imageCanvas = document.createElement("canvas");
                                 
                                 const imageCtx = imageCanvas.getContext("2d");
-                                imageCanvas.width = 500;
-                                imageCanvas.height = 500;
-                                imageCtx.drawImage(bitmap, 0, 0);
+                                // imageCanvas.width = 200;
+                                // imageCanvas.height = 400;
+                                //  img를 (20,20)에 100X200 크기로 그린다.
+                                imageCtx.drawImage(bitmap, 20, 20, 100, 200);
 
                                 imageItem.append(imageCanvas);
                                 imageListUl.append(imageItem);
