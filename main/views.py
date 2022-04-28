@@ -121,9 +121,9 @@ def board(request):
     paginator = Paginator(board, 5)
     page_obj = paginator.get_page(page)
     context={ 
-                 'page_obj':page_obj,
-                 'title':'게시판',
-                 'board':board
+                'page_obj':page_obj,
+                'title':'게시판',
+                'board':board
         }
     return render(request, 'board.html', context)
 
@@ -294,8 +294,8 @@ def mypost(request):
     paginator = Paginator(board, 10)
     page_obj = paginator.get_page(page)
     context={ 
-                 'page_obj':page_obj,
-                 'title':'나의 게시글'
+                'page_obj':page_obj,
+                'title':'나의 게시글'
         }
     return render(request, 'mypost.html', context)
 
@@ -314,3 +314,7 @@ def index3(request):
 
 def test(request):
     return render(request, 'test.html')
+
+
+def osvos(request):
+    return render(request, 'osvos.html')
