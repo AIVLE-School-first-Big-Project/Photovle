@@ -161,7 +161,7 @@
                 <img src="/static/image/icon_check.svg" onclick="">
                 <img src="/static/image/icon_trash_can.svg" onclick="">
             </div>
-
+        
             <div class='image-viewer'>
                 <img src="/static/image/icon_camera.png" onclick="">
                 <p>편집할 동영상이 없습니다.</p>
@@ -174,7 +174,6 @@
                     {% comment %} <input type="file" name="upload_video" id="upload_video" class="file-upload"/>  {% endcomment %}
                 </div>
                 <video id="video"></video>
-
                 
                 <!-- {% comment %} <div class="input-file"> 
                     <input type="text" readonly="readonly" class="file-name" />
@@ -211,6 +210,8 @@
                             };
                             video.onseeked = function(e) {
                               var canvas = document.createElement('canvas');
+                              video.width=300;
+                              video.height=300;
                               //canvas.height = video.videoHeight;
                               //canvas.width = video.videoWidth;
                               canvas.height = 300;
@@ -279,7 +280,6 @@
                         // }
                     
                     });
-                    
                     
                     function valideImageType(image) {
                         const result = ([ 'image/jpeg',
