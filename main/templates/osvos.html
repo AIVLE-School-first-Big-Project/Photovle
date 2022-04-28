@@ -93,7 +93,7 @@
             width: 160px;
             padding: 4px 0 4px 0;
         }
-        /*
+        
         .input-file [type="file"] {
             position: absolute;
             width: 1px;
@@ -134,10 +134,10 @@
         .file-focus { 
             outline: 1px dotted #d2310e; 
         }
+        
+        /*
+        .input-file [type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; } .input-file .file-label { display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; } /* 접근성 탭 포커스 스타일 */ .file-focus { outline: 1px dotted #d2310e; 
         */
-
-        .input-file [type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; } .input-file .file-label { display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; } /* 접근성 탭 포커스 스타일 */ .file-focus { outline: 1px dotted #d2310e;
-
             
 
 
@@ -166,21 +166,68 @@
                 <img src="/static/image/icon_camera.png" onclick="">
                 <p>편집할 동영상이 없습니다.</p>
 
-                {% comment %} <div class="input-file"> 
-                    <input type="text" readonly="readonly" class="file-name" /> 
-                    <label for="upload01" class="file-label">파일 업로드</label> 
-                    <input type="file" name="" id="upload01" class="file-upload"/> 
-                </div> {% endcomment %}
+                <div class="input-file"> 
+                    {% comment %} <input type="text" readonly="readonly" class="file-name" />  {% endcomment %}
+                    <label for="upload_video" class="file-label">파일 업로드</label> 
+                    <input type="file" name="upload_video" id="upload_video" class="file-upload"/> 
+                </div>
+                <video id="video"></video>
 
                 
-                <div class="input-file"> 
+                <!-- {% comment %} <div class="input-file"> 
                     <input type="text" readonly="readonly" class="file-name" />
                     <label for="upload02" class="file-label">Video Upload</label> 
-                    <input type="file" name="" id="upload02" class="file-upload" /> 
-                </div>
+                    
+                    <input type="file" name="" id="upload02" class="file-upload"  accept="video/*" /> 
+                </div> {% endcomment %} -->
                 
+                <script>
+                    const elImage = document.querySelector("#upload_video");
+                    elImage.addEventListener("change", (evt) => {
+                        const file = evt.target.files[0];
+                        const video = document.getElementById("video");
 
-                <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js">
+                        console.log("hello")
+                        console.log(file)
+
+                        // 비디오 화면에 추가하기
+                        // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환한다.
+                        const videourl = URL.createObjectURL(file); 
+                        console.log(videourl)
+                        // video.setAttribute("src", videourl); 
+                        // video.play()
+
+                        
+                        
+
+                        // createObjectURL
+                        // const elImage = document.querySelector(".thumb_img");
+                        // elImage.src = window.URL.createObjectURL(file);
+
+                        // 영상 들어왔는지 확인
+                        // if(!validImageType(image)) { 
+                        // console.warn("invalide image file type");
+                        // return;
+                        // }
+                    });
+                    
+                    function valideImageType(image) {
+                        const result = ([ 'image/jpeg',
+                                        'image/png',
+                                        'image/jpg' ].indexOf(image.type) > -1);
+                        return result;
+                    }
+
+
+
+                    const img = document.createElement('img')
+                        img.src = window.URL.createObjectURL(files[0])
+                        console.log("image")
+                        console.log(img.src)
+                        img.onload = function() {window.URL.revokeObjectURL(this.src)}
+                </script>
+
+                <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js">
 
                     (function($){
                         var $fileBox = null;
@@ -219,7 +266,7 @@
                         
                     })(jQuery);
 
-                </script>
+                </script> -->
 
 
 
