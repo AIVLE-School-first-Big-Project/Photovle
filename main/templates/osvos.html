@@ -146,6 +146,10 @@
             height:100%;
         }
 
+        video,canvas {
+            max-width: 100%
+        }
+
     </style>
 </head>
 
@@ -166,21 +170,21 @@
                 <p>편집할 동영상이 없습니다.</p>
 
                 <div class="input-file"> 
-                    {% comment %} <input type="text" readonly="readonly" class="file-name" />  {% endcomment %}
+                    <!-- <input type="text" readonly="readonly" class="file-name" /> -->
                     <label for="upload_video" class="file-label">파일 업로드</label> 
                     <input type="file" name="upload_video" id="upload_video" class="file-upload"/> 
                 </div>
                 <video id="video"></video>
 
-                
-                <!-- {% comment %} <div class="input-file"> 
-                    <input type="text" readonly="readonly" class="file-name" />
-                    <label for="upload02" class="file-label">Video Upload</label> 
-                    
-                    <input type="file" name="" id="upload02" class="file-upload"  accept="video/*" /> 
-                </div> {% endcomment %} -->
+
+
+                <button>start</button>
+                <select disabled>
+                </select>
+                <canvas></canvas>
                 
                 <script>
+                    // ##### 원본 : 영상 불러오기
                     const elImage = document.querySelector("#upload_video");
                     elImage.addEventListener("change", (evt) => {
                         const file = evt.target.files[0];
@@ -196,127 +200,114 @@
                         // video.setAttribute("src", videourl); 
                         // video.play()
 
-                        Validate(file)
-                        
-
-                        // createObjectURL
-                        // const elImage = document.querySelector(".thumb_img");
-                        // elImage.src = window.URL.createObjectURL(file);
-
-                        // 영상 들어왔는지 확인
-                        // if(!validImageType(image)) { 
-                        // console.warn("invalide image file type");
-                        // return;
-                        // }
+                        // create instance of video reader
                     });
-                    
-                    // function valideImageType(image) {
-                    //     const result = ([ 'image/jpeg',
-                    //                     'image/png',
-                    //                     'image/jpg' ].indexOf(image.type) > -1);
-                    //     return result;
-                    // }
-
-                    var _validFileExtensions = [".avi", ".mp4"];    
-                    function Validate(oForm) {
-                        console.log("split vedio")
-                        var arrInputs = oForm.getElementsByTagName("input");
-                        
-                        // var arrInputs = oForm;
-                        for (var i = 0; i < arrInputs.length; i++) {    
-                            var oInput = arrInputs[i];
-                            if (oInput.type == "file") {
-                                var sFileName = oInput.value;
-                                if (sFileName.length > 0) {
-                                    var blnValid = false;
-                                    for (var j = 0; j < _validFileExtensions.length; j++) {
-                                        var sCurExtension = _validFileExtensions[j];
-                                        if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
-                                            blnValid = true;
-                                            break;
-                                        }
-                                    }
-                                    
-                                    if (!blnValid) {
-                                        alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
-                                        return false;
-                                    }
-                                }
-                            }
-                        }
-                        console.log(sCurExtension)
-                    
-                        return true;
-                    }
-                    
-
-                    // const img = document.createElement('img')
-                    //     img.src = window.URL.createObjectURL(files[0])
-                    //     console.log("image")
-                    //     console.log(img.src)
-                    //     img.onload = function() {window.URL.revokeObjectURL(this.src)}
                 </script>
 
-                <form onsubmit="return Validate(this);">
+                
+
+                <script>
+                    // const decoder = new VideoDecoder({
+                    //     output: onFrame, // the callback to handle all the VideoFrame objects
+                    //     error: e => console.error(e),
+                    // });
+                    // decoder.configure(config); // depends on the input file, your demuxer should provide it
+                    // demuxer.start((chunk) => { // depends on the demuxer, but you need it to return chunks of video data
+                    //     decoder.decode(chunk); // will trigger our onFrame callback  
+                    // })
+
+                    const frames = [];
+                    const button = document.querySelector("button");
+                    const select = document.querySelector("select");
+                    const canvas = document.querySelector("canvas");
+                    
+                    const ctx = canvas.getContext("2d");
+
+                    button.onclick = async(evt) => {
+                        console.log("hi");
+                        if (window.MediaStreamTrackProcessor) {
+                            let stopped = false;
+                            const track = await getVideoTrack();
+                            const processor = new MediaStreamTrackProcessor(track);
+                            const reader = processor.readable.getReader();
+                            readChunk();
+
+                            function readChunk() {
+                            reader.read().then(async({ done, value }) => {
+                                if (value) {
+                                const bitmap = await createImageBitmap(value);
+                                const index = frames.length;
+                                frames.push(bitmap);
+                                select.append(new Option("Frame #" + (index + 1), index));
+                                
+                                const imageListUl = document.getElementById("image-list");
+                                const imageItem = document.createElement("li");
+                                const imageCanvas = document.createElement("canvas");
+                                
+                                const imageCtx = imageCanvas.getContext("2d");
+                                imageCanvas.width = 50;
+                                imageCanvas.height = 50;
+                                imageCtx.drawImage(bitmap, 0, 0);
+
+                                imageItem.append(imageCanvas);
+                                imageListUl.append(imageItem);
+                                console.log(imageItem);
+                                console.log(imageListUl);
+
+                                value.close();
+                                }
+                                if (!done && !stopped) {
+                                readChunk();
+                                } else {
+                                select.disabled = false;
+                                }
+                            });
+                            }
+                            button.onclick = (evt) => stopped = true;
+                            button.textContent = "stop";
+                        } else {
+                            console.error("your browser doesn't support this API yet");
+                        }
+                    };
+
+                    select.onchange = (evt) => {
+                        const frame = frames[select.value];
+                        canvas.width = frame.width;
+                        canvas.height = frame.height;
+                        ctx.drawImage(frame, 0, 0);
+                    };
+
+                    async function getVideoTrack() {
+                        const video = document.createElement("video");
+                        video.crossOrigin = "anonymous";
+                        video.src = "https://upload.wikimedia.org/wikipedia/commons/a/a4/BBH_gravitational_lensing_of_gw150914.webm";
+                        document.body.append(video);
+                        await video.play();
+                        const [track] = video.captureStream().getVideoTracks();
+                        video.onended = (evt) => track.stop();
+                        return track;
+                    }
+
+                    
+
+                </script>
+
+                <!-- <form onsubmit="return Validate(this);">
                     File: <input type="file" name="Video file" /><br />
                     <input type="submit" value="Submit" />
-                </form>
-
-                <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js">
-
-                    (function($){
-                        var $fileBox = null;
-                        
-                        $(function() {
-                            init();
-                            console.log("hllo");
-                        })
-                        
-                        function init() {
-                            $fileBox = $('.input-file');
-                            fileLoad();
-                        }
-                        
-                        function fileLoad() {
-                            $.each($fileBox, function(idx){
-                            var $this = $fileBox.eq(idx),
-                                $btnUpload = $this.find('[type="file"]'),
-                                $label = $this.find('.file-label');
-                            
-                            $btnUpload.on('change', function() {
-                                var $target = $(this),
-                                    fileName = $target.val(),
-                                    $fileText = $target.siblings('.file-name');
-                                $fileText.val(fileName);
-                            })
-                            
-                            $btnUpload.on('focusin focusout', function(e) {
-                                e.type == 'focusin' ?
-                                $label.addClass('file-focus') : $label.removeClass('file-focus');
-                            })
-                            
-                        })
-                        }
-                        
-                        
-                    })(jQuery);
-
-                </script> -->
-
+                </form> -->
 
 
             </div>
         </div>
 
         <div class="edit-bar">
-            
+            <!-- <canvas id="canvas-img" style="height: 300px; width: 300px; background-color: red;"></canvas> -->
+            <!-- <canvas id="canvas-img"></canvas> -->
+            <ul id="image-list"></ul>
         </div>
 
     </div>    
-
-
-
-
 
     {% block content %}
     {% endblock %}
