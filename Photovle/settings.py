@@ -64,6 +64,14 @@ INSTALLED_APPS = [
 
 ]
 
+# kakao client key
+SOCIAL_OUTH_CONFIG = {
+    'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
+    'KAKAO_REDIRECT_URI': secrets['KAKAO_REDIRECT_URI'],
+    'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
+}
+
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 
@@ -91,13 +99,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAdminUser',
     ],
     'PAGE_SIZE': 10
-}
-
-# kakao client key
-SOCIAL_OUTH_CONFIG = {
-    'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
-    'KAKAO_REDIRECT_URI': secrets['KAKAO_REDIRECT_URI'],
-    'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
 }
 
 MIDDLEWARE = [
@@ -152,7 +153,10 @@ DATABASES = {
         'USER': 'root', 
         'PASSWORD': '1234',
         'HOST': 'localhost',
-        'PORT': ''
+        'PORT': '',
+        'OPTIONS':{
+            'charset':'utf8mb4'
+        }
     }
 }
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -208,6 +212,6 @@ AUTH_USER_MODEL = 'main.User'
 
 # login session
 ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지
-SESSION_COOKIE_AGE = 72000       # 쿠키 저장 유효시간(단위 sec)
+SESSION_COOKIE_AGE = 7200       # 쿠키 저장 유효시간(단위 sec)
 
 
