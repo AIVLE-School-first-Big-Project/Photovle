@@ -38,18 +38,18 @@ def signup(request):
     else:
         form = UserForm()
     return render(request, 'signup.html', {'form':form})
-    # if request.user.is_authenticated:
-    #     return redirect('main:index')
-    #     if request.POST['password1'] == request.POST['password2']:
-    #         user = User.objects.create_user(
-    #             username = request.POST.get('username'),
-    #             password = request.POST.get('password'),
-    #             email = request.POST.get('email'),
-    #         )
-    #         auth.login(request, user)
-    #         return redirect('main:board')
-    #     return render(request, 'signup.html')
-    # return render(request, 'signup.html')
+    if request.user.is_authenticated:
+        return redirect('main:index')
+        if request.POST['password1'] == request.POST['password2']:
+            user = User.objects.create_user(
+                username = request.POST.get('username'),
+                password = request.POST.get('password'),
+                email = request.POST.get('email'),
+            )
+            auth.login(request, user)
+            return redirect('main:board')
+        return render(request, 'signup.html')
+    return render(request, 'signup.html')
 
 # 로그인 완료페이지
 def success_login(request):
@@ -176,42 +176,8 @@ def download(request, pk):  # pk = board_id
 # 게시글 수정
 @login_required
 def update(request, pk):    # pk = board_id
-    # b = Board.objects.get(id=id)
-    # tmp = Board.objects.get(id=id)
-    # if request.method == "POST":
-    #     b.title=request.POST['title']
-    #     b.content=request.POST['detail']
-    #     b.pub_date=timezone.now()
-    #     if b.title =="":
-    #         b.title = tmp.title
-    #         b.save()
-    #     elif b.content =="":
-    #         b.content = tmp.content
-    #         b.save()
-    #     else:
-    #         b.save()
-    #     return HttpResponseRedirect(reverse('main:detail', args=(id,)))
-    # else:
-    #     b=Board
-    #     return render(request, 'update.html', {'board':b})
     board = Board.objects.get(id=pk)
     tmp = Board.objects.get(id=pk)
-    # if request.method == 'POST':
-    #     form = BoardForm(request.POST, instance=board)
-    #     if form.is_valid():
-    #         temp_form = form.save(commit=False)
-    #         temp_form.user = request.user
-    #         temp_form.pub_date = timezone.now()
-    #         temp_form.upload_files = request.FILES.get('upload_files')
-    #         temp_form.save()
-    #         return redirect('main:board')
-    # else:
-    #     form = BoardForm()
-    # context = {
-    #     'form':form,
-    #     'pk':pk
-    # }
-    # return render(request, 'update.html', context)
     if request.method == 'POST':
         board.title = request.POST['title']
         board.content = request.POST['content']
@@ -227,12 +193,27 @@ def update(request, pk):    # pk = board_id
         board.save()
         return redirect('main:detail', pk)
     else:
-        form = BoardForm
-    context = {
-        'form':form,
-        'pk':pk
-    }
+        context = {
+            'board':board,
+            'pk':pk
+        }
     return render(request, 'update.html', context)
+    # if request.method == 'POST':
+    #     form = BoardForm(request.POST, instance=board)
+    #     if form.is_valid():
+    #         temp_form = form.save(commit=False)
+    #         temp_form.user = request.user
+    #         temp_form.pub_date = timezone.now()
+    #         temp_form.upload_files = request.FILES.get('upload_files')
+    #         temp_form.save()
+    #         return redirect('main:board')
+    # else:
+    #     form = BoardForm(instance=board)
+    #     context = {
+    #         'form':form,
+    #         'pk':pk
+    #     }
+    # return render(request, 'update.html', context)
         
 
 # 게시글 삭제
@@ -274,11 +255,11 @@ def update_reply(request, pk, rep_pk):  # pk = board_id
             temp_form.save()
             return redirect('main:detail', pk)
     else:
-        form = ReplyForm(instance=reply)
         context = {
-            'form': form
+            'reply': reply,
+            'pk':pk,
         }
-    return render(request, 'create_reply.html', context)
+    return HttpResponseRedirect(reverse('main:detail', context))
 
 # 댓글삭제
 @login_required

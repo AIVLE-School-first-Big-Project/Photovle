@@ -37,17 +37,17 @@
 	<div class="board">
 		<h2 style="text-align:left; padding:10px;">글쓰기</h2>
 
-	<form method="POST" action="{% url 'main:update' pk %}" enctype="multipart/form-data">
+	<form method="POST" action="" enctype="multipart/form-data">
 		{% csrf_token %}
 			<div class="form-group">
 				<label for="subject" style="text-align:left; padding:10px">제목</label>
 				<input type="text" class="form-control" name="title" id="title"
-				value="{{ board.title }}" placeholder="제목을 입력해주세요."/>
+				value="{{ board.title }}"/>
 			</div>
 			<div class="form-group">
 				<label for="content" style="text-align:left; padding:10px">내용</label>
 				<textarea class="form-control" name="content"
-					id="content" rows="10" placeholder="내용을 입력해주세요.">{{ board.content }}</textarea>
+					id="content" rows="10">{{board.content}}</textarea>
 			</div>
 			<div class="from-group" style="padding:10px">
 				<label for="upload_files">
@@ -62,7 +62,6 @@
 </div>
 
 {% endblock %}
-
 
 
 
