@@ -28,6 +28,7 @@
       var img = new Image();
       img.onload = function(){
         ctx.drawImage(img, 0, 0, my_canvas.width, my_canvas.height);
+        ctx.save();
       }
       // 이미지 URL
       img.src = 'https://img.etoday.co.kr/pto_db/2022/03/600/20220307095246_1725389_1200_899.jpg';
@@ -41,7 +42,7 @@
       my_canvas.onmousedown = function(event) {
         
         if(t<0){
-          ctx.clearRect(0,0,800,800);
+
 
         }
         else if(t==0){
@@ -84,8 +85,14 @@
       }
 
       function clear33() {
+        points=[];
         console.log('1');
-        // ctx.clearRect(0,0,800,800);
+        my_canvas = document.getElementById('my_canvas');
+        my_canvas.width = 800;
+        my_canvas.height = 800;
+        ctx = my_canvas.getContext('2d');
+        // ctx.drawImage(img, 0, 0, my_canvas.width, my_canvas.height);
+        t=0;
       }
   </script>
 
