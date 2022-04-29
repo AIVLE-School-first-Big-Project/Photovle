@@ -282,6 +282,7 @@
 
                                     const imageListUl = document.getElementById("image-list");
                                     const imageItem = document.createElement("li");
+                                    imageItem.setAttribute("id", "Frame_" + (index + 1))
                                     const imageCanvas = document.createElement("canvas");
                                     
                                     const imageCtx = imageCanvas.getContext("2d");
