@@ -1,0 +1,337 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Photovle{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
+
+    <style>
+        body{
+            background-image: url('/static/image/background.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: hidden;
+        }
+        .logo{
+            display:flex;
+            height:52px;
+            margin-top:40px;
+            margin-left:50px;
+        }
+        .canvas-body{
+            margin-top:18px;
+            width:100vw;
+            height : calc(100vh - 115px);
+            background-color:blue;
+            display:flex;
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            border: 1px solid #707070;
+            opacity: 1;
+        }
+
+        .control-bar{
+            width:390px;
+            height:100%;
+            background: #E9E9E9 0% 0% no-repeat padding-box;
+            opacity: 1;
+
+        }
+        .control-bar-option-area{
+            width:100%;
+            height:30px;
+            border-bottom: 1px solid #707070;
+            opacity: 1;
+            display: flex;
+            justify-content:flex-end;
+            align-items:center;
+            margin-right: 2px;
+            
+        }
+        .control-bar-option-area>img{
+            width:30px;
+            height:30px;
+            display:block;
+            padding: 4px;
+        }
+
+        .control-bar-option-area>img:hover{
+            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
+        }
+
+
+        #step1{
+            width:100%;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            padding-bottom: 50px;
+        }
+
+        #step1>img{
+            height:90px;
+            margin-bottom:12px;
+        }
+
+        #step1>p{
+            color: #707070;
+            opacity: 1;
+            text-align: left;
+            font: normal normal normal 16px/18px Segoe UI;
+        }
+
+        button{
+            background: #708AE8 0% 0% no-repeat padding-box;
+            border-radius: 7px;
+            opacity: 1;
+            color: #FFFFFF;
+            text-align: center;
+            border:0;
+            width: 160px;
+            padding: 4px 0 4px 0;
+        }
+        
+        .input-file [type="file"] {
+            position: absolute;
+            width: 1px;
+            height: 1px; 
+            padding: 0; 
+            margin: -1px; 
+            overflow: hidden; 
+            clip: rect(0, 0, 0, 0); 
+            border: 0 none; 
+            
+        }
+
+        .input-file .file-label { 
+            display: inline-block; 
+            height: 28px; 
+            line-height: 28px; 
+            text-align: center; 
+
+            background: #708AE8 0% 0% no-repeat padding-box;
+            border-radius: 7px;
+            opacity: 1;
+            color: #FFFFFF;
+            text-align: center;
+            border:0;
+            width: 160px;
+            
+        } 
+        
+        .input-file .file-name { 
+            width: 300px; 
+            background: #f5f5f5; 
+            height: 27px; 
+            line-height: 26px; 
+            text-indent: 5px; 
+            border: 1px solid #bbb; 
+        } 
+        
+        .file-focus { 
+            outline: 1px dotted #d2310e; 
+        }
+
+        #step2{
+            background-color: palegoldenrod;
+            width:100%;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:flex-start;
+        }
+
+        .video-area{
+            width: 100%;
+            background-color: red;
+        }
+
+        .preview{
+            width:100%;
+            display: flex;
+            outline: auto;
+            background-color: pink;
+        }
+        
+        #image-area{
+            display: block;
+            overflow: auto;
+        }
+    
+        .edit-bar{
+            width: 100%;
+            height:100%;
+        }
+
+        #image-list>li::marker{
+            width: 100;
+            height: 100;
+        }
+
+        /* video, canvas {
+            max-width: 100%
+        } */
+
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
+    </div>
+    <div class="canvas-body">
+        <div class="control-bar">
+            <div class="control-bar-option-area">
+                <img src="/static/image/icon_check.svg" onclick="">
+                <img src="/static/image/icon_trash_can.svg" onclick="">
+            </div>
+        
+            <div id='step1'>
+                <div class="step1" id="step1">
+                    <img src="/static/image/icon_camera.png" onclick="">
+                    <p>편집할 동영상이 없습니다.</p>
+
+                    <div class="input-file"> 
+                        <label for="upload_video" class="file-label">파일 업로드</label> 
+                        <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
+                    </div>
+                </div>
+            </div>
+
+            <div id='step2'>
+                <!-- 여기서 부터 변경되면 보이기 -->
+                <div class="step2" id="step2" >
+                    <div class="video-area">
+                        <video id="video" style="display: none;"></video>
+                    </div>
+
+                    <div class="preview">
+                        <select disabled>
+                        </select>
+                        <button>start</button>
+                    </div>
+                    
+                    <div id="image-area">
+                        <ul id="image-list"></ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            // 로컬 영상 불러오기
+            const elImage = document.querySelector("#upload_video");
+
+            elImage.addEventListener("change", (evt) => {
+                const file = evt.target.files[0];
+                const video = document.getElementById("video");
+
+                // 비디오 화면에 추가하기
+                // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
+                const videourl = URL.createObjectURL(file); 
+                document.getElementById("step1").style.display ='none';
+                document.getElementById("step2").style.display ='block';
+
+            // 영상 분리하기
+            const frames = [];
+            const button = document.querySelector("button");
+            const select = document.querySelector("select");
+            const canvas = document.querySelector("canvas");
+            
+            const ctx = canvas.getContext("2d");
+
+            button.onclick = async(evt) => {
+                if (window.MediaStreamTrackProcessor) {
+                    let stopped = false;
+                    const track = await getVideoTrack();
+                    const processor = new MediaStreamTrackProcessor(track);
+                    const reader = processor.readable.getReader();
+                    readChunk();
+
+                    function readChunk() {
+                        reader.read().then(async({ done, value }) => {
+                            if (value) {
+                                const bitmap = await createImageBitmap(value);
+                                const index = frames.length;
+                                frames.push(bitmap);
+                                
+                                // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
+                                select.append(new Option("Frame #" + (index + 1), index));
+                                
+                                const imageListUl = document.getElementById("image-list");
+                                const imageItem = document.createElement("li");
+                                const imageCanvas = document.createElement("canvas");
+                                
+                                const imageCtx = imageCanvas.getContext("2d");
+                                // imageCanvas.width = 200;
+                                // imageCanvas.height = 400;
+                                //  img를 (20,20)에 100X200 크기로 그린다.
+                                imageCtx.drawImage(bitmap, 20, 20, 100, 200);
+
+                                imageItem.append(imageCanvas);
+                                imageListUl.append(imageItem);
+                                console.log(imageItem);
+                                console.log(imageListUl);
+
+                                value.close();
+                            }
+                            if (!done && !stopped) {
+                                readChunk();
+                            } else {
+                                select.disabled = false;
+                            }
+                        });
+                    }
+                    button.onclick = (evt) => stopped = true;
+                    button.textContent = "stop";
+                } else {
+                    console.error("your browser doesn't support this API yet");
+                }
+            };
+
+            select.onchange = (evt) => {
+                const frame = frames[select.value];
+                canvas.width = frame.width;
+                canvas.height = frame.height;
+                ctx.drawImage(frame, 0, 0);
+            };
+            
+            async function getVideoTrack() {
+                video.width = 300;
+                video.crossOrigin = "anonymous";
+                video.src = videourl;
+                document.body.append(video);
+
+                await video.play();
+                const [track] = video.captureStream().getVideoTracks();
+                video.onended = (evt) => track.stop();
+                return track;
+            }
+
+        });
+
+        </script>
+
+        <div class="edit-bar">
+            <canvas> </canvas>
+            <!-- <canvas id="canvas-img" style="height: 300px; width: 300px; background-color: red;"></canvas> -->
+            <!-- <canvas id="canvas-img"></canvas> -->
+            
+        </div>
+
+    </div>    
+
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>
