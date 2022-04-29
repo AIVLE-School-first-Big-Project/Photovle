@@ -198,10 +198,17 @@
                     <img src="/static/image/icon_camera.png" onclick="">
                     <p>편집할 동영상이 없습니다.</p>
 
+
                     <div class="input-file"> 
                         <label for="upload_video" class="file-label">파일 업로드</label> 
                         <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
                     </div>
+
+                    <div class="preview">
+                        <input type="text" id="label" >
+                        <button type="button" class="btn btn-success" onclick="func1();">label</button>
+                    </div>
+
                 </div>
             </div>
 
@@ -218,9 +225,17 @@
                         <button>start</button>
                     </div>
                     
+                    <!-- label button -->
+                    <div>
+                        <input type="text" id="label" >
+                        <button type="button" class="btn btn-success" onclick="func1();">label</button>
+                        <button type="button" class="" onclick="">지우기</button>
+                    </div>
+
                     <div id="image-area">
                         <ul id="image-list"></ul>
                     </div>
+
                     
                 </div>
             </div>
@@ -241,97 +256,142 @@
                 document.getElementById("step1").style.display ='none';
                 document.getElementById("step2").style.display ='block';
 
-            // 영상 분리하기
-            const frames = [];
-            const button = document.querySelector("button");
-            const select = document.querySelector("select");
-            const canvas = document.querySelector("canvas");
-            
-            const ctx = canvas.getContext("2d");
+                // 영상 분리하기
+                const frames = [];
+                const button = document.querySelector("button");
+                const select = document.querySelector("select");
+                const canvas = document.querySelector("canvas");
+                const ctx = canvas.getContext("2d");
 
-            button.onclick = async(evt) => {
-                if (window.MediaStreamTrackProcessor) {
-                    let stopped = false;
-                    const track = await getVideoTrack();
-                    const processor = new MediaStreamTrackProcessor(track);
-                    const reader = processor.readable.getReader();
-                    readChunk();
+                button.onclick = async(evt) => {
+                    if (window.MediaStreamTrackProcessor) {
+                        let stopped = false;
+                        const track = await getVideoTrack();
+                        const processor = new MediaStreamTrackProcessor(track);
+                        const reader = processor.readable.getReader();
+                        readChunk();
 
-                    function readChunk() {
-                        reader.read().then(async({ done, value }) => {
-                            if (value) {
-                                const bitmap = await createImageBitmap(value);
-                                const index = frames.length;
-                                frames.push(bitmap);
-                                
-                                // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
-                                select.append(new Option("Frame #" + (index + 1), index));
-                                
-                                const imageListUl = document.getElementById("image-list");
-                                const imageItem = document.createElement("li");
-                                const imageCanvas = document.createElement("canvas");
-                                
-                                const imageCtx = imageCanvas.getContext("2d");
-                                // imageCanvas.width = 200;
-                                // imageCanvas.height = 400;
-                                //  img를 (20,20)에 100X200 크기로 그린다.
-                                imageCtx.drawImage(bitmap, 20, 20, 100, 200);
+                        function readChunk() {
+                            reader.read().then(async({ done, value }) => {
+                                if (value) {
+                                    const bitmap = await createImageBitmap(value);
+                                    const index = frames.length;
+                                    frames.push(bitmap);
 
-                                imageItem.append(imageCanvas);
-                                imageListUl.append(imageItem);
-                                console.log(imageItem);
-                                console.log(imageListUl);
+                                    // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
+                                    select.append(new Option("Frame #" + (index + 1), index));
 
-                                value.close();
-                            }
-                            if (!done && !stopped) {
-                                readChunk();
-                            } else {
-                                select.disabled = false;
-                            }
-                        });
+                                    const imageListUl = document.getElementById("image-list");
+                                    const imageItem = document.createElement("li");
+                                    imageItem.setAttribute("id", "Frame_" + (index + 1))
+                                    const imageCanvas = document.createElement("canvas");
+                                    
+                                    const imageCtx = imageCanvas.getContext("2d");
+                                    // imageCanvas.width = 200;
+                                    // imageCanvas.height = 400;
+                                    //  img를 (20,20)에 100X200 크기로 그린다.
+                                    imageCtx.drawImage(bitmap, 20, 20, 100, 200);
+
+                                    // 사이드바 이미지 리스트
+                                    imageItem.append(imageCanvas);
+                                    imageListUl.append(imageItem);
+                                    console.log(imageItem);
+                                    console.log(imageListUl);
+
+                                    value.close();
+                                }
+                                if (!done && !stopped) {
+                                    readChunk();
+                                } else {
+                                    select.disabled = false;
+                                }
+                            });
+                        }
+
+                        button.onclick = (evt) => stopped = true;
+                        button.textContent = "stop";
+                    } else {
+                        console.error("your browser doesn't support this API yet");
                     }
-                    button.onclick = (evt) => stopped = true;
-                    button.textContent = "stop";
-                } else {
-                    console.error("your browser doesn't support this API yet");
+                };
+
+                select.onchange = (evt) => {
+                    const frame = frames[select.value];
+                    canvas.width = frame.width;
+                    canvas.height = frame.height;
+                    ctx.drawImage(frame, 0, 0);
+                };
+                
+                async function getVideoTrack() {
+                    video.width = 300;
+                    video.crossOrigin = "anonymous";
+                    video.src = videourl;
+                    document.body.append(video);
+
+                    await video.play();
+                    const [track] = video.captureStream().getVideoTracks();
+                    video.onended = (evt) => track.stop();
+                    return track;
                 }
-            };
 
-            select.onchange = (evt) => {
-                const frame = frames[select.value];
-                canvas.width = frame.width;
-                canvas.height = frame.height;
-                ctx.drawImage(frame, 0, 0);
-            };
-            
-            async function getVideoTrack() {
-                video.width = 300;
-                video.crossOrigin = "anonymous";
-                video.src = videourl;
-                document.body.append(video);
+                // 추가사항
+                var points=[];
+                ctx.beginPath();
+                var t=0;
+                var firstX, firstY;
+                var X, Y;
 
-                await video.play();
-                const [track] = video.captureStream().getVideoTracks();
-                video.onended = (evt) => track.stop();
-                return track;
-            }
+                canvas.onmousedown = function(event) {
+                    X = event.x - 351;
+                    Y = event.y - 111;
+                    var pointer = '[' + X + ", "+ Y + ']';
+                    points.push(pointer);
+                    console.log(pointer);
+                    console.log(X, Y);
 
-        });
+                    if(t==0){
+                        firstX = X;
+                        firstY = Y;
+                        ctx.moveTo(X, Y);
+                        path = ctx.arc(X, Y, 8, 0, Math.PI*2, true);
+                        ctx.closePath();
+                        ctx.fill();
+
+                    } else if(X >= firstX - 10 && X <= firstX + 10 && Y >= firstY - 10 && Y <= firstY + 10){
+                        ctx.lineTo(firstX, firstY);
+                        ctx.fillStyle ="red"
+                        ctx.stroke();
+                        ctx.fill()
+
+                    }else{
+                        ctx.lineTo(X, Y);
+                        ctx.stroke();
+                        ctx.moveTo(X, Y);
+                        ctx.arc(X, Y, 5, 0, Math.PI*2, true);// 원그리기
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                    t++
+                }
+
+                function func1() {
+                    var label = document.getElementById("label").value;
+                    console.log(label);
+                }
+            });
+                
+
 
         </script>
 
+        
         <div class="edit-bar">
-            <canvas> </canvas>
-            <!-- <canvas id="canvas-img" style="height: 300px; width: 300px; background-color: red;"></canvas> -->
-            <!-- <canvas id="canvas-img"></canvas> -->
-            
+            <canvas > </canvas>
         </div>
 
     </div>    
 
-    {% block content %}
-    {% endblock %}
+
 </body>
 
 </html>
