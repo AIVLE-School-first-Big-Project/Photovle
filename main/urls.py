@@ -15,6 +15,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
 # 회원가입, 로그인
     path('home/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('home/success_login/', views.success_login, name='success_login'),
     path('home/logout/', views.logout, name='logout'),
     path('home/signup/', views.signup, name='signup'),
     path('home/mypage/', views.mypage, name='mypage'),
