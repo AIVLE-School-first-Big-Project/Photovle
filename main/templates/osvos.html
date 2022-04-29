@@ -331,49 +331,55 @@
                 video.onended = (evt) => track.stop();
                 return track;
             }
-                // 추가사항
+            // 추가사항
 
-                var points=[];
-                ctx.beginPath();
-                var t=0;
-                var firstX,firstY;
+            var points=[];
+            ctx.beginPath();
+            var t=0;
+            var firstX, firstY;
+
+            var X, Y;
 
 
-                canvas.onmousedown = function(event) {
-
-                points.push('[',event.x,event.y,']');
-                console.log(points);
+            canvas.onmousedown = function(event) {
+                X = event.x - 351;
+                Y = event.y - 111;
+                var pointer = '[' + X + ", "+ Y + ']';
+                points.push(pointer);
+                console.log(pointer);
+                
+                console.log(X, Y);
+                // console.log(el.offsetLeft - el.scrollLeft + el.clientLeft, el.offsetTop - el.scrollTop + el.clientTop)
 
                 if(t==0){
-                    firstX=event.x;
-                    firstY=event.y;
-                    ctx.moveTo(event.x, event.y);
-                    path=ctx.arc(event.x, event.y, 8, 0, Math.PI*2, true);
+                    firstX = X;
+                    firstY = Y;
+                    ctx.moveTo(X, Y);
+                    path = ctx.arc(X, Y, 8, 0, Math.PI*2, true);
                     ctx.closePath();
                     ctx.fill();
-                }
-                else if(event.x>=firstX-10 && event.x<=firstX+10 && event.y>=firstY*-10 && event.y<=firstY*+10)
-                {
+
+                } else if(X >= firstX - 10 && X <= firstX + 10 && Y >= firstY - 10 && Y <= firstY + 10){
                     ctx.lineTo(firstX, firstY);
-                    ctx.fillStyle="red"
+                    ctx.fillStyle ="red"
                     ctx.stroke();
                     ctx.fill()
-                }
-                else{
-                    ctx.lineTo(event.x, event.y);
+
+                }else{
+                    ctx.lineTo(X, Y);
                     ctx.stroke();
-                    ctx.moveTo(event.x, event.y);
-                    ctx.arc(event.x, event.y, 5, 0, Math.PI*2, true);// 원그리기
+                    ctx.moveTo(X, Y);
+                    ctx.arc(X, Y, 5, 0, Math.PI*2, true);// 원그리기
                     ctx.closePath();
                     ctx.fill();
                 }
                 t++
-                }
+            }
 
-                function func1() {
+            function func1() {
                 var label = document.getElementById("label").value;
                 console.log(label);
-                }
+            }
 
             });
                 
@@ -382,9 +388,10 @@
         </script>
 
         
-        <div class="edit-bar">
-        
-            <canvas> </canvas>
+        <div class="edit-bar" style="position:relative">
+            <div style="position:absolute; top:0; left:0; z-index:1">
+                <canvas > </canvas>
+            </div>
             <!-- <canvas id="canvas-img" style="height: 300px; width: 300px; background-color: red;"></canvas> -->
             <!-- <canvas id="canvas-img"></canvas> -->
             
