@@ -255,126 +255,128 @@
                 document.getElementById("step1").style.display ='none';
                 document.getElementById("step2").style.display ='block';
 
-            // 영상 분리하기
-            const frames = [];
-            const button = document.querySelector("button");
-            const select = document.querySelector("select");
-            const canvas = document.querySelector("canvas");
-            const ctx = canvas.getContext("2d");
+                // 영상 분리하기
+                const frames = [];
+                const button = document.querySelector("button");
+                const select = document.querySelector("select");
+                const canvas = document.querySelector("canvas");
+                const ctx = canvas.getContext("2d");
 
-            button.onclick = async(evt) => {
-                if (window.MediaStreamTrackProcessor) {
-                    let stopped = false;
-                    const track = await getVideoTrack();
-                    const processor = new MediaStreamTrackProcessor(track);
-                    const reader = processor.readable.getReader();
-                    readChunk();
+                button.onclick = async(evt) => {
+                    if (window.MediaStreamTrackProcessor) {
+                        let stopped = false;
+                        const track = await getVideoTrack();
+                        const processor = new MediaStreamTrackProcessor(track);
+                        const reader = processor.readable.getReader();
+                        readChunk();
 
-                    function readChunk() {
-                        reader.read().then(async({ done, value }) => {
-                            if (value) {
-                                const bitmap = await createImageBitmap(value);
-                                const index = frames.length;
-                                frames.push(bitmap);
+                        function readChunk() {
+                            reader.read().then(async({ done, value }) => {
+                                if (value) {
+                                    const bitmap = await createImageBitmap(value);
+                                    const index = frames.length;
+                                    frames.push(bitmap);
 
-                                // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
-                                select.append(new Option("Frame #" + (index + 1), index));
+                                    // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
+                                    select.append(new Option("Frame #" + (index + 1), index));
 
-                                const imageListUl = document.getElementById("image-list");
-                                const imageItem = document.createElement("li");
-                                const imageCanvas = document.createElement("canvas");
-                                
-                                const imageCtx = imageCanvas.getContext("2d");
-                                // imageCanvas.width = 200;
-                                // imageCanvas.height = 400;
-                                //  img를 (20,20)에 100X200 크기로 그린다.
-                                imageCtx.drawImage(bitmap, 20, 20, 100, 200);
+                                    const imageListUl = document.getElementById("image-list");
+                                    const imageItem = document.createElement("li");
+                                    imageItem.setAttribute("id", "Frame_" + (index + 1))
+                                    const imageCanvas = document.createElement("canvas");
+                                    
+                                    const imageCtx = imageCanvas.getContext("2d");
+                                    // imageCanvas.width = 200;
+                                    // imageCanvas.height = 400;
+                                    //  img를 (20,20)에 100X200 크기로 그린다.
+                                    imageCtx.drawImage(bitmap, 20, 20, 100, 200);
 
-                                // 사이드바 이미지 리스트
-                                imageItem.append(imageCanvas);
-                                imageListUl.append(imageItem);
-                                console.log(imageItem);
-                                console.log(imageListUl);
+                                    // 사이드바 이미지 리스트
+                                    imageItem.append(imageCanvas);
+                                    imageListUl.append(imageItem);
+                                    console.log(imageItem);
+                                    console.log(imageListUl);
 
-                                value.close();
-                            }
-                            if (!done && !stopped) {
-                                readChunk();
-                            } else {
-                                select.disabled = false;
-                            }
-                        });
+                                    value.close();
+                                }
+                                if (!done && !stopped) {
+                                    readChunk();
+                                } else {
+                                    select.disabled = false;
+                                }
+                            });
+                        }
+
+                        button.onclick = (evt) => stopped = true;
+                        button.textContent = "stop";
+                    } else {
+                        console.error("your browser doesn't support this API yet");
                     }
+                };
 
-                    button.onclick = (evt) => stopped = true;
-                    button.textContent = "stop";
-                } else {
-                    console.error("your browser doesn't support this API yet");
+                select.onchange = (evt) => {
+                    const frame = frames[select.value];
+                    canvas.width = frame.width;
+                    canvas.height = frame.height;
+                    ctx.drawImage(frame, 0, 0);
+                };
+                
+                async function getVideoTrack() {
+                    video.width = 300;
+                    video.crossOrigin = "anonymous";
+                    video.src = videourl;
+                    document.body.append(video);
+
+                    await video.play();
+                    const [track] = video.captureStream().getVideoTracks();
+                    video.onended = (evt) => track.stop();
+                    return track;
                 }
-            };
 
-            select.onchange = (evt) => {
-                const frame = frames[select.value];
-                canvas.width = frame.width;
-                canvas.height = frame.height;
-                ctx.drawImage(frame, 0, 0);
-            };
-            
-            async function getVideoTrack() {
-                video.width = 300;
-                video.crossOrigin = "anonymous";
-                video.src = videourl;
-                document.body.append(video);
-
-                await video.play();
-                const [track] = video.captureStream().getVideoTracks();
-                video.onended = (evt) => track.stop();
-                return track;
-            }
                 // 추가사항
-
                 var points=[];
                 ctx.beginPath();
                 var t=0;
-                var firstX,firstY;
-
+                var firstX, firstY;
+                var X, Y;
 
                 canvas.onmousedown = function(event) {
+                    X = event.x - 351;
+                    Y = event.y - 111;
+                    var pointer = '[' + X + ", "+ Y + ']';
+                    points.push(pointer);
+                    console.log(pointer);
+                    console.log(X, Y);
 
-                points.push('[',event.x,event.y,']');
-                console.log(points);
+                    if(t==0){
+                        firstX = X;
+                        firstY = Y;
+                        ctx.moveTo(X, Y);
+                        path = ctx.arc(X, Y, 8, 0, Math.PI*2, true);
+                        ctx.closePath();
+                        ctx.fill();
 
-                if(t==0){
-                    firstX=event.x;
-                    firstY=event.y;
-                    ctx.moveTo(event.x, event.y);
-                    path=ctx.arc(event.x, event.y, 8, 0, Math.PI*2, true);
-                    ctx.closePath();
-                    ctx.fill();
-                }
-                else if(event.x>=firstX-10 && event.x<=firstX+10 && event.y>=firstY*-10 && event.y<=firstY*+10)
-                {
-                    ctx.lineTo(firstX, firstY);
-                    ctx.fillStyle="red"
-                    ctx.stroke();
-                    ctx.fill()
-                }
-                else{
-                    ctx.lineTo(event.x, event.y);
-                    ctx.stroke();
-                    ctx.moveTo(event.x, event.y);
-                    ctx.arc(event.x, event.y, 5, 0, Math.PI*2, true);// 원그리기
-                    ctx.closePath();
-                    ctx.fill();
-                }
-                t++
+                    } else if(X >= firstX - 10 && X <= firstX + 10 && Y >= firstY - 10 && Y <= firstY + 10){
+                        ctx.lineTo(firstX, firstY);
+                        ctx.fillStyle ="red"
+                        ctx.stroke();
+                        ctx.fill()
+
+                    }else{
+                        ctx.lineTo(X, Y);
+                        ctx.stroke();
+                        ctx.moveTo(X, Y);
+                        ctx.arc(X, Y, 5, 0, Math.PI*2, true);// 원그리기
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                    t++
                 }
 
                 function func1() {
-                var label = document.getElementById("label").value;
-                console.log(label);
+                    var label = document.getElementById("label").value;
+                    console.log(label);
                 }
-
             });
                 
 
@@ -383,11 +385,7 @@
 
         
         <div class="edit-bar">
-        
-            <canvas> </canvas>
-            <!-- <canvas id="canvas-img" style="height: 300px; width: 300px; background-color: red;"></canvas> -->
-            <!-- <canvas id="canvas-img"></canvas> -->
-            
+            <canvas > </canvas>
         </div>
 
     </div>    

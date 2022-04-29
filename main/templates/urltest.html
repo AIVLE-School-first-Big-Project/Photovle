@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang = "kr" >
+<head>
+<meta charset = "utf-8" >
+<title> 키보드와 하루 </title>
+</head>
+<body>
+    <div>
+        <div style="position: absolute;">
+            <canvas id="tcanvas" width = "500" height = "800" style =' border : 1px solid #000 '; > </canvas>
+            <script>
+            var canvas = document.getElementById( "tcanvas" );
+            var context = canvas.getContext( "2d" );
+            var img = new Image(); //이미지 객체 생성
+            img.src = "/media/iu.png"; //code.jpg라는 이미지 파일을 로딩 시작
+            img.onload = function() //이미지 로딩 완료시 실행되는 함수
+            {
+            //(20,20)을 중심으로 100*100의 사이즈로 이미지를 그림
+            context.drawImage(img,0,0,500,800);
+            }
+            </script>
+        </div>
+        <div style="position: absolute;">
+            <canvas id="tcanvas2" width = "500" height = "400" style =' border : 1px solid #000 '; > </canvas>
+            <script>
+            var canvas2 = document.getElementById( "tcanvas2" );
+            var context2 = canvas2.getContext( "2d" );
+            context2.fillStyle = "rgba(255,255,255,0.9)";
+            context2.fillRect(0,400,500,400);
+            // var img2 = new Image(); //이미지 객체 생성
+            // img2.src = "/media/test.png"; //code.jpg라는 이미지 파일을 로딩 시작
+            // img2.onload = function() //이미지 로딩 완료시 실행되는 함수
+            // {
+            // //(20,20)을 중심으로 100*100의 사이즈로 이미지를 그림 
+            // // context.globalAlpha=0.1;
+            // context.fillStyle = "rgba(255,255,255,0)";
+            // context.fillRect(0,400,500,400);
+            // context.drawImage(img2,0,400,500,400);
+            // }
+            </script>
+        </div>
+    </div>
+
+</body>
+</html>

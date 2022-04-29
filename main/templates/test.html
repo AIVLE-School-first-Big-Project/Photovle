@@ -1,84 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <input type="text" id="label" >
-  <button type="button" class="btn btn-success" onclick="func1();">label</button>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+    <style>
+      canvas { border: 1px solid black; }
+    </style>
+
 </head>
+<body>
+  
+  <div>
+    <input type="text" id="label" >
+    <button type="button" class="btn btn-success" onclick="func1();">label</button>
+    <button type="button" class="btn btn-success" onclick="clear33();">지우기</button>
+  </div>
+
+  <canvas id="my_canvas"></canvas>
+
+  <script>
+      var my_canvas = document.getElementById('my_canvas');
+      my_canvas.width = 800;
+      my_canvas.height = 800;
+      var ctx = my_canvas.getContext('2d');
+
+      var img = new Image();
+      img.onload = function(){
+        ctx.drawImage(img, 0, 0, my_canvas.width, my_canvas.height);
+      }
+      // 이미지 URL
+      img.src = 'https://img.etoday.co.kr/pto_db/2022/03/600/20220307095246_1725389_1200_899.jpg';
 
 
-<canvas id="my_canvas"/>
-<style>canvas { border: 1px solid black; }</style>
-<script>
-var my_canvas = document.getElementById('my_canvas');
-my_canvas.width = 800;
-my_canvas.height = 800;
-var ctx = my_canvas.getContext('2d');
+      var points=[];
+      ctx.beginPath();
+      var t=0;
+      var firstX, firstY;
+      var X, Y;
 
-var img = new Image();
-img.onload = function(){
-  ctx.drawImage(img, 0, 0, my_canvas.width, my_canvas.height);
-}
-// 이미지 URL
-img.src = 'https://img.etoday.co.kr/pto_db/2022/03/600/20220307095246_1725389_1200_899.jpg';
+      my_canvas.onmousedown = function(event) {
+        
+        if(t < 0){
+          ctx.clearRect(0, 0, 800, 800);
 
-var points=[];
-ctx.beginPath();
-var t=0;
-var firstX,firstY;
+        }
+        else if(t==0){
+          points.push('[',event.x,event.y,']');
+          console.log(points);
+          firstX=event.x;
+          firstY=event.y;
+          ctx.moveTo(event.x, event.y);
+          path=ctx.arc(event.x, event.y, 8, 0, Math.PI*2, true);
+          ctx.closePath();
+          ctx.fill();
+        }
+        else if(event.x>=firstX-10 && event.x<=firstX+10 && event.y>=firstY*-10 && event.y<=firstY*+10)
+        {
+          points.push('[',event.x,event.y,']');
+          console.log(points);
+          ctx.lineTo(firstX, firstY);
+          ctx.fillStyle="red"
+          ctx.stroke();
+          ctx.fill();
+          t=-100;
+          
+        }
+        else{
+          points.push('[',event.x,event.y,']');
+          console.log(points);
+          ctx.lineTo(event.x, event.y);
+          ctx.stroke();
+          ctx.moveTo(event.x, event.y);
+          ctx.arc(event.x, event.y, 5, 0, Math.PI*2, true);// 원그리기
+          ctx.closePath();
+          ctx.fill();
+        }
+      t++
+      }
+
+      function func1() {
+        var label = document.getElementById("label").value;
+        console.log(label);
+      }
+
+      function clear33() {
+        console.log('1');
+        init();
+      }
+  </script>
+
+</body>
+</html>
 
 
-my_canvas.onmousedown = function(event) {
-
-  points.push('[',event.x,event.y,']');
-  console.log(points);
-
-  if(t==0){
-    firstX=event.x;
-    firstY=event.y;
-    ctx.moveTo(event.x, event.y);
-    path=ctx.arc(event.x, event.y, 8, 0, Math.PI*2, true);
-    ctx.closePath();
-    ctx.fill();
-  }
-  else if(event.x>=firstX-10 && event.x<=firstX+10 && event.y>=firstY*-10 && event.y<=firstY*+10)
-  {
-    ctx.lineTo(firstX, firstY);
-    ctx.fillStyle="red"
-    ctx.stroke();
-    ctx.fill()
-  }
-  else{
-    ctx.lineTo(event.x, event.y);
-    ctx.stroke();
-    ctx.moveTo(event.x, event.y);
-    ctx.arc(event.x, event.y, 5, 0, Math.PI*2, true);// 원그리기
-	  ctx.closePath();
-	  ctx.fill();
-  }
-t++
-}
-
-function func1() {
-  var label = document.getElementById("label").value;
-  console.log(label);
-}
-
-</script>
 
 
-
-<!-- <style>canvas { border: 1px solid black; }</style>
-<canvas id="mycanvas"/>
-
-<script type="text/javascript">
-var canvas = document.getElementById('mycanvas');
-canvas.width = 800;
-canvas.height = 800;
-var context = canvas.getContext('2d');
-
-// 새로운 이미지 객체를 만듬
-var img = new Image();
-img.onload = function(){
-  context.drawImage(img, 0, 0, canvas.width, canvas.height);
-}
-// 이미지 URL
-img.src = 'https://img.etoday.co.kr/pto_db/2022/03/600/20220307095246_1725389_1200_899.jpg';
-</script> -->

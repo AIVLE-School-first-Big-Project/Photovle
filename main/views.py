@@ -51,6 +51,10 @@ def signup(request):
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
 
+# 로그인 완료페이지
+def success_login(request):
+    return render()
+
 # 로그아웃
 def logout(request):
     auth.logout(request)
@@ -300,6 +304,14 @@ def mypost(request):
     return render(request, 'mypost.html', context)
 
 ######################## Canvas ############################
+from django.shortcuts import render
+
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+import glob
+from .models import ImageMetadata
 
 def canvas(request):
     return render(request, 'canvas.html')
