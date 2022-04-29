@@ -276,10 +276,10 @@
                                 const bitmap = await createImageBitmap(value);
                                 const index = frames.length;
                                 frames.push(bitmap);
-                                
+
                                 // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
                                 select.append(new Option("Frame #" + (index + 1), index));
-                                
+
                                 const imageListUl = document.getElementById("image-list");
                                 const imageItem = document.createElement("li");
                                 const imageCanvas = document.createElement("canvas");
@@ -305,6 +305,7 @@
                             }
                         });
                     }
+
                     button.onclick = (evt) => stopped = true;
                     button.textContent = "stop";
                 } else {
@@ -330,8 +331,53 @@
                 video.onended = (evt) => track.stop();
                 return track;
             }
+                // 추가사항
 
-        });
+                var points=[];
+                ctx.beginPath();
+                var t=0;
+                var firstX,firstY;
+
+
+                canvas.onmousedown = function(event) {
+
+                points.push('[',event.x,event.y,']');
+                console.log(points);
+
+                if(t==0){
+                    firstX=event.x;
+                    firstY=event.y;
+                    ctx.moveTo(event.x, event.y);
+                    path=ctx.arc(event.x, event.y, 8, 0, Math.PI*2, true);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                else if(event.x>=firstX-10 && event.x<=firstX+10 && event.y>=firstY*-10 && event.y<=firstY*+10)
+                {
+                    ctx.lineTo(firstX, firstY);
+                    ctx.fillStyle="red"
+                    ctx.stroke();
+                    ctx.fill()
+                }
+                else{
+                    ctx.lineTo(event.x, event.y);
+                    ctx.stroke();
+                    ctx.moveTo(event.x, event.y);
+                    ctx.arc(event.x, event.y, 5, 0, Math.PI*2, true);// 원그리기
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                t++
+                }
+
+                function func1() {
+                var label = document.getElementById("label").value;
+                console.log(label);
+                }
+
+            });
+                
+
 
         </script>
 
