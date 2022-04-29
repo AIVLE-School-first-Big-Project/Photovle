@@ -138,8 +138,21 @@
 			{% for rep in board.reply_set.all %}
 				<span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span><br>
 				{% if rep.user == user %}
-					<a href="#" onclick="window.open('../{{board.id}}/{{rep.id}}/update_reply/', 'update_reply','width=400, height=300, top=400, left=700')">수정</a>
+					{% comment %} <input type="text" name="text1" id="text1" style="display:none">
+					<input type="button" value="수정" onclick="document.getElementById('text1').style.display='block';"> {% endcomment %}
+					{% comment %} <a href="{% url 'main:update_reply' board.id rep.id %}">수정</a> {% endcomment %}
 					<a href="{% url 'main:delete_reply' rep.id %}">삭제</a> <br>
+
+					
+					<form action="{% url 'main:update_reply' board.id rep.id %}" method="post">
+						{% csrf_token %}
+						<div class="form-group">
+							<input type="text" class="form-control" name="comment" id="comment"  value="{{ rep.comment }}" 
+							style="width:100%"/>
+						</div>
+						<input type="submit" value="수정완료">
+					  </form>
+
 				{% endif %}
 			{% endfor %}
 		</div>
