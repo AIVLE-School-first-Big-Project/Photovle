@@ -51,6 +51,10 @@ def signup(request):
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
 
+# 로그인 완료페이지
+def success_login(request):
+    return render()
+
 # 로그아웃
 def logout(request):
     auth.logout(request)
@@ -300,6 +304,14 @@ def mypost(request):
     return render(request, 'mypost.html', context)
 
 ######################## Canvas ############################
+from django.shortcuts import render
+
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+import glob
+from .models import ImageMetadata
 
 def canvas(request):
     return render(request, 'canvas.html')
@@ -310,3 +322,29 @@ def index2(request):
 
 def test(request):
     return render(request, 'test.html')
+
+def urltest(request):
+    return render(request, 'urltest.html')
+
+@api_view(['GET', 'PATCH'])
+@permission_classes((AllowAny, ))
+def image_metadata(request):
+    """
+    Return image metadata.
+    """
+    if request.method == 'GET':
+        try:
+            image_metadata = ImageMetadata.objects.get(pk=1)
+            return Response(image_metadata.content)
+        except ImageMetadata.DoesNotExist:
+            return Response({})
+
+    elif request.method == 'PATCH':
+        print(type(request.data['content']))
+        try:
+            image_metadata = ImageMetadata.objects.get(pk=1)
+        except ImageMetadata.DoesNotExist:
+            image_metadata = ImageMetadata()
+        image_metadata.content = request.data['content']
+        image_metadata.save()
+        return Response(image_metadata.content, status=status.HTTP_201_CREATED)

@@ -15,6 +15,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
 # 회원가입, 로그인
     path('home/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('home/success_login/', views.success_login, name='success_login'),
     path('home/logout/', views.logout, name='logout'),
     path('home/signup/', views.signup, name='signup'),
     path('home/mypage/', views.mypage, name='mypage'),
@@ -38,9 +39,11 @@ urlpatterns = [
 # 작업Canvas
     path('canvas/', views.canvas, name='canvas'),
     path('index2/', views.index2, name='index2'),
+    path('urltest/', views.urltest, name='urltest'),
 
 # 테스트TEST
     path('test/', views.test, name='test'),
+    path('image_metadata/', views.image_metadata, name='image_metadata'),
     
 ]
 
