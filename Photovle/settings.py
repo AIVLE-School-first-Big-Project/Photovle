@@ -73,14 +73,14 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 
 # email 전송
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '587'
-# EMAIL_HOST_USER와 EMAIL_HOST_PASSWORD는 개인정보이므로 secrets.json에 분리하여 사용
-EMAIL_HOST_USER = secrets['GOOGLE_HOST_USER']
-EMAIL_HOST_PASSWORD = secrets['GOOGLE_HOST_PASSWORD']
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = '587'
+# # EMAIL_HOST_USER와 EMAIL_HOST_PASSWORD는 개인정보이므로 secrets.json에 분리하여 사용
+# EMAIL_HOST_USER = secrets['GOOGLE_HOST_USER']
+# EMAIL_HOST_PASSWORD = secrets['GOOGLE_HOST_PASSWORD']
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # 다른 부분 오류 시 비밀번호 지워지는 것 방지

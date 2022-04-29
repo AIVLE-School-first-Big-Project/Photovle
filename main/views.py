@@ -125,9 +125,9 @@ def board(request):
     paginator = Paginator(board, 5)
     page_obj = paginator.get_page(page)
     context={ 
-                 'page_obj':page_obj,
-                 'title':'게시판',
-                 'board':board
+                'page_obj':page_obj,
+                'title':'게시판',
+                'board':board
         }
     return render(request, 'board.html', context)
 
@@ -298,8 +298,8 @@ def mypost(request):
     paginator = Paginator(board, 10)
     page_obj = paginator.get_page(page)
     context={ 
-                 'page_obj':page_obj,
-                 'title':'나의 게시글'
+                'page_obj':page_obj,
+                'title':'나의 게시글'
         }
     return render(request, 'mypost.html', context)
 
@@ -320,31 +320,13 @@ def canvas(request):
 def index2(request):
     return render(request, 'index2.html')
 
+
+def index3(request):
+    return render(request, 'index3.html')
+
 def test(request):
     return render(request, 'test.html')
 
-def urltest(request):
-    return render(request, 'urltest.html')
 
-@api_view(['GET', 'PATCH'])
-@permission_classes((AllowAny, ))
-def image_metadata(request):
-    """
-    Return image metadata.
-    """
-    if request.method == 'GET':
-        try:
-            image_metadata = ImageMetadata.objects.get(pk=1)
-            return Response(image_metadata.content)
-        except ImageMetadata.DoesNotExist:
-            return Response({})
-
-    elif request.method == 'PATCH':
-        print(type(request.data['content']))
-        try:
-            image_metadata = ImageMetadata.objects.get(pk=1)
-        except ImageMetadata.DoesNotExist:
-            image_metadata = ImageMetadata()
-        image_metadata.content = request.data['content']
-        image_metadata.save()
-        return Response(image_metadata.content, status=status.HTTP_201_CREATED)
+def osvos(request):
+    return render(request, 'osvos.html')
