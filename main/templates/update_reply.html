@@ -1,14 +1,14 @@
 {% if user.is_authenticated %}
     <form action="" method="post" style="text-align: center;">
         {% csrf_token %}
-        {{ form }}
-    <input type="submit" value="댓글입력" onclick="close();">
+        {{ reply }}
+        <tr>
+            <td class="input-group mb-3" style="text-align:center;">
+                <input type="text" name="comment" id="comment" class="form-control" placeholder="댓글" style="width:100%">
+            </td>
+        </tr>
+    <input type="submit" value="댓글입력">
     </form>
 {% endif %}
 
-<script>
-    function WinClose()
-    {
-        window.open('','_self').close();
-    }
-</script>
+
