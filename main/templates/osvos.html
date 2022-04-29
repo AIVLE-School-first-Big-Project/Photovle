@@ -205,8 +205,8 @@
                     </div>
 
                     <div class="preview">
-                        <input type="text" id="label" >
-                        <button type="button" class="btn btn-success" onclick="func1();">label</button>
+                        <!-- <input type="text" id="label" >
+                        <button type="button" class="btn btn-success" onclick="func1();">label</button> -->
                     </div>
 
                 </div>
@@ -229,7 +229,7 @@
                     <div>
                         <input type="text" id="label" >
                         <button type="button" class="btn btn-success" onclick="func1();">label</button>
-                        <button type="button" class="" onclick="">지우기</button>
+                        <button type="button" class="btn btn-success" onclick="clear33();">지우기</button>
                     </div>
 
                     <div id="image-area">
@@ -260,8 +260,8 @@
                 const frames = [];
                 const button = document.querySelector("button");
                 const select = document.querySelector("select");
-                const canvas = document.querySelector("canvas");
-                const ctx = canvas.getContext("2d");
+                var canvas = document.getElementById('my_canvas');
+                var ctx = canvas.getContext("2d");
 
                 button.onclick = async(evt) => {
                     if (window.MediaStreamTrackProcessor) {
@@ -348,8 +348,12 @@
                     points.push(pointer);
                     console.log(pointer);
                     console.log(X, Y);
+                    if(t<0){
 
-                    if(t==0){
+                    }
+                    else if(t==0){
+                        points.push('[',event.x,event.y,']');
+                        console.log(points);
                         firstX = X;
                         firstY = Y;
                         ctx.moveTo(X, Y);
@@ -358,12 +362,17 @@
                         ctx.fill();
 
                     } else if(X >= firstX - 10 && X <= firstX + 10 && Y >= firstY - 10 && Y <= firstY + 10){
+                        points.push('[',event.x,event.y,']');
+                        console.log(points);
                         ctx.lineTo(firstX, firstY);
                         ctx.fillStyle ="red"
                         ctx.stroke();
-                        ctx.fill()
+                        ctx.fill();
+                        t=-100;
 
                     }else{
+                        points.push('[',event.x,event.y,']');
+                        console.log(points);
                         ctx.lineTo(X, Y);
                         ctx.stroke();
                         ctx.moveTo(X, Y);
@@ -374,19 +383,30 @@
                     t++
                 }
 
-                function func1() {
+                
+            });
+                
+            function func1() {
                     var label = document.getElementById("label").value;
                     console.log(label);
                 }
-            });
-                
-
+            function clear33() {
+                points=[];
+                console.log('1');
+                canvas = document.getElementById('my_canvas');
+                ctx = canvas.getContext('2d');
+                ctx.clearRect( 0, 0, canvas.width, canvas.height);
+                select = document.querySelector("select");
+                frame = frames[select.value];
+                ctx.drawImage(frame, 0, 0);
+                t=0;
+            }
 
         </script>
 
         
         <div class="edit-bar">
-            <canvas > </canvas>
+            <canvas id="my_canvas"> </canvas>
         </div>
 
     </div>    
