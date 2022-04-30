@@ -29,7 +29,7 @@
         .canvas-body{
             width:100vw;
             height : calc(100vh - 115px);
-            background-color:blue;
+            /* background-color:blue; */
             display:flex;
             background: #FFFFFF 0% 0% no-repeat padding-box;
             border: 1px solid #707070;
@@ -141,7 +141,7 @@
         }
 
         #step2{
-            background-color: palegoldenrod;
+            /* background-color: palegoldenrod; */
             width:100%;
             height:100%;
             display:flex;
@@ -200,21 +200,43 @@
         }
 
         #image-area{
-            display: block;
-            overflow: auto;
-            background-color: aqua;
+            height: 100%;
         }
 
         #image-list{
             display: flex;
+            justify-content: flex-start;
+            align-items: center;
             flex-wrap: wrap;
-            justify-content: center;
+            padding: 24px 0;
+            height: 100%;
+            width: 100%;
+            overflow-x:hidden;
+            overflow-y:scroll;
+            padding-left: 16px;
         }
 
         #image-list>li{
-            width: 100px;
-            height: 100px;
-            /* background-color: #708AE8; */
+            display: inline-block;
+            width: 126px;
+            
+            margin-bottom: 12px;
+            margin-left: 6px;
+            margin-right: 6px;
+            /* background-color: greenyellow; */
+        }
+        #image-list>li:last-child{
+            margin-bottom: 500px;
+        }
+
+        /* #image-list>li:hover{
+            background-color: #708AE8;
+        } */
+
+        #image-list>li>p{
+            margin-top: 2px; 
+            display: inline-flex;
+            justify-content: center; 
         }
 
         #image-list canvas{
@@ -392,8 +414,6 @@
                 const ctx = canvas.getContext("2d");
 
             
-                
-
                 button.onclick = async(evt) => {
                     console.log(document.querySelector("#label_name").textContent)
                     
@@ -425,18 +445,20 @@
                                     const imageItem = document.createElement("li");
                                     imageItem.setAttribute("id", "frame-" + (index + 1))
                                     const imageCanvas = document.createElement("canvas");
-                                    // imageCanvas.width = 100;
-                                    // imageCanvas.height = 100;
+                                    imageCanvas.width = 120;
+                                    imageCanvas.height = 100;
+
+                                    const imageId = document.createElement("p");
+                                    imageId.textContent = "frame-" + (index + 1);
 
                                     
                                     const imageCtx = imageCanvas.getContext("2d");
-                                    // imageCanvas.width = 100;
-                                    // imageCanvas.height = 100;
-                                    //  img를 (20,20)에 100X200 크기로 그린다.
-                                    imageCtx.drawImage(bitmap, 0, 0, 100, 100);
+                                    imageCtx.drawImage(bitmap, 0, 0, 120, 100);
 
                                     // 사이드바 이미지 리스트
                                     imageItem.append(imageCanvas);
+                                    imageItem.append(imageId);
+                                    
                                     imageListUl.append(imageItem);
                                     console.log(imageItem);
                                     console.log(imageListUl);
@@ -466,7 +488,7 @@
                 };
                 
                 async function getVideoTrack() {
-                    video.width = 300;
+                    // video.width = 300;
                     video.crossOrigin = "anonymous";
                     video.src = videourl;
                     document.body.append(video);
