@@ -38,18 +38,23 @@ def signup(request):
     else:
         form = UserForm()
     return render(request, 'signup.html', {'form':form})
-    if request.user.is_authenticated:
-        return redirect('main:index')
-        if request.POST['password1'] == request.POST['password2']:
-            user = User.objects.create_user(
-                username = request.POST.get('username'),
-                password = request.POST.get('password'),
-                email = request.POST.get('email'),
-            )
-            auth.login(request, user)
-            return redirect('main:board')
-        return render(request, 'signup.html')
-    return render(request, 'signup.html')
+    # if request.user.is_authenticated:
+    #     return redirect('main:index')
+    #     if request.POST['password1'] == request.POST['password2']:
+    #         user = User.objects.create_user(
+    #             username = request.POST.get('username'),
+    #             password = request.POST.get('password'),
+    #             email = request.POST.get('email'),
+    #         )
+    #         auth.login(request, user)
+    #         return redirect('main:board')
+    #     return render(request, 'signup.html')
+    # return render(request, 'signup.html')
+
+# 카카오 로그인
+def kakao_login(request):
+    rest_api_key = getattr(settings, 'KAKAO_REST_API_KEY')
+    return redirect(f"https://kauth.kakao.com/oauth/authorize?client id={rest_api_key}&redirect uri={KAKAO_CALLBACK_URI}&response_type=code")
 
 # 로그인 완료페이지
 def success_login(request):
@@ -134,10 +139,16 @@ def board(request):
 # 게시판 상세페이지
 def detail(request, pk):    # pk = board_id
     board = get_object_or_404(Board, id=pk)
+    reply = Reply.objects.filter(board_id=pk).order_by("-rep_date")
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(reply, 2)
+    page_obj = paginator.get_page(page)
     reply_form = ReplyForm()
     context = {
         'board':board,
         'reply_form':reply_form,
+        'page_obj':page_obj,
+        'reply':reply,
         'pk':pk
     }
     return render(request, 'detail.html', context)
