@@ -28,20 +28,27 @@ def home(request):
     return render(request, 'home.html')
 
 #######################회원관련################################
-# 회원가입
-def signup(request):
+# 회원가입 1페이지
+def signup1(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            dj_login(request, user)
-            return redirect('main:home')
-    else:
-        form = UserForm()
-    return render(request, 'signup.html', {'form':form})
+        name = request.POST.get('name')
+        username = request.POST.get('username')
+        phone = request.POST.get('phone')
+        context = {
+            'name':name,
+            'username':username,
+            'phone':phone,
+        }
+        return render(request, 'signup2.html', context)
+        # form = UserForm(request.POST)
+        # if form.is_valid():
+        #     form.save()
+        #     username = form.cleaned_data.get('username')
+        #     raw_password = form.cleaned_data.get('password1')
+        #     user = authenticate(username=username, password=raw_password)
+        #     dj_login(request, user)
+        #     return redirect('main:home')
+    return render(request, 'signup1.html')
     # if request.user.is_authenticated:
     #     return redirect('main:index')
     #     if request.POST['password1'] == request.POST['password2']:
@@ -54,7 +61,24 @@ def signup(request):
     #         return redirect('main:board')
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
+# 회원가입 2페이지
+def signup2(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            dj_login(request, user)
+            return redirect('main:home')
+    else:
+        form = UserForm()
+    context = {
+        'form':form,
+    }
 
+    return render(request, 'signup2.html', context)
 
 # 카카오 로그인
 def kakao_login(request):
