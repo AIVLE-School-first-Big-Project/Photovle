@@ -1,4 +1,10 @@
-import numpy as np
+import random
+import string
+import hashlib
+import requests
+import os
+from .models import *
+from .forms import *
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
@@ -8,13 +14,10 @@ from django.contrib import auth, messages
 from django.contrib.auth import authenticate, update_session_auth_hash, login as dj_login
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-import requests
-from .models import *
-from .forms import *
-import os
 from django.http import FileResponse
 from django.core.files.storage import FileSystemStorage
 from Photovle.settings import SOCIAL_OUTH_CONFIG
+
 # from rest_auth.registration.views import 
 # Create your views here.
 def index(request):
@@ -35,7 +38,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             dj_login(request, user)
-            return redirect('main:board')
+            return redirect('main:home')
     else:
         form = UserForm()
     return render(request, 'signup.html', {'form':form})
@@ -93,10 +96,17 @@ def kakao_callback(request):
         #     user = authenticate(username=username, password=raw_password)
         # return redirect('main:home')
     else:
+        # pw = np.random.randint(10000000, size=1)
+        tmp = string.ascii_letters + string.digits
+        rs = ""
+        for _ in range(12):
+            rs += random.choice(tmp)
+        print(rs)
+        password = hashlib.sha256(rs.encode())
         kakao_account = User(
             username=kakao_id,
             email = email,
-            password = np.random.randint(10000000, size=1)
+            password = password
         )
         kakao_account.save()
         user = User.objects.get(email=email)
