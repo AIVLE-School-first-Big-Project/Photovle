@@ -27,9 +27,10 @@
             margin-bottom:18px;
         }
         .canvas-body{
+            
             width:100vw;
             height : calc(100vh - 115px);
-            /* background-color:blue; */
+            background-color:blue;
             display:flex;
             background: #FFFFFF 0% 0% no-repeat padding-box;
             border: 1px solid #707070;
@@ -37,7 +38,10 @@
         }
 
         .control-bar{
-            width:390px;
+            width:300px;
+            /* width:400px; */
+            min-width: 300px;
+            max-width: 300px;
             height:100%;
             background: #E9E9E9 0% 0% no-repeat padding-box;
             opacity: 1;
@@ -213,10 +217,45 @@
             width: 100%;
             overflow-x:hidden;
             overflow-y:scroll;
-            padding-left: 16px;
-
+            padding-left: 4px;
             padding-bottom: 500px;
+            background-color: #E9E9E9;
         }
+        
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track {
+            background-color: #e0e0e0;
+        } 
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(112, 138, 232, 0.8); 
+            border-radius: 16px;
+        } 
+        
+/*         
+        ::-webkit-scrollbar-corner {
+            background-color: black; */
+
+
+
+        /* ::-webkit-scrollbar {
+            width: 20px;
+        }
+
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey; 
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background:black; 
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background:rgb(54, 56, 58); 
+        } */
 
         #image-list>li{
             display: flex;
@@ -231,11 +270,16 @@
         }
         
         .image-item{
-            background-color: #bbb;
+            display: inline-block;
         }
 
         #image-list>li:hover{
-            background-color: #708AE8;
+            font-weight: bold;
+        }
+
+        #image-list>li:active{
+            font-weight: bold;
+            color: #708AE8;
         }
 
         #image-list>li>p{
@@ -258,6 +302,7 @@
     <div>
         <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
     </div>
+
     <div class="canvas-body">
         <div class="control-bar">
             <div class="control-bar-option-area">
@@ -419,11 +464,11 @@
                 document.getElementById("step1").style.display ='none';
                 document.getElementById("step2").style.display ='block';
 
-                // 영상 분리하기
+                // 영상 분리하기 qwe
                 const frames = [];
                 const button = document.getElementById("divide_video");
                 const select = document.querySelector("select");
-                const canvas = document.querySelector("canvas");
+                const canvas = document.getElementById("edit-area");
                 const ctx = canvas.getContext("2d");
 
             
@@ -458,7 +503,7 @@
                                     const imageItem = document.createElement("li");
                                     imageItem.setAttribute("id", "frame-" + (index + 1));
                                     imageItem.setAttribute("class", "image-item");
-                                    imageItem.onclick = myFunction;
+                                    imageItem.onclick = image_click;
                                     
                                     const imageCanvas = document.createElement("canvas");
                                     imageCanvas.width = 120;
@@ -502,12 +547,12 @@
                     }
                 };
 
-                function myFunction () {
+                function image_click () {
                     // var attribute = this.getAttribute("data-myattribute");
                     console.log(this);
                     var attribute = this.getAttribute('id')
+
                     const frame = frames[attribute.split('-')[1]];
-                    
                     canvas.width = frame.width;
                     canvas.height = frame.height;
                     ctx.drawImage(frame, 0, 0);
@@ -583,7 +628,7 @@
 
         
         <div class="edit-bar">
-            <canvas > </canvas>
+            <canvas id="edit-area"> </canvas>
         </div>
 
     </div>    
