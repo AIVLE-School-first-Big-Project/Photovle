@@ -10,6 +10,9 @@
     <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
 
     <style>
+        /* html css init */
+        html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; } /* HTML5 display-role reset for older browsers */ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; } body { line-height: 1; } ol, ul { list-style: none; } blockquote, q { quotes: none; } blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; } table { border-collapse: collapse; border-spacing: 0; }
+
         body{
             background-image: url('/static/image/background.png');
             background-repeat: no-repeat;
@@ -143,42 +146,84 @@
             height:100%;
             display:flex;
             flex-direction:column;
-            justify-content:center;
-            align-items:flex-start;
-        }
-
-        .video-area{
-            width: 100%;
-            background-color: red;
+            justify-content:flex-start;
         }
 
         .preview{
             width:100%;
             display: flex;
             outline: auto;
-            background-color: pink;
+            /* background-color: pink; */
+        }
+
+        .preview>button{
+            width: 100px;
+        }
+
+        select{
+            width: 100%;
+            margin-left: 16px;
         }
         
-        #image-area{
-            display: block;
-            overflow: auto;
+        .infomation-area{
+            /* background-color: pink; */
+            padding: 12px;
         }
-    
+
+        .infomation-area>h3{
+            font-size: 18px;
+            font-weight: bold;
+            color: #707070;
+            margin: 0 0 8px 0;
+        }
+
+        .infomation-area li{
+            display: flex;
+            line-height: 26px;
+            font-size: 16px;
+        }
+
+        .infomation-area li>span{
+            width: 90px;
+            text-align: right;   
+        }
+
+        
+        .infomation-area li>p{
+            padding-left: 14px;
+            font-weight: bold;
+        }
+
         .edit-bar{
             width: 100%;
             height:100%;
         }
 
-        #image-list>li::marker{
-            width: 100;
-            height: 100;
+        #image-area{
+            display: block;
+            overflow: auto;
+            background-color: aqua;
         }
 
-        /* video, canvas {
-            max-width: 100%
-        } */
+        #image-list{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        #image-list>li{
+            width: 100px;
+            height: 100px;
+            /* background-color: #708AE8; */
+        }
+
+        #image-list canvas{
+            display: inline-block;
+        }
+
 
     </style>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -192,8 +237,9 @@
                 <img src="/static/image/icon_check.svg" onclick="">
                 <img src="/static/image/icon_trash_can.svg" onclick="">
             </div>
-        
-            <div id='step1'>
+
+            <!-- step1 -->
+            <div id='step1' >
                 <div class="step1" id="step1">
                     <img src="/static/image/icon_camera.png" onclick="">
                     <p>편집할 동영상이 없습니다.</p>
@@ -203,52 +249,134 @@
                         <label for="upload_video" class="file-label">파일 업로드</label> 
                         <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
                     </div>
-
-                    <div class="preview">
-                        <input type="text" id="label" >
-                        <button type="button" class="btn btn-success" onclick="func1();">label</button>
-                    </div>
-
                 </div>
             </div>
 
-            <div id='step2'>
-                <!-- 여기서 부터 변경되면 보이기 -->
-                <div class="step2" id="step2" >
-                    <div class="video-area">
-                        <video id="video" style="display: none;"></video>
-                    </div>
+            <!-- step2 -->
+            
+            <div class="step2" id="step2"  style="display: none;">
+                <!-- <video id="video" style="display:none;"  @loadedmetadata="getVideoDimensions"></video> -->
+                <video id="video" style="display:none;"></video>
 
-                    <div class="preview">
-                        <select disabled>
-                        </select>
-                        <button>start</button>
-                    </div>
-                    
-                    <!-- label button -->
-                    <div>
-                        <input type="text" id="label" >
-                        <button type="button" class="btn btn-success" onclick="func1();">label</button>
-                        <button type="button" class="" onclick="">지우기</button>
-                    </div>
+                <div class="infomation-area">
+                    <h3>Information</h3>
+                    <ul>
+                        <li>
+                            <span>File Name : </span>
+                            <p id="file_name"></p>
+                        </li>
 
-                    <div id="image-area">
-                        <ul id="image-list"></ul>
-                    </div>
+                        <li>
+                            <span>Object : </span>
+                            <p id="label_name"></p>
+                        </li>
 
-                    
+                        <li>
+                            <span>Width : </span>
+                            <p id="label_width"></p>
+                        </li>
+
+                        <li>
+                            <span>Height : </span>
+                            <p id="label_height"></p>
+                        </li>
+
+                        <li>
+                            <span>Size : </span>
+                            <p id="file_size"></p>
+                        </li>
+
+                        <li>
+                            <span>Type : </span>
+                            <p id="file_type"></p>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                
+                <div class="preview">
+                    <input type="text" id="label_tag">
+                    <button type="button" onclick="define_tag();">label</button>
+                </div>
+                
+
+                <div class="preview">
+                    <select disabled>
+                    </select>
+                    <button id="divide_video">start</button>
+                </div>
+    
+                
+                
+                <div id="image-area">
+                    <ul id="image-list"></ul>
                 </div>
             </div>
+        
         </div>
+
+        <!-- <script>
+            export default {
+                methods: {
+                    getVideoDimensions (e) {
+                        console.log(e.target.videoHeight)
+                        console.log(e.target.videoWidth)
+                    }
+                }
+            }
+        </script> -->
 
 
         <script>
+            // Object 정의 함수
+            function define_tag() {
+                var label = document.getElementById("label_tag").value;
+
+                const fileName = document.querySelector("#label_name");
+                fileName.textContent = label;
+                console.log(label);
+            }
+
             // 로컬 영상 불러오기
             const elImage = document.querySelector("#upload_video");
-
+            
             elImage.addEventListener("change", (evt) => {
                 const file = evt.target.files[0];
-                const video = document.getElementById("video");
+                var video = document.getElementById("video");
+                var width, height;
+
+                
+                // video.onplaying = function () {
+                //     width = video.videoWidth
+                //     height = video.videoHeight
+                //     console.log("video dimens loaded w="+width+" h="+height)
+                // }
+                
+                // console.log(file);
+                
+                var w = width;
+                var h = height;
+
+                console.log(w, h);
+                
+                // 파일 이름 추가
+                const fileName = document.querySelector("#file_name");
+                fileName.textContent = file['name'];
+
+                const fileWidth = document.querySelector("#label_width");
+                fileWidth.textContent = w;
+
+                const fileHeight = document.querySelector("#label_height");
+                fileHeight.textContent = h;
+
+                const fileSize = document.querySelector("#file_size");
+                fileSize.textContent = file['size'] + " MB";
+                
+                const fileType = document.querySelector("#file_type");
+                fileType.textContent = file['type'];
+                
 
                 // 비디오 화면에 추가하기
                 // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
@@ -258,15 +386,27 @@
 
                 // 영상 분리하기
                 const frames = [];
-                const button = document.querySelector("button");
+                const button = document.getElementById("divide_video");
                 const select = document.querySelector("select");
                 const canvas = document.querySelector("canvas");
                 const ctx = canvas.getContext("2d");
 
+            
+                
+
                 button.onclick = async(evt) => {
+                    console.log(document.querySelector("#label_name").textContent)
+                    
+                    // TODO : label이 선택되지 않은 상태에서 입력 요청
+                    if(document.querySelector("#label_name").textContent == ""){
+                        alert("레이블링의 object를 정의해주세요.");
+                        return;
+                    }
+
                     if (window.MediaStreamTrackProcessor) {
                         let stopped = false;
                         const track = await getVideoTrack();
+                        
                         const processor = new MediaStreamTrackProcessor(track);
                         const reader = processor.readable.getReader();
                         readChunk();
@@ -283,14 +423,17 @@
 
                                     const imageListUl = document.getElementById("image-list");
                                     const imageItem = document.createElement("li");
-                                    imageItem.setAttribute("id", "Frame_" + (index + 1))
+                                    imageItem.setAttribute("id", "frame-" + (index + 1))
                                     const imageCanvas = document.createElement("canvas");
+                                    // imageCanvas.width = 100;
+                                    // imageCanvas.height = 100;
+
                                     
                                     const imageCtx = imageCanvas.getContext("2d");
-                                    // imageCanvas.width = 200;
-                                    // imageCanvas.height = 400;
+                                    // imageCanvas.width = 100;
+                                    // imageCanvas.height = 100;
                                     //  img를 (20,20)에 100X200 크기로 그린다.
-                                    imageCtx.drawImage(bitmap, 20, 20, 100, 200);
+                                    imageCtx.drawImage(bitmap, 0, 0, 100, 100);
 
                                     // 사이드바 이미지 리스트
                                     imageItem.append(imageCanvas);
@@ -346,8 +489,9 @@
                     Y = event.y - 111;
                     var pointer = '[' + X + ", "+ Y + ']';
                     points.push(pointer);
-                    console.log(pointer);
-                    console.log(X, Y);
+
+                    console.log(points);
+                    // console.log(X, Y);
 
                     if(t==0){
                         firstX = X;
@@ -374,10 +518,7 @@
                     t++
                 }
 
-                function func1() {
-                    var label = document.getElementById("label").value;
-                    console.log(label);
-                }
+                
             });
                 
 
