@@ -46,11 +46,14 @@ INSTALLED_APPS = [
     'bootstrap4',
     'main.apps.MainConfig',
 
+    # rest-auth
+    'rest_framework.authtoken',
+    'rest_auth',
     # allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
+    'rest_auth.registration',
     # provider 소셜로그인 제공업체
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
@@ -59,10 +62,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     # 'image_metadata',
-    
-
-
 ]
+
+SITE_ID = 1
 
 # kakao client key
 SOCIAL_OUTH_CONFIG = {
@@ -75,10 +77,18 @@ SOCIAL_OUTH_CONFIG = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
 )
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
-SITE_ID = 1
 
 # email 전송
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -94,12 +104,13 @@ SITE_ID = 1
 # 다른 부분 오류 시 비밀번호 지워지는 것 방지
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ],
-    'PAGE_SIZE': 10
-}
+# 이미지 라벨링 강준영
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAdminUser',
+#     ],
+#     'PAGE_SIZE': 10
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

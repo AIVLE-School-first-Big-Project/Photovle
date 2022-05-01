@@ -1,3 +1,4 @@
+import numpy as np
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
@@ -7,20 +8,20 @@ from django.contrib import auth, messages
 from django.contrib.auth import authenticate, update_session_auth_hash, login as dj_login
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from fsspec import filesystem
+import requests
 from .models import *
 from .forms import *
 import os
 from django.http import FileResponse
 from django.core.files.storage import FileSystemStorage
-from django.core.mail.message import EmailMessage
-
-
+from Photovle.settings import SOCIAL_OUTH_CONFIG
+# from rest_auth.registration.views import 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
 def home(request):
+    print(request.user)
     return render(request, 'home.html')
 
 #######################회원관련################################
@@ -51,14 +52,117 @@ def signup(request):
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
 
+
 # 카카오 로그인
 def kakao_login(request):
-    rest_api_key = getattr(settings, 'KAKAO_REST_API_KEY')
-    return redirect(f"https://kauth.kakao.com/oauth/authorize?client id={rest_api_key}&redirect uri={KAKAO_CALLBACK_URI}&response_type=code")
+    client_id = SOCIAL_OUTH_CONFIG['KAKAO_REST_API_KEY']
+    redirect_uri = SOCIAL_OUTH_CONFIG['KAKAO_REDIRECT_URI']
+    url = f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}"
+    return redirect(url)
 
-# 로그인 완료페이지
-def success_login(request):
-    return render()
+def kakao_callback(request):
+    code = request.GET.get('code')
+    client_id = SOCIAL_OUTH_CONFIG['KAKAO_REST_API_KEY']
+    redirect_uri = SOCIAL_OUTH_CONFIG['KAKAO_REDIRECT_URI']
+    url = f'https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}'
+    token_request = requests.post(url)
+    token_json = token_request.json()
+    # request.session['access_token'] = token_json['access_token']
+    # request.session.modified = True
+    # return render(request, 'home.html')
+    access_token = token_json.get('access_token')
+    profile_request = requests.post(
+        'https://kapi.kakao.com/v2/user/me',
+        headers={'Authorization':f'Bearer {access_token}'},
+    )
+    profile_json = profile_request.json()
+    kakao_id = profile_json.get('id', None)
+    account = profile_json.get('kakao_account')
+    email = account.get('email', None)
+
+    if User.objects.filter(username=kakao_id).exists():
+        user = User.objects.get(username=kakao_id)
+        dj_login(request, user)
+        # request.session['user'] = user.username
+        return redirect('main:home')
+        # form = UserForm(request.POST, instance=user)
+        # if form.is_valid():
+        #     form.save()
+        #     username = form.cleaned_data.get('username')
+        #     raw_password = form.cleaned_data.get('password1')
+        #     user = authenticate(username=username, password=raw_password)
+        # return redirect('main:home')
+    else:
+        kakao_account = User(
+            username=kakao_id,
+            email = email,
+            password = np.random.randint(10000000, size=1)
+        )
+        kakao_account.save()
+        user = User.objects.get(email=email)
+        # user = request.user
+        # request.session['user'] = user.id
+        # user = authenticate(username=user.username, password=user.password)
+        # print(user.password)
+        dj_login(request, user)
+        context = {
+            'user':user,
+        }
+        # return redirect('main:home')
+        return render(request, 'addinfo.html', context)
+
+# 소셜로그인 시 추가정보 입력
+def addinfo(request, pk):
+    user = User.objects.get(id=pk)
+    if request.method == 'POST':
+        form = AddInfoForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            dj_login(request, user)
+            return redirect('main:home')
+    else:
+        form = AddInfoForm(instance=user)
+        context = {
+            'form':form,
+        }
+    return render(request, 'addinfo.html', context)
+
+    # user = request.user
+    # if request.method == 'POST':
+    #     form = UserUpdateForm(request.POST, instance=user)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('main:mypage')
+
+
+
+    # code = request.query_params['code']
+    # url = "https://kauth.kakao.com/oauth/token"
+    # res = {
+    #     'grant_type': 'authorization_code',
+    #     'client_id': SOCIAL_OUTH_CONFIG['KAKAO_REST_API_KEY'],
+    #     'redirect_uri': SOCIAL_OUTH_CONFIG['KAKAO_REDIRECT_URI'],
+    #     'client_secret': SOCIAL_OUTH_CONFIG['KAKAO_SECRET_KEY'],
+    #     'code': code,
+    # }
+    # headers = {
+    #     'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+    # }
+    # response = requests.post(url, data=res, headers=headers)
+    # tokenJson = response.json()
+    # userurl = "https://kapi.kakao.com/v2/user/me"
+    # auth = "Bearer "+tokenJson['access_token']
+    # header = {
+    #     'Authorization': auth,
+    #     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    # }
+    # res = requests.get(userurl, headers=header)
+    # kakao_res = json.loads(res.text)
+    # kakao = SocialPlatform.objects.get(platform_name='kakao')
+    # return Response(res.text)
 
 # 로그아웃
 def logout(request):

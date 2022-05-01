@@ -66,7 +66,7 @@
                     <div class="pt-1 mb-4 d-grid gap-2">
                       <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:230px; height=50px;" 
                       vlaue='Login'>Login</button>
-                      <a href="{% provider_login_url 'kakao' method='oauth2' %}"><img src="/static/image/kakao_login.png" style="width:auto; height:50px;"></a>
+                      <a href="{% url 'main:kakao_login' %}"><img src="/static/image/kakao_login.png" style="width:auto; height:50px;"></a>
                       <a href="{% provider_login_url 'google' %}"><img src="/static/image/google_login.png" style="width:394px; height:52px;"></a>
                       
                     </div>
