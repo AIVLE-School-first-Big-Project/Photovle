@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-xl-10">
+                <div class="card" style="border-radius: 1rem; align-items:center;">
+                    <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                        <div class="card-body p-4 p-lg-5 text-black">
+                            <form method="POST" class="post-form" action="{% url 'main:addinfo' user.id %}">
+                                {% csrf_token %}
+                                {% include "form_errors.html" %}
+                                <div class="d-flex align-items-center mb-3 pb-1">
+                                    <i class="fas fa-cubes fa-2x " style="color: #ff6219;"></i>
+                                    <span class="h1 fw-bold mb-0">Add Info</span>
+                                </div>
+                                
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form2Example17">이름</label>
+                                    <input type="text" name="name" id="name" class="form-control form-control-lg" placeholder="Please enter your Name"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form2Example27">phone number</label>
+                                    <input type="text" name="phone" id="phone" class="form-control form-control-lg" placeholder="Please enter your Email"/>
+                                </div>
+                                <div class="pt-1 mb-4 d-grid gap-2">
+                                    <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:100%">Create New Account</button>
+                                </div>
+                            </form>
+  
+                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

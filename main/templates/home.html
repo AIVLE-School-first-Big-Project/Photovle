@@ -16,7 +16,7 @@
         font-size: 2rem;
         padding: 3rem;
         border-radius: 1rem;
-
+        width: 100vh;
       }
 
       button{
@@ -29,23 +29,10 @@
 
 
 <div class="wrapper" style="text-align: center;">
-    <label><span class="material-icons">menu</span>
-        <input type="button" value="z" class="bookmark-btt">
-    </label>
-    <section>
-        <h1>메뉴</h1>
-        <ul class="bookmark-lists">
-            <li class="bookmark"><a href="#">북마크1></a></li>
-            <li class="bookmark"><a href="#">북마크1></a></li>
-            <li class="bookmark"><a href="#">북마크1></a></li>
-            <li class="bookmark"><a href="#">북마크1></a></li>
-        </ul>
-    </section>
     <div class="content" style="text-align: center;">
-        <div>
-            <img class="image" src="/static/image/찐로고.png" width="30%">
-        </div>
-        <div class="d-grid gap-2 d-md-block" style="margin-top:30px">
+        <img class="image" src="/static/image/찐로고.png" width="288px;">
+        <p style="color:gray; padding-top:20px; font-size:20px">당신의 모델 학습 데이터를 보조하겠습니다.</p>
+        <div style="margin-top:30px">
             {% if user.is_authenticated %}
                 <div>
                     <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
@@ -64,7 +51,7 @@
                     <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
                 </div>
                 <div>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup1' %}'">회원가입</button>
                 </div>
             {% endif %}
         </div>

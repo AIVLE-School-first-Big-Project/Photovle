@@ -15,6 +15,13 @@ class UserForm(UserCreationForm):
         model = User
         fields = ('name', 'username', 'password1', 'password2', 'email', 'phone')
 
+# 소셜로그인 시 추가정보입력 form
+class AddInfoForm(UserChangeForm):
+    class Meta:
+        model = get_user_model()
+        fields = ('name', 'phone')
+
+# 유저정보 수정 form
 class UserUpdateForm(UserChangeForm):
     class Meta:
         model = get_user_model()

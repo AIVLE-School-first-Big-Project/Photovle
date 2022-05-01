@@ -1,3 +1,10 @@
+import random
+import string
+import hashlib
+import requests
+import os
+from .models import *
+from .forms import *
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
@@ -7,37 +14,41 @@ from django.contrib import auth, messages
 from django.contrib.auth import authenticate, update_session_auth_hash, login as dj_login
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from fsspec import filesystem
-from .models import *
-from .forms import *
-import os
 from django.http import FileResponse
 from django.core.files.storage import FileSystemStorage
-from django.core.mail.message import EmailMessage
+from Photovle.settings import SOCIAL_OUTH_CONFIG
 
-
+# from rest_auth.registration.views import 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
 def home(request):
+    print(request.user)
     return render(request, 'home.html')
 
 #######################회원관련################################
-# 회원가입
-def signup(request):
+# 회원가입 1페이지
+def signup1(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            dj_login(request, user)
-            return redirect('main:board')
-    else:
-        form = UserForm()
-    return render(request, 'signup.html', {'form':form})
+        name = request.POST.get('name')
+        username = request.POST.get('username')
+        phone = request.POST.get('phone')
+        context = {
+            'name':name,
+            'username':username,
+            'phone':phone,
+        }
+        return render(request, 'signup2.html', context)
+        # form = UserForm(request.POST)
+        # if form.is_valid():
+        #     form.save()
+        #     username = form.cleaned_data.get('username')
+        #     raw_password = form.cleaned_data.get('password1')
+        #     user = authenticate(username=username, password=raw_password)
+        #     dj_login(request, user)
+        #     return redirect('main:home')
+    return render(request, 'signup1.html')
     # if request.user.is_authenticated:
     #     return redirect('main:index')
     #     if request.POST['password1'] == request.POST['password2']:
@@ -50,6 +61,142 @@ def signup(request):
     #         return redirect('main:board')
     #     return render(request, 'signup.html')
     # return render(request, 'signup.html')
+# 회원가입 2페이지
+def signup2(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            dj_login(request, user)
+            return redirect('main:home')
+    else:
+        form = UserForm()
+    context = {
+        'form':form,
+    }
+
+    return render(request, 'signup2.html', context)
+
+# 카카오 로그인
+def kakao_login(request):
+    client_id = SOCIAL_OUTH_CONFIG['KAKAO_REST_API_KEY']
+    redirect_uri = SOCIAL_OUTH_CONFIG['KAKAO_REDIRECT_URI']
+    url = f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={client_id}&redirect_uri={redirect_uri}"
+    return redirect(url)
+
+def kakao_callback(request):
+    code = request.GET.get('code')
+    client_id = SOCIAL_OUTH_CONFIG['KAKAO_REST_API_KEY']
+    redirect_uri = SOCIAL_OUTH_CONFIG['KAKAO_REDIRECT_URI']
+    url = f'https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}'
+    token_request = requests.post(url)
+    token_json = token_request.json()
+    # request.session['access_token'] = token_json['access_token']
+    # request.session.modified = True
+    # return render(request, 'home.html')
+    access_token = token_json.get('access_token')
+    profile_request = requests.post(
+        'https://kapi.kakao.com/v2/user/me',
+        headers={'Authorization':f'Bearer {access_token}'},
+    )
+    profile_json = profile_request.json()
+    kakao_id = profile_json.get('id', None)
+    account = profile_json.get('kakao_account')
+    email = account.get('email', None)
+
+    if User.objects.filter(username=kakao_id).exists():
+        user = User.objects.get(username=kakao_id)
+        dj_login(request, user)
+        # request.session['user'] = user.username
+        return redirect('main:home')
+        # form = UserForm(request.POST, instance=user)
+        # if form.is_valid():
+        #     form.save()
+        #     username = form.cleaned_data.get('username')
+        #     raw_password = form.cleaned_data.get('password1')
+        #     user = authenticate(username=username, password=raw_password)
+        # return redirect('main:home')
+    else:
+        # pw = np.random.randint(10000000, size=1)
+        tmp = string.ascii_letters + string.digits
+        rs = ""
+        for _ in range(12):
+            rs += random.choice(tmp)
+        print(rs)
+        password = hashlib.sha256(rs.encode())
+        kakao_account = User(
+            username=kakao_id,
+            email = email,
+            password = password
+        )
+        kakao_account.save()
+        user = User.objects.get(email=email)
+        # user = request.user
+        # request.session['user'] = user.id
+        # user = authenticate(username=user.username, password=user.password)
+        # print(user.password)
+        dj_login(request, user)
+        context = {
+            'user':user,
+        }
+        # return redirect('main:home')
+        return render(request, 'addinfo.html', context)
+
+# 소셜로그인 시 추가정보 입력
+def addinfo(request, pk):
+    user = User.objects.get(id=pk)
+    if request.method == 'POST':
+        form = AddInfoForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            dj_login(request, user)
+            return redirect('main:home')
+    else:
+        form = AddInfoForm(instance=user)
+        context = {
+            'form':form,
+        }
+    return render(request, 'addinfo.html', context)
+
+    # user = request.user
+    # if request.method == 'POST':
+    #     form = UserUpdateForm(request.POST, instance=user)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('main:mypage')
+
+
+
+    # code = request.query_params['code']
+    # url = "https://kauth.kakao.com/oauth/token"
+    # res = {
+    #     'grant_type': 'authorization_code',
+    #     'client_id': SOCIAL_OUTH_CONFIG['KAKAO_REST_API_KEY'],
+    #     'redirect_uri': SOCIAL_OUTH_CONFIG['KAKAO_REDIRECT_URI'],
+    #     'client_secret': SOCIAL_OUTH_CONFIG['KAKAO_SECRET_KEY'],
+    #     'code': code,
+    # }
+    # headers = {
+    #     'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+    # }
+    # response = requests.post(url, data=res, headers=headers)
+    # tokenJson = response.json()
+    # userurl = "https://kapi.kakao.com/v2/user/me"
+    # auth = "Bearer "+tokenJson['access_token']
+    # header = {
+    #     'Authorization': auth,
+    #     'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+    # }
+    # res = requests.get(userurl, headers=header)
+    # kakao_res = json.loads(res.text)
+    # kakao = SocialPlatform.objects.get(platform_name='kakao')
+    # return Response(res.text)
 
 # 로그아웃
 def logout(request):
@@ -130,10 +277,16 @@ def board(request):
 # 게시판 상세페이지
 def detail(request, pk):    # pk = board_id
     board = get_object_or_404(Board, id=pk)
+    reply = Reply.objects.filter(board_id=pk).order_by("-rep_date")
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(reply, 2)
+    page_obj = paginator.get_page(page)
     reply_form = ReplyForm()
     context = {
         'board':board,
         'reply_form':reply_form,
+        'page_obj':page_obj,
+        'reply':reply,
         'pk':pk
     }
     return render(request, 'detail.html', context)
@@ -172,42 +325,8 @@ def download(request, pk):  # pk = board_id
 # 게시글 수정
 @login_required
 def update(request, pk):    # pk = board_id
-    # b = Board.objects.get(id=id)
-    # tmp = Board.objects.get(id=id)
-    # if request.method == "POST":
-    #     b.title=request.POST['title']
-    #     b.content=request.POST['detail']
-    #     b.pub_date=timezone.now()
-    #     if b.title =="":
-    #         b.title = tmp.title
-    #         b.save()
-    #     elif b.content =="":
-    #         b.content = tmp.content
-    #         b.save()
-    #     else:
-    #         b.save()
-    #     return HttpResponseRedirect(reverse('main:detail', args=(id,)))
-    # else:
-    #     b=Board
-    #     return render(request, 'update.html', {'board':b})
     board = Board.objects.get(id=pk)
     tmp = Board.objects.get(id=pk)
-    # if request.method == 'POST':
-    #     form = BoardForm(request.POST, instance=board)
-    #     if form.is_valid():
-    #         temp_form = form.save(commit=False)
-    #         temp_form.user = request.user
-    #         temp_form.pub_date = timezone.now()
-    #         temp_form.upload_files = request.FILES.get('upload_files')
-    #         temp_form.save()
-    #         return redirect('main:board')
-    # else:
-    #     form = BoardForm()
-    # context = {
-    #     'form':form,
-    #     'pk':pk
-    # }
-    # return render(request, 'update.html', context)
     if request.method == 'POST':
         board.title = request.POST['title']
         board.content = request.POST['content']
@@ -223,12 +342,27 @@ def update(request, pk):    # pk = board_id
         board.save()
         return redirect('main:detail', pk)
     else:
-        form = BoardForm
-    context = {
-        'form':form,
-        'pk':pk
-    }
+        context = {
+            'board':board,
+            'pk':pk
+        }
     return render(request, 'update.html', context)
+    # if request.method == 'POST':
+    #     form = BoardForm(request.POST, instance=board)
+    #     if form.is_valid():
+    #         temp_form = form.save(commit=False)
+    #         temp_form.user = request.user
+    #         temp_form.pub_date = timezone.now()
+    #         temp_form.upload_files = request.FILES.get('upload_files')
+    #         temp_form.save()
+    #         return redirect('main:board')
+    # else:
+    #     form = BoardForm(instance=board)
+    #     context = {
+    #         'form':form,
+    #         'pk':pk
+    #     }
+    # return render(request, 'update.html', context)
         
 
 # 게시글 삭제
@@ -270,11 +404,11 @@ def update_reply(request, pk, rep_pk):  # pk = board_id
             temp_form.save()
             return redirect('main:detail', pk)
     else:
-        form = ReplyForm(instance=reply)
         context = {
-            'form': form
+            'reply': reply,
+            'pk':pk,
         }
-    return render(request, 'create_reply.html', context)
+    return HttpResponseRedirect(reverse('main:detail', context))
 
 # 댓글삭제
 @login_required
@@ -300,6 +434,14 @@ def mypost(request):
     return render(request, 'mypost.html', context)
 
 ######################## Canvas ############################
+from django.shortcuts import render
+
+from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+import glob
+from .models import ImageMetadata
 
 def canvas(request):
     return render(request, 'canvas.html')
@@ -307,6 +449,10 @@ def canvas(request):
 
 def index2(request):
     return render(request, 'index2.html')
+
+
+def index3(request):
+    return render(request, 'index3.html')
 
 def test(request):
     return render(request, 'test.html')

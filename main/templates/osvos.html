@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Photovle{% endblock %}</title>
-    <linkz rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
     <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
 
     <style>
@@ -14,15 +14,16 @@
             background-image: url('/static/image/background.png');
             background-repeat: no-repeat;
             background-size: cover;
+            overflow: hidden;
         }
         .logo{
             display:flex;
             height:52px;
             margin-top:40px;
             margin-left:50px;
+            margin-bottom:18px;
         }
         .canvas-body{
-            margin-top:18px;
             width:100vw;
             height : calc(100vh - 115px);
             background-color:blue;
@@ -61,7 +62,8 @@
             filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
         }
 
-        .image-viewer{
+
+        #step1{
             width:100%;
             height:100%;
             display:flex;
@@ -69,21 +71,21 @@
             justify-content:center;
             align-items:center;
             padding-bottom: 50px;
-            
         }
 
-        .image-viewer>img{
+        #step1>img{
             height:90px;
             margin-bottom:12px;
         }
 
-        .image-viewer>p{
+        #step1>p{
             color: #707070;
             opacity: 1;
             text-align: left;
             font: normal normal normal 16px/18px Segoe UI;
         }
-        .image-viewer button{
+
+        button{
             background: #708AE8 0% 0% no-repeat padding-box;
             border-radius: 7px;
             opacity: 1;
@@ -134,21 +136,47 @@
         .file-focus { 
             outline: 1px dotted #d2310e; 
         }
-        
-        
-        /* .input-file [type="file"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0 none; } .input-file .file-label { display: inline-block; min-width: 53px; height: 27px; line-height: 24px; padding: 0 10px; border-radius: 2px; font-size: 13px; background-color: #333; color: #fff; text-align: center; } .input-file .file-name { width: 300px; background: #f5f5f5; height: 27px; line-height: 26px; text-indent: 5px; border: 1px solid #bbb; } 접근성 탭 포커스 스타일 .file-focus { outline: 1px dotted #d2310e;  */
-        
-        
 
+        #step2{
+            background-color: palegoldenrod;
+            width:100%;
+            height:100%;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:flex-start;
+        }
 
+        .video-area{
+            width: 100%;
+            background-color: red;
+        }
+
+        .preview{
+            width:100%;
+            display: flex;
+            outline: auto;
+            background-color: pink;
+        }
+        
+        #image-area{
+            display: block;
+            overflow: auto;
+        }
+    
         .edit-bar{
             width: 100%;
             height:100%;
         }
 
-        video,canvas {
-            max-width: 100%
+        #image-list>li::marker{
+            width: 100;
+            height: 100;
         }
+
+        /* video, canvas {
+            max-width: 100%
+        } */
 
     </style>
 </head>
@@ -164,153 +192,226 @@
                 <img src="/static/image/icon_check.svg" onclick="">
                 <img src="/static/image/icon_trash_can.svg" onclick="">
             </div>
+        
+            <div id='step1'>
+                <div class="step1" id="step1">
+                    <img src="/static/image/icon_camera.png" onclick="">
+                    <p>편집할 동영상이 없습니다.</p>
 
-            <div class='image-viewer'>
-                <img src="/static/image/icon_camera.png" onclick="">
-                <p>편집할 동영상이 없습니다.</p>
 
-                <div class="input-file"> 
-                    <!-- <input type="text" readonly="readonly" class="file-name" /> -->
-                    <label for="upload_video" class="file-label">파일 업로드</label> 
-                    <input type="file" name="upload_video" id="upload_video" class="file-upload"/> 
+                    <div class="input-file"> 
+                        <label for="upload_video" class="file-label">파일 업로드</label> 
+                        <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
+                    </div>
+
+                    <div class="preview">
+                        <!-- <input type="text" id="label" >
+                        <button type="button" class="btn btn-success" onclick="func1();">label</button> -->
+                    </div>
+
                 </div>
-                <video id="video"></video>
+            </div>
 
+            <div id='step2'>
+                <!-- 여기서 부터 변경되면 보이기 -->
+                <div class="step2" id="step2" >
+                    <div class="video-area">
+                        <video id="video" style="display: none;"></video>
+                    </div>
 
-
-                <button>start</button>
-                <select disabled>
-                </select>
-                <canvas></canvas>
-                
-                <script>
-                    // ##### 원본 : 영상 불러오기
-                    const elImage = document.querySelector("#upload_video");
-                    elImage.addEventListener("change", (evt) => {
-                        const file = evt.target.files[0];
-                        const video = document.getElementById("video");
-
-                        console.log("hello")
-                        console.log(file)
-
-                        // 비디오 화면에 추가하기
-                        // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환한다.
-                        const videourl = URL.createObjectURL(file); 
-                        console.log(videourl)
-                        // video.setAttribute("src", videourl); 
-                        // video.play()
-
-                        // create instance of video reader
-                    });
-                </script>
-
-                
-
-                <script>
-                    // const decoder = new VideoDecoder({
-                    //     output: onFrame, // the callback to handle all the VideoFrame objects
-                    //     error: e => console.error(e),
-                    // });
-                    // decoder.configure(config); // depends on the input file, your demuxer should provide it
-                    // demuxer.start((chunk) => { // depends on the demuxer, but you need it to return chunks of video data
-                    //     decoder.decode(chunk); // will trigger our onFrame callback  
-                    // })
-
-                    const frames = [];
-                    const button = document.querySelector("button");
-                    const select = document.querySelector("select");
-                    const canvas = document.querySelector("canvas");
+                    <div class="preview">
+                        <select disabled>
+                        </select>
+                        <button>start</button>
+                    </div>
                     
-                    const ctx = canvas.getContext("2d");
+                    <!-- label button -->
+                    <div>
+                        <input type="text" id="label" >
+                        <button type="button" class="btn btn-success" onclick="func1();">label</button>
+                        <button type="button" class="btn btn-success" onclick="clear33();">지우기</button>
+                    </div>
 
-                    button.onclick = async(evt) => {
-                        console.log("hi");
-                        if (window.MediaStreamTrackProcessor) {
-                            let stopped = false;
-                            const track = await getVideoTrack();
-                            const processor = new MediaStreamTrackProcessor(track);
-                            const reader = processor.readable.getReader();
-                            readChunk();
-
-                            function readChunk() {
-                            reader.read().then(async({ done, value }) => {
-                                if (value) {
-                                const bitmap = await createImageBitmap(value);
-                                const index = frames.length;
-                                frames.push(bitmap);
-                                select.append(new Option("Frame #" + (index + 1), index));
-                                
-                                const imageListUl = document.getElementById("image-list");
-                                const imageItem = document.createElement("li");
-                                const imageCanvas = document.createElement("canvas");
-                                
-                                const imageCtx = imageCanvas.getContext("2d");
-                                imageCanvas.width = 50;
-                                imageCanvas.height = 50;
-                                imageCtx.drawImage(bitmap, 0, 0);
-
-                                imageItem.append(imageCanvas);
-                                imageListUl.append(imageItem);
-                                console.log(imageItem);
-                                console.log(imageListUl);
-
-                                value.close();
-                                }
-                                if (!done && !stopped) {
-                                readChunk();
-                                } else {
-                                select.disabled = false;
-                                }
-                            });
-                            }
-                            button.onclick = (evt) => stopped = true;
-                            button.textContent = "stop";
-                        } else {
-                            console.error("your browser doesn't support this API yet");
-                        }
-                    };
-
-                    select.onchange = (evt) => {
-                        const frame = frames[select.value];
-                        canvas.width = frame.width;
-                        canvas.height = frame.height;
-                        ctx.drawImage(frame, 0, 0);
-                    };
-
-                    async function getVideoTrack() {
-                        const video = document.createElement("video");
-                        video.crossOrigin = "anonymous";
-                        video.src = "https://upload.wikimedia.org/wikipedia/commons/a/a4/BBH_gravitational_lensing_of_gw150914.webm";
-                        document.body.append(video);
-                        await video.play();
-                        const [track] = video.captureStream().getVideoTracks();
-                        video.onended = (evt) => track.stop();
-                        return track;
-                    }
+                    <div id="image-area">
+                        <ul id="image-list"></ul>
+                    </div>
 
                     
-
-                </script>
-
-                <!-- <form onsubmit="return Validate(this);">
-                    File: <input type="file" name="Video file" /><br />
-                    <input type="submit" value="Submit" />
-                </form> -->
-
-
+                </div>
             </div>
         </div>
 
+
+        <script>
+            // 로컬 영상 불러오기
+            const elImage = document.querySelector("#upload_video");
+
+            elImage.addEventListener("change", (evt) => {
+                const file = evt.target.files[0];
+                const video = document.getElementById("video");
+
+                // 비디오 화면에 추가하기
+                // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
+                const videourl = URL.createObjectURL(file); 
+                document.getElementById("step1").style.display ='none';
+                document.getElementById("step2").style.display ='block';
+
+                // 영상 분리하기
+                const frames = [];
+                const button = document.querySelector("button");
+                const select = document.querySelector("select");
+                var canvas = document.getElementById('my_canvas');
+                var ctx = canvas.getContext("2d");
+
+                button.onclick = async(evt) => {
+                    if (window.MediaStreamTrackProcessor) {
+                        let stopped = false;
+                        const track = await getVideoTrack();
+                        const processor = new MediaStreamTrackProcessor(track);
+                        const reader = processor.readable.getReader();
+                        readChunk();
+
+                        function readChunk() {
+                            reader.read().then(async({ done, value }) => {
+                                if (value) {
+                                    const bitmap = await createImageBitmap(value);
+                                    const index = frames.length;
+                                    frames.push(bitmap);
+
+                                    // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
+                                    select.append(new Option("Frame #" + (index + 1), index));
+
+                                    const imageListUl = document.getElementById("image-list");
+                                    const imageItem = document.createElement("li");
+                                    imageItem.setAttribute("id", "Frame_" + (index + 1))
+                                    const imageCanvas = document.createElement("canvas");
+                                    
+                                    const imageCtx = imageCanvas.getContext("2d");
+                                    // imageCanvas.width = 200;
+                                    // imageCanvas.height = 400;
+                                    //  img를 (20,20)에 100X200 크기로 그린다.
+                                    imageCtx.drawImage(bitmap, 20, 20, 100, 200);
+
+                                    // 사이드바 이미지 리스트
+                                    imageItem.append(imageCanvas);
+                                    imageListUl.append(imageItem);
+                                    console.log(imageItem);
+                                    console.log(imageListUl);
+
+                                    value.close();
+                                }
+                                if (!done && !stopped) {
+                                    readChunk();
+                                } else {
+                                    select.disabled = false;
+                                }
+                            });
+                        }
+
+                        button.onclick = (evt) => stopped = true;
+                        button.textContent = "stop";
+                    } else {
+                        console.error("your browser doesn't support this API yet");
+                    }
+                };
+
+                select.onchange = (evt) => {
+                    const frame = frames[select.value];
+                    canvas.width = frame.width;
+                    canvas.height = frame.height;
+                    ctx.drawImage(frame, 0, 0);
+                };
+                
+                async function getVideoTrack() {
+                    video.width = 300;
+                    video.crossOrigin = "anonymous";
+                    video.src = videourl;
+                    document.body.append(video);
+
+                    await video.play();
+                    const [track] = video.captureStream().getVideoTracks();
+                    video.onended = (evt) => track.stop();
+                    return track;
+                }
+
+                // 추가사항
+                var points=[];
+                ctx.beginPath();
+                var t=0;
+                var firstX, firstY;
+                var X, Y;
+
+                canvas.onmousedown = function(event) {
+                    X = event.x - 351;
+                    Y = event.y - 111;
+                    var pointer = '[' + X + ", "+ Y + ']';
+                    points.push(pointer);
+                    console.log(pointer);
+                    console.log(X, Y);
+                    if(t<0){
+
+                    }
+                    else if(t==0){
+                        points.push('[',event.x,event.y,']');
+                        console.log(points);
+                        firstX = X;
+                        firstY = Y;
+                        ctx.moveTo(X, Y);
+                        path = ctx.arc(X, Y, 8, 0, Math.PI*2, true);
+                        ctx.closePath();
+                        ctx.fill();
+
+                    } else if(X >= firstX - 10 && X <= firstX + 10 && Y >= firstY - 10 && Y <= firstY + 10){
+                        points.push('[',event.x,event.y,']');
+                        console.log(points);
+                        ctx.lineTo(firstX, firstY);
+                        ctx.fillStyle ="red"
+                        ctx.stroke();
+                        ctx.fill();
+                        t=-100;
+
+                    }else{
+                        points.push('[',event.x,event.y,']');
+                        console.log(points);
+                        ctx.lineTo(X, Y);
+                        ctx.stroke();
+                        ctx.moveTo(X, Y);
+                        ctx.arc(X, Y, 5, 0, Math.PI*2, true);// 원그리기
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                    t++
+                }
+
+                
+            });
+                
+            function func1() {
+                    var label = document.getElementById("label").value;
+                    console.log(label);
+                }
+            function clear33() {
+                points=[];
+                console.log('1');
+                canvas = document.getElementById('my_canvas');
+                ctx = canvas.getContext('2d');
+                ctx.clearRect( 0, 0, canvas.width, canvas.height);
+                select = document.querySelector("select");
+                frame = frames[select.value];
+                ctx.drawImage(frame, 0, 0);
+                t=0;
+            }
+
+        </script>
+
+        
         <div class="edit-bar">
-            <!-- <canvas id="canvas-img" style="height: 300px; width: 300px; background-color: red;"></canvas> -->
-            <!-- <canvas id="canvas-img"></canvas> -->
-            <ul id="image-list"></ul>
+            <canvas id="my_canvas"> </canvas>
         </div>
 
     </div>    
 
-    {% block content %}
-    {% endblock %}
+
 </body>
 
 </html>

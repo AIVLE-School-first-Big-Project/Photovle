@@ -46,11 +46,14 @@ INSTALLED_APPS = [
     'bootstrap4',
     'main.apps.MainConfig',
 
+    # rest-auth
+    'rest_framework.authtoken',
+    'rest_auth',
     # allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
+    'rest_auth.registration',
     # provider 소셜로그인 제공업체
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
@@ -59,18 +62,33 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     # 'image_metadata',
-    
-
-
 ]
+
+# SITE_ID = 1
+
+# kakao client key
+SOCIAL_OUTH_CONFIG = {
+    'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
+    'KAKAO_REDIRECT_URI': secrets['KAKAO_REDIRECT_URI'],
+    'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
+}
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
 )
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
 
-SITE_ID = 1
 
 # email 전송
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -86,19 +104,13 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # 다른 부분 오류 시 비밀번호 지워지는 것 방지
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ],
-    'PAGE_SIZE': 10
-}
-
-# kakao client key
-SOCIAL_OUTH_CONFIG = {
-    'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
-    'KAKAO_REDIRECT_URI': secrets['KAKAO_REDIRECT_URI'],
-    'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
-}
+# 이미지 라벨링 강준영
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAdminUser',
+#     ],
+#     'PAGE_SIZE': 10
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -145,10 +157,23 @@ WSGI_APPLICATION = 'Photovle.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        # 'NAME': 'photovle',
+        # 'USER': 'root', 
+        # 'PASSWORD': '1234',
+        # 'HOST': 'localhost',
+        # 'PORT': '',
+        'OPTIONS': {
+            'read_default_file': os.path.join(BASE_DIR, "my.cnf"),
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" # strict mode 설정 추가
+        }
     }
+    
 }
+
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Password validation
@@ -202,6 +227,6 @@ AUTH_USER_MODEL = 'main.User'
 
 # login session
 ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지
-SESSION_COOKIE_AGE = 72000       # 쿠키 저장 유효시간(단위 sec)
+SESSION_COOKIE_AGE = 7200       # 쿠키 저장 유효시간(단위 sec)
 
 
