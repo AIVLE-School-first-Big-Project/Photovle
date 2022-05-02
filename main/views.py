@@ -441,7 +441,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 import glob
-from .models import ImageMetadata
+# from .models import ImageMetadata
 
 def canvas(request):
     return render(request, 'canvas.html')

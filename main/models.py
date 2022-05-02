@@ -39,10 +39,9 @@ class Reply(models.Model):
     def __str__(self):
         return self.comment
 
-# 이미지 라벨링 모델
-import jsonfield
+# # 이미지 라벨링 모델
+# import jsonfield
+# class ImageMetadata(models.Model):
+#     """ImageMetadata"""
 
-class ImageMetadata(models.Model):
-    """ImageMetadata"""
-
-    content = jsonfield.JSONField()
+#     content = jsonfield.JSONField()
