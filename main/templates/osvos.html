@@ -547,17 +547,6 @@
                     }
                 };
 
-                function image_click () {
-                    // var attribute = this.getAttribute("data-myattribute");
-                    console.log(this);
-                    var attribute = this.getAttribute('id')
-
-                    const frame = frames[attribute.split('-')[1]];
-                    canvas.width = frame.width;
-                    canvas.height = frame.height;
-                    ctx.drawImage(frame, 0, 0);
-                };
-
 
                 select.onchange = (evt) => {
                     const frame = frames[select.value];
@@ -579,19 +568,45 @@
                 }
 
                 // 추가사항
-                var points=[];
+                
+
+                function image_click () {
+                    var points=[];
                 ctx.beginPath();
                 var t=0;
                 var firstX, firstY;
                 var X, Y;
+                    // var attribute = this.getAttribute("data-myattribute");
+                    console.log(this);
+                    var attribute = this.getAttribute('id')
 
+                    const frame = frames[attribute.split('-')[1]];
+                    canvas.width = frame.width;
+                    canvas.height = frame.height;
+                    ctx.drawImage(frame, 0, 0);
+
+    
                 canvas.onmousedown = function(event) {
+                    
+                    var tt = new Array(attribute);
+
+                    //var tt = Array.from(Array(attribute), () => new Array(attribute))
                     X = event.x - 351 + 66;
                     Y = event.y - 111;
                     var pointer = '[' + X + ", "+ Y + ']';
-                    points.push(pointer);
+                    
+                    if (tt[0] == attribute){
+                        points.push(pointer);
+                        tt.push(points);
 
-                    console.log(points);
+                        //pt.push(points);
+                        //tt.push(points);
+                    }
+                    
+                    console.log(tt);
+                    //console.log(tt);
+                    //console.log(attribute);
+                    //console.log(points);
                     // console.log(X, Y);
 
                     if(t==0){
@@ -618,6 +633,7 @@
                     }
                     t++
                 }
+            };
 
                 
             });
