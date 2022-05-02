@@ -27,6 +27,7 @@
             margin-bottom:18px;
         }
         .canvas-body{
+            
             width:100vw;
             height : calc(100vh - 115px);
             background-color:blue;
@@ -37,7 +38,10 @@
         }
 
         .control-bar{
-            width:390px;
+            width:300px;
+            /* width:400px; */
+            min-width: 300px;
+            max-width: 300px;
             height:100%;
             background: #E9E9E9 0% 0% no-repeat padding-box;
             opacity: 1;
@@ -141,7 +145,7 @@
         }
 
         #step2{
-            background-color: palegoldenrod;
+            /* background-color: palegoldenrod; */
             width:100%;
             height:100%;
             display:flex;
@@ -184,7 +188,7 @@
         }
 
         .infomation-area li>span{
-            width: 90px;
+            width: 94px;
             text-align: right;   
         }
 
@@ -200,21 +204,88 @@
         }
 
         #image-area{
-            display: block;
-            overflow: auto;
-            background-color: aqua;
+            height: 100%;
         }
 
         #image-list{
             display: flex;
+            justify-content: flex-start;
+            align-items: center;
             flex-wrap: wrap;
-            justify-content: center;
+            padding: 24px 0;
+            height: 100%;
+            width: 100%;
+            overflow-x:hidden;
+            overflow-y:scroll;
+            padding-left: 4px;
+            padding-bottom: 500px;
+            background-color: #E9E9E9;
+        }
+        
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track {
+            background-color: #e0e0e0;
+        } 
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(112, 138, 232, 0.8); 
+            border-radius: 16px;
+        } 
+        
+/*         
+        ::-webkit-scrollbar-corner {
+            background-color: black; */
+
+
+
+        /* ::-webkit-scrollbar {
+            width: 20px;
         }
 
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px grey; 
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background:black; 
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background:rgb(54, 56, 58); 
+        } */
+
         #image-list>li{
-            width: 100px;
-            height: 100px;
-            /* background-color: #708AE8; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 126px;
+            
+            margin-bottom: 12px;
+            margin-left: 6px;
+            margin-right: 6px;
+            /* background-color: greenyellow; */
+        }
+        
+        .image-item{
+            display: inline-block;
+        }
+
+        #image-list>li:hover{
+            font-weight: bold;
+        }
+
+        #image-list>li:active{
+            font-weight: bold;
+            color: #708AE8;
+        }
+
+        #image-list>li>p{
+            margin-top: 2px; 
+            display: inline-flex;
+            justify-content: center; 
         }
 
         #image-list canvas{
@@ -231,6 +302,7 @@
     <div>
         <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
     </div>
+
     <div class="canvas-body">
         <div class="control-bar">
             <div class="control-bar-option-area">
@@ -282,6 +354,11 @@
                         </li>
 
                         <li>
+                            <span>Total Frame : </span>
+                            <p id="file_frame">0</p>
+                        </li>
+
+                        <li>
                             <span>Size : </span>
                             <p id="file_size"></p>
                         </li>
@@ -329,7 +406,10 @@
         </script> -->
 
 
+
         <script>
+
+
             // Object 정의 함수
             function define_tag() {
                 var label = document.getElementById("label_tag").value;
@@ -384,16 +464,14 @@
                 document.getElementById("step1").style.display ='none';
                 document.getElementById("step2").style.display ='block';
 
-                // 영상 분리하기
+                // 영상 분리하기 qwe
                 const frames = [];
                 const button = document.getElementById("divide_video");
                 const select = document.querySelector("select");
-                const canvas = document.querySelector("canvas");
+                const canvas = document.getElementById("edit-area");
                 const ctx = canvas.getContext("2d");
 
             
-                
-
                 button.onclick = async(evt) => {
                     console.log(document.querySelector("#label_name").textContent)
                     
@@ -423,32 +501,43 @@
 
                                     const imageListUl = document.getElementById("image-list");
                                     const imageItem = document.createElement("li");
-                                    imageItem.setAttribute("id", "frame-" + (index + 1))
+                                    imageItem.setAttribute("id", "frame-" + (index + 1));
+                                    imageItem.setAttribute("class", "image-item");
+                                    imageItem.onclick = image_click;
+                                    
                                     const imageCanvas = document.createElement("canvas");
-                                    // imageCanvas.width = 100;
-                                    // imageCanvas.height = 100;
+                                    imageCanvas.width = 120;
+                                    imageCanvas.height = 100;
+
+                                    const imageId = document.createElement("p");
+                                    imageId.textContent = "frame-" + (index + 1);
 
                                     
                                     const imageCtx = imageCanvas.getContext("2d");
-                                    // imageCanvas.width = 100;
-                                    // imageCanvas.height = 100;
-                                    //  img를 (20,20)에 100X200 크기로 그린다.
-                                    imageCtx.drawImage(bitmap, 0, 0, 100, 100);
+                                    imageCtx.drawImage(bitmap, 0, 0, 120, 100);
 
                                     // 사이드바 이미지 리스트
                                     imageItem.append(imageCanvas);
+                                    imageItem.append(imageId);
+                                    
                                     imageListUl.append(imageItem);
                                     console.log(imageItem);
                                     console.log(imageListUl);
 
                                     value.close();
+
+                                    const fileTotalFram = document.querySelector("#file_frame");
+                                    fileTotalFram.textContent = index + 1;
+                                    // console.log(index + 1);
                                 }
                                 if (!done && !stopped) {
                                     readChunk();
                                 } else {
                                     select.disabled = false;
                                 }
+                                
                             });
+                            
                         }
 
                         button.onclick = (evt) => stopped = true;
@@ -458,6 +547,18 @@
                     }
                 };
 
+                function image_click () {
+                    // var attribute = this.getAttribute("data-myattribute");
+                    console.log(this);
+                    var attribute = this.getAttribute('id')
+
+                    const frame = frames[attribute.split('-')[1]];
+                    canvas.width = frame.width;
+                    canvas.height = frame.height;
+                    ctx.drawImage(frame, 0, 0);
+                };
+
+
                 select.onchange = (evt) => {
                     const frame = frames[select.value];
                     canvas.width = frame.width;
@@ -466,7 +567,7 @@
                 };
                 
                 async function getVideoTrack() {
-                    video.width = 300;
+                    // video.width = 300;
                     video.crossOrigin = "anonymous";
                     video.src = videourl;
                     document.body.append(video);
@@ -485,7 +586,7 @@
                 var X, Y;
 
                 canvas.onmousedown = function(event) {
-                    X = event.x - 351;
+                    X = event.x - 351 + 66;
                     Y = event.y - 111;
                     var pointer = '[' + X + ", "+ Y + ']';
                     points.push(pointer);
@@ -527,7 +628,7 @@
 
         
         <div class="edit-bar">
-            <canvas > </canvas>
+            <canvas id="edit-area"> </canvas>
         </div>
 
     </div>    
