@@ -29,7 +29,7 @@ urlpatterns = [
 
 # 게시판
     path('board/', views.board, name='board'),
-    path('<int:pk>/', views.detail, name='detail'),
+    path('board/<int:pk>/', views.detail, name='detail'),
     path('<int:pk>/download/', views.download, name='download'),
     path('write/', views.write, name='write'),
     # path('write/write_board', views.write_board, name='write_board'),
