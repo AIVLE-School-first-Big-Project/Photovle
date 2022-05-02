@@ -384,12 +384,6 @@
                     </select>
                     <button id="divide_video">start</button>
                 </div>
-
-                <div class="preview">
-                    <select disabled>
-                    </select>
-                    <button onclick="export2json();">다운로드</button>
-                </div>
     
                 
                 
@@ -574,15 +568,13 @@
                 }
 
                 // 추가사항
-                var imgjson = new Object();
-                imgjson.points=[];
+                var points=[];
+                ctx.beginPath();
+                var t=0;
+                var firstX, firstY;
+                var X, Y;
 
                 function image_click () {
-
-                    ctx.beginPath();
-                    var t=0;
-                    var firstX, firstY;
-                    var X, Y;
                     // var attribute = this.getAttribute("data-myattribute");
                     console.log(this);
                     var attribute = this.getAttribute('id')
@@ -595,31 +587,21 @@
     
                 canvas.onmousedown = function(event) {
                     
+                    //var tt = [[]];
                     var tt = new Array(attribute);
-
+                
                     //var tt = Array.from(Array(attribute), () => new Array(attribute))
                     X = event.x - 351 + 66;
                     Y = event.y - 111;
-                    // var pointer = '[' + X + ", "+ Y + ']';
-                    // imgjson.points.push([X,Y]);
-                    // var ak = [];
+                    var pointer = '[' + X + ", "+ Y + ']';
+                    points.push(pointer);
+                    tt.push(points);
                     
-                    if (tt[0] == attribute){
-                        imgjson.points.push([X,Y]);
-                        // tt.push(points);
-                        // var ak = new Array(attribute);
-                        // ak.push(tt[1]);
-                    }
-                    
-                    // console.log(ak);
-                    //console.log(tt);
-                    //console.log(tt);
+                    console.log(tt);
                     //console.log(attribute);
                     //console.log(points);
                     // console.log(X, Y);
-                    console.log(imgjson)
 
-                    
                     if(t==0){
                         firstX = X;
                         firstY = Y;
@@ -644,22 +626,11 @@
                     }
                     t++
                 }
-            }; // 이미지 클릭 후 캔버스 띄우기 함수 끝
+            };
 
                 
             });
-
-            function export2json() { // 저장함수
-                console.log(2)
-                const a = document.createElement("a");
-                a.href = URL.createObjectURL(new Blob([JSON.stringify(imgjson, null, 2)], {
-                type: "text/plain"
-                }));
-                a.setAttribute("download", "data.json");
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }  
+                
 
 
         </script>
