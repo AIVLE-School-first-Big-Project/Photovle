@@ -572,10 +572,10 @@
 
                 function image_click () {
                     var points=[];
-                ctx.beginPath();
-                var t=0;
-                var firstX, firstY;
-                var X, Y;
+                    ctx.beginPath();
+                    var t=0;
+                    var firstX, firstY;
+                    var X, Y;
                     // var attribute = this.getAttribute("data-myattribute");
                     console.log(this);
                     var attribute = this.getAttribute('id')
@@ -589,6 +589,7 @@
                 canvas.onmousedown = function(event) {
                     
                     var tt = new Array(attribute);
+                    var pt = [];
 
                     //var tt = Array.from(Array(attribute), () => new Array(attribute))
                     X = event.x - 351 + 66;
@@ -598,12 +599,14 @@
                     if (tt[0] == attribute){
                         points.push(pointer);
                         tt.push(points);
+                        pt.push("points"+":"+ "["+tt[1]+"]" + " label" + ": cat");
 
-                        //pt.push(points);
-                        //tt.push(points);
                     }
-                    
+                    console.log(pt);
                     console.log(tt);
+                    console.log(tt[1]);
+                    //console.log(ak);
+                    //console.log(tt);
                     //console.log(tt);
                     //console.log(attribute);
                     //console.log(points);
