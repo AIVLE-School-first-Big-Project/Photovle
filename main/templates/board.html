@@ -27,22 +27,21 @@
         border-radius:8px;
         border-width:3px;
         box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-        background-color: yellowgreen;
-        padding: 16px;
+        /* background-color: yellowgreen; */
+        padding: 32px;
     }
 
     .container>div:first-child{
-        /* background-color: red; */
+        display: block;
+        margin-bottom: 20px;
     }
     .board{
-        width:80%;
         height:75%;
         max-height:60vh;
         align-items:center;
         text-align:center;
-        margin: auto;
-        padding:10px;
-        /* background-color: green; */
+        /* padding: 0 30px; */
+        /* background-color: pink; */
     }
     .table{
         margin-bottom:5%;
@@ -65,6 +64,34 @@
         font-size: 24px;
         font-weight: bold;
     }
+    .btn-area{
+        height: 40px;
+        width:100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        position: relative;
+    }
+    
+    .btn-area>div:last-child{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .board tbody>tr{
+        
+        line-height: 30px;
+    }
+
+    .board tbody>tr:nth-child(2n+1){
+        background-color:rgba(0, 0, 0, 0.025);
+        
+    
+        
+    }
+
+
 </style>
 
 
@@ -75,26 +102,29 @@
         </div>
         
         <div class="board">
-            <table class="table table-hover" style="mar">
+            <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col" style="width: 10%;">번호</th>
-                    <th scope="col" style="width: 40%;">제목</th>
-                    <th scope="col" style="width: 10%;">작성자</th>
-                    <th scope="col" style="width: 10%;">조회수</th>
+                    <th scope="col" style="width: 8%;">번호</th>
+                    <th scope="col" style="width: 52%;">제목</th>
+                    <th scope="col" style="width: 16%;">작성자</th>
+                    <th scope="col" style="width: 16%;">작성일</th>
+                    <th scope="col" style="width: 8%;">조회수</th>
                 </tr>
                 </thead>
                 <tbody>
                     {% if page_obj %}
                             {% for board_list in page_obj %}
                     <tr class="{% cycle '' 'even_bgcolor' %}">
-                    <th scope="row" style="text-align:right;">{{ forloop.counter }}</th>
-                    <td><a href="{% url 'main:detail' board_list.id %}" style="text-decoration:none;">
-                        {{ board_list.title }}  {% if board_list.reply_set.count > 0 %} [{{ board_list.reply_set.count }}] {% endif %}
-                    </a></td>
-                    <td>{{ board_list.user }}</td>
-                    {% comment %} <td>{{ board_list.pub_date|date:'Y-m-d' }}</td> {% endcomment %}
-                    <td>{{ board_list.hits }}</td>
+                        <td scope="row" style="text-align:right; padding-right: 28px;">{{ forloop.counter }}</td>
+                        <td style="text-align:left">
+                            <a href="{% url 'main:detail' board_list.id %}" style="text-decoration:none;text-align:right;">
+                                {{ board_list.title }}  {% if board_list.reply_set.count > 0 %} [{{ board_list.reply_set.count }}] {% endif %}
+                            </a>
+                        </td>
+                        <td>{{ board_list.user }}</td>
+                        <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>
+                        <td>{{ board_list.hits }}</td>
                     </tr>
                     {% endfor %}
                         {% else %}
@@ -108,9 +138,14 @@
                         {% endif %}
                 </tbody>
             </table>
+            
+            
+        </div>
+
+        <div class='btn-area'>
             <!-- 페이징처리 -->
             <div id="paging">
-                <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+                <ul class="pagination justify-content-center">
                     <!-- 이전페이지 -->
                     {% if page_obj.has_previous %}
                     <li class="page-item">
@@ -161,14 +196,13 @@
                 </ul>
             </div>
             <!-- 페이징처리 끝 -->
-        </div>
-        <div style="text-align:right; width:100%;">
+
             {% if user.is_authenticated %}
-            <button  style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:mypost' %}'">나의 게시글</button>
+            <div>
+                <button  style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:mypost' %}'">나의 게시글</button>
                 <button  style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:write' %}'">글쓰기</button>
-                
+            </div>
             
-                <br><br>
             {% else %}
                 <button  style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">글쓰기</button>
             {% endif %}

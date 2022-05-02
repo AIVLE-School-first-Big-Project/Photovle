@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     # 'image_metadata',
 ]
 
-# SITE_ID = 1
+SITE_ID = 1
 
 # kakao client key
 SOCIAL_OUTH_CONFIG = {
@@ -90,11 +90,11 @@ REST_FRAMEWORK = {
 }
 
 
-# # email 전송
+# email 전송
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
 # EMAIL_PORT = '587'
-# # EMAIL_HOST_USER와 EMAIL_HOST_PASSWORD는 개인정보이므로 secrets.json에 분리하여 사용
+# EMAIL_HOST_USER와 EMAIL_HOST_PASSWORD는 개인정보이므로 secrets.json에 분리하여 사용
 # EMAIL_HOST_USER = secrets['GOOGLE_HOST_USER']
 # EMAIL_HOST_PASSWORD = secrets['GOOGLE_HOST_PASSWORD']
 # EMAIL_USE_TLS = True
