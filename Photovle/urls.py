@@ -19,9 +19,14 @@ from django.urls import include, path
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    # 관리자
     path('admin/', admin.site.urls),
+    # 메인
     path('', include('main.urls')),
+    # 로그인
     path('home/', include('allauth.urls')),
+    # path('api-auth/', include("rest_framework.urls")),
+    # path('api/rest-auth/', include('rest_auth.urls')),
 
     path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password_reset_done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),

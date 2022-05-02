@@ -266,6 +266,42 @@
         }
 
 
+        #image-list>li{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 126px;
+            
+            margin-bottom: 12px;
+            margin-left: 6px;
+            margin-right: 6px;
+            /* background-color: greenyellow; */
+        }
+        
+        .image-item{
+            display: inline-block;
+        }
+
+        #image-list>li:hover{
+            font-weight: bold;
+        }
+
+        #image-list>li:active{
+            font-weight: bold;
+            color: #708AE8;
+        }
+
+        #image-list>li>p{
+            margin-top: 2px; 
+            display: inline-flex;
+            justify-content: center; 
+        }
+
+        #image-list canvas{
+            display: inline-block;
+        }
+
+
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
@@ -566,6 +602,10 @@
                     console.log(points);
                     // console.log(X, Y);
 
+                    console.log(points);
+                    // console.log(X, Y);
+
+                    
                     if(t==0){
                         firstX = X;
                         firstY = Y;
@@ -594,7 +634,6 @@
                 
             });
                 
-
 
         </script>
 

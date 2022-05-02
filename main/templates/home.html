@@ -34,6 +34,9 @@
         <p style="color:gray; padding-top:20px; font-size:20px">당신의 모델 학습 데이터를 보조하겠습니다.</p>
         <div style="margin-top:30px">
             {% if user.is_authenticated %}
+            <div>
+                <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:osvos' %}'">Image Segmentation</button>
+            </div>
                 <div>
                     <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
                 </div>
@@ -51,7 +54,7 @@
                     <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
                 </div>
                 <div>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup1' %}'">회원가입</button>
                 </div>
             {% endif %}
         </div>

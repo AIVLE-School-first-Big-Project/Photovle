@@ -15,9 +15,13 @@ urlpatterns = [
     path('home/', views.home, name='home'),
 # 회원가입, 로그인
     path('home/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('home/success_login/', views.success_login, name='success_login'),
+    path('home/login/kakao/', views.kakao_login, name='kakao_login'),
+    path('home/login/kakao/callback/', views.kakao_callback, name='kakao_callback'),
+    # path('home/kakao/finish/', views.KakaoLogin.as_view(), name='kakao_login_todjango'),
     path('home/logout/', views.logout, name='logout'),
-    path('home/signup/', views.signup, name='signup'),
+    path('home/signup1/', views.signup1, name='signup1'),
+    path('home/signup2/', views.signup2, name='signup2'),
+    path('home/<int:pk>/addinfo/', views.addinfo, name='addinfo'),
     path('home/mypage/', views.mypage, name='mypage'),
     path('home/update_user/', views.update_user, name='update_user'),
     path('home/delete_user/', views.delete_user, name='delete_user'),
@@ -25,7 +29,7 @@ urlpatterns = [
 
 # 게시판
     path('board/', views.board, name='board'),
-    path('<int:pk>/', views.detail, name='detail'),
+    path('board/<int:pk>/', views.detail, name='detail'),
     path('<int:pk>/download/', views.download, name='download'),
     path('write/', views.write, name='write'),
     # path('write/write_board', views.write_board, name='write_board'),

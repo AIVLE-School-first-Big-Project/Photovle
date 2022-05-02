@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     phone = models.CharField("전화번호", max_length=20, unique=True)
     name = models.CharField("이름", max_length=20)
-    email = models.EmailField("이메일", max_length=50, unique=True)
+    email = models.EmailField("이메일", max_length=200, unique=True)
     first_name = None
     last_name = None
     class Meta:
