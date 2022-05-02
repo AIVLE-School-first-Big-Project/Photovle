@@ -19,20 +19,10 @@
             background-size: cover;
             overflow: hidden;
         }
-        .logo{
-            display:flex;
-            height:52px;
-            margin-top:40px;
-            margin-left:50px;
-            margin-bottom:18px;
-        }
     </style>
 </head>
 
 <body>
-    <div>
-        <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
-    </div>
     {% block content %}
     {% endblock %}
 </body>
