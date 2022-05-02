@@ -384,6 +384,12 @@
                     </select>
                     <button id="divide_video">start</button>
                 </div>
+
+                <div class="preview">
+                    <select disabled>
+                    </select>
+                    <button onclick="export2json();">다운로드</button>
+                </div>
     
                 
                 
@@ -422,6 +428,9 @@
             // 로컬 영상 불러오기
             const elImage = document.querySelector("#upload_video");
             
+            var imgjson = new Object();
+            imgjson.points=[];
+
             elImage.addEventListener("change", (evt) => {
                 const file = evt.target.files[0];
                 var video = document.getElementById("video");
@@ -568,10 +577,12 @@
                 }
 
                 // 추가사항
-                
-
+                const sv = [];
+                const ans = [];
+                var pt =[];
                 function image_click () {
-                    var points=[];
+                    varcnt = 0;
+                   
                     ctx.beginPath();
                     var t=0;
                     var firstX, firstY;
@@ -585,33 +596,55 @@
                     canvas.height = frame.height;
                     ctx.drawImage(frame, 0, 0);
 
+                    tp = [];
+
     
                 canvas.onmousedown = function(event) {
                     
                     var tt = new Array(attribute);
-                    var pt = [];
+                    imgjson.name = tt[0];
 
                     //var tt = Array.from(Array(attribute), () => new Array(attribute))
                     X = event.x - 351 + 66;
                     Y = event.y - 111;
                     var pointer = '[' + X + ", "+ Y + ']';
+                    // imgjson.points.push([X,Y]);
+                    // var ak = [];
                     
-                    if (tt[0] == attribute){
-                        points.push(pointer);
-                        tt.push(points);
-                        pt.push("points"+":"+ "["+tt[1]+"]" + " label" + ": cat");
-
+                    if (attribute == imgjson.name){
+                        imgjson.points.push([X,Y]);
+                        pt.push(pointer);
+                        tt.push(pt);
+                        sv.push(tt[1]);
+                        
+                    
+                        // var ak = new Array(attribute);
+                        // ak.push(tt[1]);
                     }
-                    console.log(pt);
-                    console.log(tt);
-                    console.log(tt[1]);
-                    //console.log(ak);
-                    //console.log(tt);
-                    //console.log(tt);
+                    //ans.push(tp);
+                    //console.log(tp);
+                    //console.log(ans);
+                    //console.log(pt);
+                    //console.log(tt);  //하나의 프레임에 해당하는 값
+                    //console.log(sv);  // 모두 저장됨
+
                     //console.log(attribute);
                     //console.log(points);
                     // console.log(X, Y);
 
+                    //ans.push(pt);
+                    //console.log(tp);
+
+                    
+                    //console.log(ans);
+                    //console.log(tp);
+
+                    console.log(imgjson);
+                    
+                    //console.log(tt[0]);
+                    //console.log(imgjson.name);
+
+                    
                     if(t==0){
                         firstX = X;
                         firstY = Y;
@@ -636,11 +669,28 @@
                     }
                     t++
                 }
-            };
-
+                //console.log(pt);
+                ans.push(imgjson.name + ":" + pt);
+                pt = [];
+                
+                console.log(ans);
+                //console.log(ans);
+            }; // 이미지 클릭 후 캔버스 띄우기 함수 끝
+            
                 
             });
-                
+
+            function export2json() { // 저장함수
+                console.log(2)
+                const a = document.createElement("a");
+                a.href = URL.createObjectURL(new Blob([JSON.stringify(imgjson, null, 2)], {
+                type: "text/plain"
+                }));
+                a.setAttribute("download", "data.json");
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }  
 
 
         </script>
