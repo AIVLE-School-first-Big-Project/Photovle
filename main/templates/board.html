@@ -2,18 +2,19 @@
 {% block content %}
 
 <style>
-    .logo{
+
+    /* .logo{
         display:flex;
         height:52px;
         margin-top:40px;
         margin-left:50px;
-        cursor: pointer;
-        margin-bottom: 18px;
-    }
+        margin-bottom:18px;
+    } */
+    
     .board-area{
         width: 100%;
         height:calc(100vh - 85px);
-        background-color: pink;
+        /* background-color: pink; */
         display: flex;
         justify-content:center;
         
@@ -26,11 +27,12 @@
         border-radius:8px;
         border-width:3px;
         box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-        background-color: blue;
+        background-color: yellowgreen;
+        padding: 16px;
     }
 
     .container>div:first-child{
-        background-color: red;
+        /* background-color: red; */
     }
     .board{
         width:80%;
@@ -40,7 +42,7 @@
         text-align:center;
         margin: auto;
         padding:10px;
-        background-color: green;
+        /* background-color: green; */
     }
     .table{
         margin-bottom:5%;
@@ -59,14 +61,11 @@
     }
 </style>
 
-<div class="logo">
-    <img src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
-</div>
 
 <div class="board-area">
     <div class="container">
         <div>
-            <h2 style="text-align:left; padding:1rem; margin-bottom:0;">게시판</h2>
+            <h2 style="text-align:left; padding:1rem; margin-bottom:0;">자유게시판</h2>
         </div>
         
         <div class="board">

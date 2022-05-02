@@ -14,7 +14,7 @@
         html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; } /* HTML5 display-role reset for older browsers */ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; } body { line-height: 1; } ol, ul { list-style: none; } blockquote, q { quotes: none; } blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; } table { border-collapse: collapse; border-spacing: 0; }
 
         body{
-            background-image: url('/static/image/background.png');
+            background-image: url('/static/image/background-blur.png');
             background-repeat: no-repeat;
             background-size: cover;
             overflow: hidden;
@@ -25,6 +25,7 @@
             margin-top:40px;
             margin-left:50px;
             margin-bottom:18px;
+            cursor: pointer;
         }
         .canvas-body{
             
@@ -145,7 +146,6 @@
         }
 
         #step2{
-            /* background-color: palegoldenrod; */
             width:100%;
             height:100%;
             display:flex;
@@ -157,7 +157,6 @@
             width:100%;
             display: flex;
             outline: auto;
-            /* background-color: pink; */
         }
 
         .preview>button{
@@ -170,7 +169,6 @@
         }
         
         .infomation-area{
-            /* background-color: pink; */
             padding: 12px;
         }
 
@@ -233,30 +231,6 @@
             border-radius: 16px;
         } 
         
-/*         
-        ::-webkit-scrollbar-corner {
-            background-color: black; */
-
-
-
-        /* ::-webkit-scrollbar {
-            width: 20px;
-        }
-
-        ::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px grey; 
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background:black; 
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background:rgb(54, 56, 58); 
-        } */
-
         #image-list>li{
             display: flex;
             flex-direction: column;
@@ -266,7 +240,6 @@
             margin-bottom: 12px;
             margin-left: 6px;
             margin-right: 6px;
-            /* background-color: greenyellow; */
         }
         
         .image-item{
@@ -315,7 +288,6 @@
                 <div class="step1" id="step1">
                     <img src="/static/image/icon_camera.png" onclick="">
                     <p>편집할 동영상이 없습니다.</p>
-
 
                     <div class="input-file"> 
                         <label for="upload_video" class="file-label">파일 업로드</label> 
