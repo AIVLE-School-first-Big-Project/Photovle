@@ -3,10 +3,6 @@
 <!DOCTYPE html>
 
 <style>
-	.logo{
-		margin-left:1rem;
-		margin-top:1rem;
-	}
 	.container{
 		background-color:white;
 		margin-top:50px;
@@ -19,20 +15,18 @@
 		width:100%;
 		height:100%;
 		align-items:center;
-		{% comment %} text-align:center; {% endcomment %}
+		/* text-align:center; */
 		padding:10px;
 	}
-
+/* 
 	{% comment %} #upload_files{
         visibility: hidden;
-    } {% endcomment %}
+    } {% endcomment %} */
 </style>	
-<div class="logo">
-	<img src="/static/image/찐로고.png"width="20%" onclick="location.href='{% url 'main:board' %}'">
-</div>
 
 
-</div>
+
+
 <div class="container">
 	<div class="board">
 		<h2 style="text-align:left; padding:10px;">글쓰기</h2>
@@ -59,6 +53,6 @@
 		</div>
 	</form>
 </div>
-</div>
+
 
 {% endblock %}
