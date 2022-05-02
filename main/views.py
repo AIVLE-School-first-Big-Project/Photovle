@@ -265,7 +265,7 @@ def board(request):
     # return render(request, 'board.html', {'title':'게시판', 'board_list':board_list})
     board = Board.objects.all().order_by("-pub_date")
     page = int(request.GET.get('page', 1))
-    paginator = Paginator(board, 5)
+    paginator = Paginator(board, 9)
     page_obj = paginator.get_page(page)
     context={ 
                 'page_obj':page_obj,
