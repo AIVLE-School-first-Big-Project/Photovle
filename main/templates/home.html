@@ -1,32 +1,164 @@
-{% extends 'base.html' %}
+{% extends 'base_non_logo.html' %}
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="/static/css/sidemenu.css"/>
+<link rel="stylesheet" href="{% static "css/sidemenu.css"%}"/>
+<script src="/static/js/sidemenu.js" type="text/javascript"></script>
+
 <style>
     .wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-      }
-      
-      .content {
+    }
+    .content {
         font-family: system-ui, serif;
         font-size: 2rem;
         padding: 3rem;
         border-radius: 1rem;
         width: 100vh;
-      }
+    }
 
-      button{
-          width:20%;
-      }
+    button{
+        width:20%;
+    }
+    {% comment %} 사이드메뉴 {% endcomment %}
+    
+    * {padding:0;margin:0;}
+    input[id="menuicon"] {
+        display:none;
+        padding:10px;
+    }
+    input[id="menuicon"] + label {
+        display:block; 
+        width:60px;
+        height:50px;
+        position:fixed;
+        right:0;
+        top:calc(50%-25px);
+        transition:all .35s;
+        cursor:pointer;
+        margin:10px;
+    }
+    input[id="menuicon"] + label span {
+        display:block;
+        position:absolute;
+        width:100%;
+        height:5px;
+        border-radius:30px;
+        background:#000; transition:all .35s;
 
+    }
+    input[id="menuicon"] + label span:nth-child(1){
+        top:0;
+    }
+    input[id="menuicon"] + label span:nth-child(2){
+        top:50%;
+        transform: translateY(-50%);
+    }
+    input[id="menuicon"] + label span:nth-child(3){
+        bottom:0;
+    }
+    input[id="menuicon"]:checked + label {
+        z-index:2;
+        right:300px;
+    }
+    input[id="menuicon"]:checked + label span {
+        background:#000;
+    }
+    input[id="menuicon"]:checked + label span:nth-child(1){
+        top:50%;
+        transform:translateY(-50%) rotate(45deg);
+    }
+    input[id="menuicon"]:checked + label span:nth-child(2){
+        opacity:0;
+    }
+    input[id="menuicon"]:checked + label span:nth-child(3){
+        bottom:50%;
+        transform:translateY(50%) rotate(-45deg);
+    }
+
+    .sidebar {
+        width:300px;
+        height:100%;
+        background:#708ae8;
+        position:fixed;
+        top:0;
+        right:-300px;
+        z-index:1;
+        transition:all .35s;
+        opacity:0.7;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:space-between;
+        text-align:center;
+    }
+    input[id="menuicon"]:checked + label + div {right:0;}
+    .nav-links{
+        margin-top:30px;
+        margin-bottom:30px;
+    }
+    .nav-links .link{
+        margin: 20px 0;
+        text-decoration: none;
+        font-family: sans-serif;
+        color: rgba(0,0,0,0.9);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        transition: all 300ms cubic-bezier(.9, 0, .33, 1);
+    }
+    .nav-login .link{
+        margin: 20px 0;
+        text-decoration: none;
+        font-family: sans-serif;
+        color: rgba(0,0,0,0.9);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        transition: all 300ms cubic-bezier(.9, 0, .33, 1);
+    }
 
 </style>
-
-
+{% if user.is_authenticated %}
+<input type="checkbox" id="menuicon">
+<label for="menuicon">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<div class="sidebar">
+    <div class="nav-links">
+        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">님 안녕하세요.</span><br><hr style="width:100%;">
+        <a href="{% url 'main:osvos' %}" class="link">Image Segmentation</a><br><hr>
+        <a href="{% url 'main:board' %}" class="link">게시판</a><br><hr>
+        <a href="{% url 'main:mypost' %}" class="link">나의 게시글</a>
+    </div>
+    <div class="nav-login">
+        <hr><a href="{% url 'main:mypage' %}" class="link">마이페이지</a></br><hr>
+        <a href="{% url 'main:logout' %}" class="link">로그아웃</a>
+    </div>
+</div>
+{% else %}
+<input type="checkbox" id="menuicon">
+<label for="menuicon">
+    <span></span>
+    <span></span>
+    <span></span>
+</label>
+<div class="sidebar">
+    <div class="nav-links">
+        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">로그인이 필요합니다.</span><br><hr style="width:100%;">
+        <a href="{% url 'main:login' %}" class="link">Image Segmentation</a><br><hr>
+        <a href="{% url 'main:login' %}" class="link">게시판</a><br><hr>
+    </div>
+    <div class="nav-login">
+        <a href="{% url 'main:login' %}" class="link">로그인</a>
+    </div>
+</div>
+{% endif %}
 
 <div class="wrapper" style="text-align: center;">
     <div class="content" style="text-align: center;">
@@ -60,6 +192,6 @@
         </div>
     </div>
 </div>
-<script src="/static/js/sidemenu.js"></script>
+
 
 {% endblock %}

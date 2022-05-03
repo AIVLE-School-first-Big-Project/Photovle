@@ -224,6 +224,8 @@
             opacity: 1;
             text-align: left;
             font: normal normal normal 16px/18px Segoe UI;
+            display: block;
+            margin-bottom: 12px;
         }
 
         button {
@@ -476,6 +478,8 @@
                         <li>
                             <span>Object : </span>
                             <p id="label_name"></p>
+                            
+                            <button class="btn-open-popup">Lable 등록</button>
                         </li>
 
                         <li>
@@ -535,18 +539,22 @@
 
         </div>
 
-        <!-- <script>
-            export default {
-                methods: {
-                    getVideoDimensions (e) {
-                        console.log(e.target.videoHeight)
-                        console.log(e.target.videoWidth)
-                    }
-                }
-            }
-        </script> -->
-
-
+        <div class="modal">
+            <div class="modal_body">
+                <div class="title">
+                    <h2>Object Label 등록하기</h2>
+                </div>
+                <div class="close-area">X</div>
+                <div class="content">
+                    <div class="preview">
+                        <input type="text" id="label_tag">
+                        <button type="button" onclick="define_tag();">label</button>
+                    </div>
+                
+                    
+                </div>
+            </div>
+        </div>
 
         <script>
 
@@ -823,7 +831,20 @@
             <canvas id="edit-area"> </canvas>
         </div>
 
-    </div>
+    </div>    
+    <script>
+        const modal = document.querySelector('.modal'); 
+        const btnOpenPopup = document.querySelector('.btn-open-popup'); 
+        btnOpenPopup.addEventListener(
+            'click', () => { 
+            modal.style.display = 'block'; 
+        });
+
+        const closeBtn = modal.querySelector(".close-area")
+        closeBtn.addEventListener("click", e => {
+            modal.style.display = "none"
+        })
+    </script>
 
 
 </body>

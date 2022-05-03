@@ -2,10 +2,10 @@
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-	<div style="display:none">{{ board.update_counter}}</div>
+   <div style="display:none">{{ board.update_counter}}</div>
 
 <style>
-	.logo{
+   .logo{
         margin-left:1rem;
         margin-top:1rem;
     }
@@ -23,14 +23,14 @@
         align-items:center;
         padding:20px;
     }
-	.content{
-		width:1100px;
-		height:150px;
-	}
-	table{
-		border-collapse: separate;
-	}
-	
+   .content{
+      width:1100px;
+      height:150px;
+   }
+   table{
+      border-collapse: separate;
+   }
+   
 
 
 </style>
@@ -41,175 +41,179 @@
 
 <div class="container">
     <div class="board">
-		<table>
-			<tr>
-				<td style="color:#708ae8; text-align:left;">{{ board.user }}</td>
-			</tr>
-			<tr>
-				<td><h2>{{ board.title }}</h2></td>
-			</tr>
-			<tr>
-				<td>{{ board.pub_date }}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;조회수 : {{ board.hits }}</td>
-			</tr>
-		</table>
-		<hr>
-		<table>
-			<tr>
-				<td>
-					<div class="content">
-						{{ board.content }}
-					</div>
-				</td>
-			</tr>
-			<tr style="border-spacing: 10px;">
-				<td>
-					{% if board.upload_files %}
-					
-					첨부 파일 : <a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
-					<br>
-					{% endif %}
-				</td>
-			</tr>
-			<tr style="text-align:left; border-spacing: 40px;">
-				<td>
-				
-				<button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">목록으로</button>
-				{% if board.user == user %}
-					<a href="{% url 'main:update' board.id %}">수정</a>
-					<a href="{% url 'main:delete' board.id %}">삭제</a>
-				{% endif %}
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<img src="/static/image/댓글.svg" style="width:3%;" href> {% if board.reply_set.count > 0 %} [{{ board.reply_set.count }}] {% endif %}
-				</td>
-				
-			</tr>
-			
-		</table>
-		
-		
-		{% comment %} <div class="reply_content">
-			 <div>
-				{% if user.is_authenticated %}
-					<a href="{% url 'main:create_reply' board.id %}" class="btn btn-primary">댓글쓰기</a>
-				{% endif %}
-			</div>
+      <table>
+         <tr>
+            <td style="color:#708ae8; text-align:left;">{{ board.user }}</td>
+         </tr>
+         <tr>
+            <td><h2>{{ board.title }}</h2></td>
+         </tr>
+         <tr>
+            <td>{{ board.pub_date }}</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;조회수 : {{ board.hits }}</td>
+         </tr>
+      </table>
+      <hr>
+      <table>
+         <tr>
+            <td>
+               <div class="content">
+                  {{ board.content }}
+               </div>
+            </td>
+         </tr>
+         <tr style="border-spacing: 10px;">
+            <td>
+               {% if board.upload_files %}
+               
+               첨부 파일 : <a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
+               <br>
+               {% endif %}
+            </td>
+         </tr>
+         <tr style="text-align:left; border-spacing: 40px;">
+            <td>
+            
+            <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">목록으로</button>
+            {% if board.user == user %}
+               <a href="{% url 'main:update' board.id %}">수정</a>
+               <a href="{% url 'main:delete' board.id %}">삭제</a>
+            {% endif %}
+            </td>
+         </tr>
+         <tr>
+            <td>
+               <img src="/static/image/댓글.svg" style="width:3%;" href> {% if board.reply_set.count > 0 %} [{{ board.reply_set.count }}] {% endif %}
+            </td>
+            
+         </tr>
+         
+      </table>
+      
+      
+      {% comment %} <div class="reply_content">
+          <div>
+            {% if user.is_authenticated %}
+               <a href="{% url 'main:create_reply' board.id %}" class="btn btn-primary">댓글쓰기</a>
+            {% endif %}
+         </div>
 
-			
-			
-			{% for rep in board.reply_set.all %}
-				<span class="reply">{{ rep.user }} {{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}]</span>
-				{% if rep.user == user %}
-					<a href="{% url 'main:update_reply' board.id rep.id %}">수정</a>
-					<a href="{% url 'main:delete_reply' rep.id %}">삭제</a>
-				{% endif %}
-				<br>
-			{% endfor %}
-			
-			{% if user.is_authenticated %}
-				<form action="" method="post" style="text-align: center;">
+         
+         
+         {% for rep in board.reply_set.all %}
+            <span class="reply">{{ rep.user }} {{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}]</span>
+            {% if rep.user == user %}
+               <a href="{% url 'main:update_reply' board.id rep.id %}">수정</a>
+               <a href="{% url 'main:delete_reply' rep.id %}">삭제</a>
+            {% endif %}
+            <br>
+         {% endfor %}
+         
+         {% if user.is_authenticated %}
+            <form action="" method="post" style="text-align: center;">
+               {% csrf_token %}
+               {{ form }}
+            <input type="submit" value="댓글입력">
+            </form>
+            {% else %}
+            <a href="{% url 'main:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
+         {% endif %}
+      </div> {% endcomment %}
+      {% if user.is_authenticated %}
+      <form action="{% url 'main:create_reply' board.id %}" method="post">
+         {% csrf_token %}
+         <table class="board_for_read">
+            <tbody>
+               <br>
+               <tr>
+                  <td class="input-group mb-3" style="text-align:center;">
+                     <input type="text" name="comment" id="comment" class="form-control" placeholder="댓글" style="width:100%">
+                  </td>
+                  <td><input type="submit" value="추가"></td>
+               </tr>
+            </tbody>
+         </table>
+      </form>
+      {% endif %}
+      <div class="reply_content">
+         {% if page_obj %}
+            {% for rep in page_obj %}
+               <span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span>
+               {% if rep.user == user %}
+			   
+				  {% comment %} <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="display:none"/> {% endcomment %}
+                  <input type="button" value="수정" id="btn" onclick="document.getElementById('comment2').style.display='block'; document.getElementById('comment2').style='width:50%'; document.getElementById('update').style.display='block'; document.getElementById('btn').style.display='none'; document.getElementById('delete').style.display='none';"/>
+                  <input type="button" value="삭제" id="delete" onclick="location.href='{% url 'main:delete_reply' rep.id %}';"/>
+				  {% comment %} <a href="{% url 'main:delete_reply' rep.id %}" id="delete">삭제</a> <br> {% endcomment %}
+                  <form action="{% url 'main:update_reply' board.id rep.id %}" method="post">
 					{% csrf_token %}
-					{{ form }}
-				<input type="submit" value="댓글입력">
-				</form>
-				{% else %}
-				<a href="{% url 'main:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
-			{% endif %}
-		</div> {% endcomment %}
-		{% if user.is_authenticated %}
-		<form action="{% url 'main:create_reply' board.id %}" method="post">
-			{% csrf_token %}
-			<table class="board_for_read">
-				<tbody>
-					<br>
-					<tr>
-						<td class="input-group mb-3" style="text-align:center;">
-							<input type="text" name="comment" id="comment" class="form-control" placeholder="댓글" style="width:100%">
-						</td>
-						<td><input type="submit" value="추가"></td>
-					</tr>
-				</tbody>
-			</table>
-		</form>
-		{% endif %}
-		<div class="reply_content">
-			{% if page_obj %}
-			{% for rep in page_obj %}
-				<span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span><br>
-				{% if rep.user == user %}
-					{% comment %} <input type="text" name="text1" id="text1" style="display:none">
-					<input type="button" value="수정" onclick="document.getElementById('text1').style.display='block';"> {% endcomment %}
-					<a href="#" onclick='click()'>수정</a>
-					<a href="{% url 'main:delete_reply' rep.id %}">삭제</a> <br>
-						{% comment %} <form action="{% url 'main:update_reply' board.id rep.id %}" method="post">
-						{% csrf_token %}
-						<div class="form-group">
-							<input type="text" class="form-control" name="comment" id="comment"  value="{{ rep.comment }}" 
-							style="width:100%"/>
-						</div>
-						<input type="submit" value="수정완료">
-					  </form> {% endcomment %}
-
-				{% endif %}
-			{% endfor %}
-			{% endif %}
-		</div>
-		<!-- 페이징처리 -->
-		<div id="paging">
-			<ul class="pagination justify-content-center" style="margin-top: 2rem;">
-				<!-- 이전페이지 -->
-				{% if page_obj.has_previous %}
-				<li class="page-item">
-					<a class="page-link" href="./?&page=1">맨 앞으로</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" href="./?&page={{ page_obj.previous_page_number }}">이전</a>
-					<!-- href로 뎁스 설정 -->
-				</li>
-				{% else %}
-				<li class="page-item disabled">
-					<a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-				</li>
-				{% endif %}
-				<!-- 페이지리스트 -->
-				
-				{% for page_number in page_obj.paginator.page_range %}
-					{% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
-					<span class="{% if page_number == page_obj.number %}current{% endif %}" style="background-color: #708ae8;">
-						{% if page_number == page_obj.number %}
-							<li class="page-item active" aria-current="page">
-								<a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
-							</li>
-						{% else %}
-							<a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
-						{% endif %}
-					</span>
-					
-					{% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
-						..
-				
-					{% endif %}
-				{% endfor %}
-				
-				<!-- 다음페이지 -->
-				{% if page_obj.has_next %}
-				<li class="page-item">
-					<a class="page-link" href="./?&page={{ page_obj.next_page_number }}">다음</a>
-				</li>
-				<li class="page-item">
-					<a class="page-link" href="./?&page={{ page_obj.paginator.num_pages }}">맨 뒤로</a>
-				</li>
-				{% else %}
-				<li class="page-item disabled">
-					<a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-				</li>
-				{% endif %}
-			</ul>
-		</div>
-		<!-- 페이징처리 끝 -->
-	</div>
+					<div class="form-group">
+					   <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="display:none"/>
+					   {% comment %} <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="width: 100%;"/> {% endcomment %}
+					</div>
+					 
+					<input type="submit" value="수정완료" id=update style="display:none"/>
+					{% comment %} <input type="submit" value="수정완료"> {% endcomment %}
+				 </form>
+                
+               {% endif %}
+			   <br>
+            {% endfor %}
+         {% endif %}
+      </div>
+      <!-- 페이징처리 -->
+      <div id="paging">
+         <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+            <!-- 이전페이지 -->
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+               <a class="page-link" href="./?&page=1">맨 앞으로</a>
+            </li>
+            <li class="page-item">
+               <a class="page-link" href="./?&page={{ page_obj.previous_page_number }}">이전</a>
+               <!-- href로 뎁스 설정 -->
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+               <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+            </li>
+            {% endif %}
+            <!-- 페이지리스트 -->
+            
+            {% for page_number in page_obj.paginator.page_range %}
+               {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
+               <span class="{% if page_number == page_obj.number %}current{% endif %}" style="background-color: #708ae8;">
+                  {% if page_number == page_obj.number %}
+                     <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
+                     </li>
+                  {% else %}
+                     <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
+                  {% endif %}
+               </span>
+               
+               {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
+                  ..
+            
+               {% endif %}
+            {% endfor %}
+            
+            <!-- 다음페이지 -->
+            {% if page_obj.has_next %}
+            <li class="page-item">
+               <a class="page-link" href="./?&page={{ page_obj.next_page_number }}">다음</a>
+            </li>
+            <li class="page-item">
+               <a class="page-link" href="./?&page={{ page_obj.paginator.num_pages }}">맨 뒤로</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+               <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+            </li>
+            {% endif %}
+         </ul>
+      </div>
+      <!-- 페이징처리 끝 -->
+   </div>
 </div>
 
 {% endblock %}
@@ -223,41 +227,41 @@
 
 
 <div class="content">
-	<table class="board_for_read">
-		<tbody>
-			<tr>
-				<td class="td_title" style="text-align:center; width:20%;">제목</td>
-				<td style="padding:10px;">
-					<input type="text" name="title" id="title" value="{{ board.title }}" readonly/>
-				</td>
-			</tr>
-			<tr>
-				<td class="td_title" style="text-align:center; width:20%;">작성자</td>
-				<td style="padding:10px;">
-					<span>{{ board.user }}</span>
-				</td>
-			</tr>
-			<tr>
-				<td class="td_title" style="text-align:center; width:20%;">작성일자</td>
-				<td style="padding:10px;">
-					<span>{{ board.pub_date }}</span>
-				</td>
-			</tr>
-			<tr>
-				<td class="td_title" style="text-align:center; width:20%;">조회수</td>
-				<td style="padding:10px;">
-					<span>{{ board.hits }}</span>
-				</td>
-			</tr>
+   <table class="board_for_read">
+      <tbody>
+         <tr>
+            <td class="td_title" style="text-align:center; width:20%;">제목</td>
+            <td style="padding:10px;">
+               <input type="text" name="title" id="title" value="{{ board.title }}" readonly/>
+            </td>
+         </tr>
+         <tr>
+            <td class="td_title" style="text-align:center; width:20%;">작성자</td>
+            <td style="padding:10px;">
+               <span>{{ board.user }}</span>
+            </td>
+         </tr>
+         <tr>
+            <td class="td_title" style="text-align:center; width:20%;">작성일자</td>
+            <td style="padding:10px;">
+               <span>{{ board.pub_date }}</span>
+            </td>
+         </tr>
+         <tr>
+            <td class="td_title" style="text-align:center; width:20%;">조회수</td>
+            <td style="padding:10px;">
+               <span>{{ board.hits }}</span>
+            </td>
+         </tr>
 
-			<tr>
-				
-				<td class="td_title" style="text-align:center;">내용</td>
-				<td style="padding:10px;">
-					<textarea name="detail" id="detail" rows="10" readonly>{{ board.content }}</textarea>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	
+         <tr>
+            
+            <td class="td_title" style="text-align:center;">내용</td>
+            <td style="padding:10px;">
+               <textarea name="detail" id="detail" rows="10" readonly>{{ board.content }}</textarea>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+   
 </div>

@@ -265,7 +265,7 @@ def board(request):
     # return render(request, 'board.html', {'title':'게시판', 'board_list':board_list})
     board = Board.objects.all().order_by("-pub_date")
     page = int(request.GET.get('page', 1))
-    paginator = Paginator(board, 5)
+    paginator = Paginator(board, 9)
     page_obj = paginator.get_page(page)
     context={ 
                 'page_obj':page_obj,
@@ -279,14 +279,13 @@ def detail(request, pk):    # pk = board_id
     board = get_object_or_404(Board, id=pk)
     reply = Reply.objects.filter(board_id=pk).order_by("-rep_date")
     page = int(request.GET.get('page', 1))
-    paginator = Paginator(reply, 2)
+    paginator = Paginator(reply, 4)
     page_obj = paginator.get_page(page)
     reply_form = ReplyForm()
     context = {
         'board':board,
         'reply_form':reply_form,
         'page_obj':page_obj,
-        'reply':reply,
         'pk':pk
     }
     return render(request, 'detail.html', context)
@@ -405,8 +404,9 @@ def update_reply(request, pk, rep_pk):  # pk = board_id
             return redirect('main:detail', pk)
     else:
         context = {
-            'reply': reply,
             'pk':pk,
+            'reply': reply,
+            
         }
     return HttpResponseRedirect(reverse('main:detail', context))
 
