@@ -311,3 +311,6 @@ def test(request):
 
 def osvos(request):
     return render(request, 'osvos.html')
+
+def cjson(request):
+    return render(request,'cjson.html')

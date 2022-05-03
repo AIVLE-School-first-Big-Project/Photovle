@@ -44,6 +44,7 @@ urlpatterns = [
 # 테스트TEST
     path('test/', views.test, name='test'),
     path('osvos/', views.osvos, name='osvos'),
+    path('cjson/', views.cjson, name='cjson'),
     
     
 ]

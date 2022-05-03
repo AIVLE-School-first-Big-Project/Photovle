@@ -16,11 +16,28 @@
     <button type="button" class="btn btn-success" onclick="func1();">label</button>
     <button type="button" class="btn btn-success" onclick="clear33();">지우기</button>
     <button onclick="export2json();">다운로드</button>
-	<button onclick="PrintPoints();">불러오기</button>
+	  <button onclick="PrintPoints();">불러오기</button>
   </div>
   <div>
-  <input id="file" type="file" accept ="json">
-  </div>
+    <input id="file" type="file" accept ="json">
+    <script>
+      
+    // json 가져오기
+    const inputFile = document.getElementById("file");
+    inputFile.addEventListener("change", function(){ 
+      
+      const file = inputFile.files[0];
+      const url = URL.createObjectURL(file);
+      console.log(file.name);
+    });
+    fetch("/media/data (3).json")
+      .then(response => response.json())
+      .then(data =>{
+        console.log(data)})
+
+    </script>
+    </div>
+  
 
   <canvas id="my_canvas"></canvas>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -108,20 +125,6 @@
         a.click();
         document.body.removeChild(a);
       }
-
-      // json 가져오기
-        const inputFile = document.getElementById("file");
-        inputFile.addEventListener("change", function(){ 
-          
-          const file = inputFile.files[0];
-          //const jsonurl = URL.createObjectURL(file);
-          var info = JSON.parse(file);
-          var infoStr = JSON.stringify(info)
-      
-          console.log(info);
-          console.log(infoStr);
-        });
-
 
 	  function PrintPoints() {
 		t=0;
