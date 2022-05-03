@@ -9,10 +9,14 @@
     .container{
         background-color:white;
         margin-top:50px;
-        
+        width:66vw;
+        height: 75vh;
+        max-height:1000px;
         border-radius:16px;
         border-width:3px;
         box-shadow:5px 5px 5px 5px gray;
+        padding: 32px;
+        
     }
     .board{
         width:100%;
@@ -29,10 +33,6 @@
 </style>
 
 <body>
-   
-    <div class="logo">
-        <img src="/static/image/찐로고.png"width="20%" onclick="location.href='{% url 'main:home' %}'">
-    </div>
     {% if user.is_authenticated %}
     <div style="text-align: right; padding:10px;">
         <button type="button" class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
@@ -40,48 +40,49 @@
     {% endif %}
     <div class="container">
         <div class="board">
-            <h2  style="text-align: left; padding:20px;">{{ title }}</h2>
-        </div>
-        
-        <div style="height: 280px;">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="header">
-                        <th style="width: 10%;">번호</th>
-                        <th style="width: 40%;">제목</th>
-                        <th style="width: 10%;">작성자</th>
-                        <th style="width: 20%;">작성일자</th>
-                        <th style="width: 10%;">조회수</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                {% if page_obj %}
-                    {% for board_list in page_obj %}
-                    <tr class="{% cycle '' 'even_bgcolor' %}">
-                        <td style="text-align: center;">{{ forloop.counter }}</td>
-                        <td>
-                            <a href="{% url 'main:detail' board_list.id %}">
-                                {{ board_list.title }}
-                            </a>
-                        </td>
-                        <td>{{ board_list.user }}</td>
-                        <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>
-                        <td>{{ board_list.hits }}</td>
-                    </tr>
-                    {% endfor %}
-                {% else %}
-                    <tr>
-                        <td></td>
-                        <td>작성된 게시글이 없습니다.</td>
-                    </tr>
-                {% endif %}
-                </tbody>
-            </table>
-            <div style="text-align:right;">
-                <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+            <p style="text-align: left; font-size:20px; font-weight:bold;">나의 게시글</p>
+            <div style="height: 280px;">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="header">
+                            <th style="width: 10%;">번호</th>
+                            <th style="width: 40%;">제목</th>
+                            <th style="width: 10%;">작성자</th>
+                            <th style="width: 20%;">작성일자</th>
+                            <th style="width: 10%;">조회수</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                    {% if page_obj %}
+                        {% for board_list in page_obj %}
+                        <tr class="{% cycle '' 'even_bgcolor' %}">
+                            <td style="text-align: center;">{{ forloop.counter }}</td>
+                            <td>
+                                <a href="{% url 'main:detail' board_list.id %}">
+                                    {{ board_list.title }}
+                                </a>
+                            </td>
+                            <td>{{ board_list.user }}</td>
+                            <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>
+                            <td>{{ board_list.hits }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td></td>
+                            <td>작성된 게시글이 없습니다.</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+                <div style="text-align:right;">
+                    <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+                </div>
             </div>
         </div>
+        
+        
         </div>
         <div id="paging">
             <ul class="pagination justify-content-center" style="margin-top: 2rem;">
