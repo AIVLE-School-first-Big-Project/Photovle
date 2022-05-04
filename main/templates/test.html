@@ -26,7 +26,10 @@
     </div>
     <input type="file" id="chooseFile" name="chooseFile" accept="json/*" onchange="loadFile(this)">
   </form>
-    <script>
+  <canvas id="my_canvas"></canvas>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script type="text/javascript">
+      const repo = [];
       
     // json 가져오기
     function loadFile(input) {
@@ -41,12 +44,7 @@
   
       //이미지 source 가져오기
       newjson.src = URL.createObjectURL(file);  
-      console.log(newjson.src); 
-  
-      newjson.style.width = "70%";
-      newjson.style.height = "70%";
-      newjson.style.visibility = "hidden";   //버튼을 누르기 전까지는 이미지를 숨긴다
-      newjson.style.objectFit = "contain";
+      //console.log(newjson.src); 
   
       //이미지를 image-show div에 추가
       // JSON - JAVASCRIPT OBJECT NOTATION
@@ -54,16 +52,19 @@
   fetch(newjson.src)
   .then(response => response.json())
   .then(data =>{
-      console.log(data)
+      k = data.shapes[0].points
+      console.log(k[0])
+      console.log(k[0][0])
+      console.log(k[0][1])
+      console.log(k.length)
+      for (i=0;i<k.length; i++){
+        repo.push(k[i])
+      }
+      console.log(repo[0])
+      
   })
   };
-    </script>
-  
-
-  <canvas id="my_canvas"></canvas>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script type="text/javascript">
-      var my_canvas = document.getElementById('my_canvas');
+  var my_canvas = document.getElementById('my_canvas');
       my_canvas.width = 800;
       my_canvas.height = 800;
       var ctx = my_canvas.getContext('2d');
@@ -181,9 +182,7 @@
       }
     		
   	}// 함수끝
-
-
-  </script>
+    </script>
 
 </body>
 </html>
