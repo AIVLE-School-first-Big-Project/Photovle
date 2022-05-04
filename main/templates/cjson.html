@@ -1,11 +1,44 @@
-
+<form method="post" enctype="multipart/form-data">
+    <div class="button">
+        <label for="chooseFile">
+            👉 CLICK HERE! 👈
+        </label>
+    </div>
+    <input type="file" id="chooseFile" name="chooseFile" accept="json/*" onchange="loadFile(this)">
+</form>
         <script>
-            // JSON - JAVASCRIPT OBJECT NOTATION
-            fetch("/media/data (3).json")
-                .then(response => response.json())
-                .then(data =>{
-                    console.log(data)
-                })
+            function loadFile(input) {
+                var file = input.files[0];	//선택된 파일 가져오기
+            
+                //미리 만들어 놓은 div에 text(파일 이름) 추가
+                var name = document.getElementById('fileName');
+                
+                console.log(name);
+            
+                  //새로운 이미지 div 추가
+                var newjson = document.createElement("json");
+                newjson.setAttribute("class", 'json');
+            
+                //이미지 source 가져오기
+                newjson.src = URL.createObjectURL(file);  
+                console.log(newjson.src); 
+            
+                newjson.style.width = "70%";
+                newjson.style.height = "70%";
+                newjson.style.visibility = "hidden";   //버튼을 누르기 전까지는 이미지를 숨긴다
+                newjson.style.objectFit = "contain";
+            
+                //이미지를 image-show div에 추가
+                // JSON - JAVASCRIPT OBJECT NOTATION
+            //fetch("/media/data (3).json")
+            fetch(newjson.src)
+            .then(response => response.json())
+            .then(data =>{
+                console.log(data)
+            })
+            };
+
+            
 
             </script>
 
