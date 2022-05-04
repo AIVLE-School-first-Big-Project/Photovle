@@ -189,44 +189,6 @@
 
 </style>
 
-{% if user.is_authenticated %}
-<input type="checkbox" id="menuicon">
-<label for="menuicon">
-    <span></span>
-    <span></span>
-    <span></span>
-</label>
-<div class="sidebar">
-    <div class="nav-links">
-        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">님 안녕하세요.</span><br><hr style="width:100%;">
-        <a href="{% url 'main:osvos' %}" class="link">Image Segmentation</a><br><hr>
-        <a href="{% url 'main:board' %}" class="link">게시판</a><br><hr>
-        <a href="{% url 'main:mypost' %}" class="link">나의 게시글</a>
-    </div>
-    <div class="nav-login">
-        <hr><a href="{% url 'main:mypage' %}" class="link">마이페이지</a></br><hr>
-        <a href="{% url 'main:logout' %}" class="link">로그아웃</a>
-    </div>
-</div>
-{% else %}
-<input type="checkbox" id="menuicon">
-<label for="menuicon">
-    <span></span>
-    <span></span>
-    <span></span>
-</label>
-<div class="sidebar">
-    <div class="nav-links">
-        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">로그인이 필요합니다.</span><br><hr style="width:100%;">
-        <a href="{% url 'main:login' %}" class="link">Image Segmentation</a><br><hr>
-        <a href="{% url 'main:login' %}" class="link">게시판</a><br><hr>
-    </div>
-    <div class="nav-login">
-        <a href="{% url 'main:login' %}" class="link">로그인</a>
-    </div>
-</div>
-{% endif %}
-
 <div class="board-area">
     <div class="container">
         <div>

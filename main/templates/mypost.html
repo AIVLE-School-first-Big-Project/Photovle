@@ -34,9 +34,7 @@
 
 <body>
     {% if user.is_authenticated %}
-    <div style="text-align: right; padding:10px;">
-        <button type="button" class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-    </div>
+    
     {% endif %}
     <div class="container">
         <div class="board">
