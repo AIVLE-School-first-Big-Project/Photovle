@@ -1,5 +1,8 @@
+import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+
+from Photovle import settings
 
 
 # Create your models here.
@@ -42,6 +45,10 @@ class Board(models.Model):
     def update_counter(self):
         self.hits = self.hits + 1
         self.save()
+    def delete(self, *args, **kwargs):
+        if self.upload_files:
+            os.remove(os.path.join(settings.MEDIA_ROOT, self.upload_files.path))
+        super(Board, self).delete(*args, **kwargs)
 
 # 댓글 모델
 '''

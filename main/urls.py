@@ -33,8 +33,8 @@ urlpatterns = [
     path('board/', views.board, name='board'),
     path('board/<int:pk>/', views.detail, name='detail'),
     path('<int:pk>/download/', views.download, name='download'),
-    path('write/', views.write, name='write'),
-    path('<int:pk>/update', views.update, name='update'),
+    path('board/write/', views.write, name='write'),
+    path('board/<int:pk>/update', views.update, name='update'),
     path('<int:pk>/delete', views.delete, name='delete'),
     path('mypost/', views.mypost, name='mypost'),
 # 댓글
