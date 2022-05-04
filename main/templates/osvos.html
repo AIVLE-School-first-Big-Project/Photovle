@@ -1,4 +1,7 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block content %}
+   
 <!DOCTYPE html>
 <html>
 
@@ -436,10 +439,6 @@
 
 <body>
 
-    <div>
-        <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url 'main:home' %}'">
-    </div>
-
     <div class="canvas-body">
         <div class="control-bar">
             <div class="control-bar-option-area">
@@ -865,3 +864,4 @@
 </body>
 
 </html>
+{% endblock %}

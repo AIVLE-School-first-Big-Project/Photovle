@@ -36,112 +36,28 @@
 <div class="container">
 	<div class="board">
 		<h2 style="text-align:left; padding:10px;">글쓰기</h2>
-
-	<form method="POST" action="" enctype="multipart/form-data">
-		{% csrf_token %}
-			<div class="form-group">
-				<label for="subject" style="text-align:left; padding:10px">제목</label>
-				<input type="text" class="form-control" name="title" id="title"
-				value="{{ board.title }}"/>
-			</div>
-			<div class="form-group">
-				<label for="content" style="text-align:left; padding:10px">내용</label>
-				<textarea class="form-control" name="content"
-					id="content" rows="10">{{board.content}}</textarea>
-			</div>
-			<div class="from-group" style="padding:10px">
-				<label for="upload_files">
-					<input type="file" id="upload_files" name="upload_files" accept="image/*" onchange="loadFile(this)">
-				</label>
-			</div>
-		<div style="text-align:right;">
-			<button type="submit" class="btn btn-primary rounded-pill col-5" style="background-color: #708ae8; border:none;">등록</button>
-		</div>
-	</form>
-</div>
+		<form method="POST" action="" enctype="multipart/form-data">
+			{% csrf_token %}
+				<div class="form-group">
+					<label for="subject" style="text-align:left; padding:10px">제목</label>
+					<input type="text" class="form-control" name="title" id="title"
+					value="{{ board.title }}"/>
+				</div>
+				<div class="form-group">
+					<label for="content" style="text-align:left; padding:10px">내용</label>
+					<textarea class="form-control" name="content"
+						id="content" rows="10">{{board.content}}</textarea>
+				</div>
+				<div class="from-group" style="padding:10px">
+					<label for="upload_files">
+						<input type="file" value="{{ board.upload_files }}" id="upload_files" name="upload_files" accept="image/*" onchange="loadFile(this)">
+					</label>
+				</div>
+				<div style="text-align:right;">
+					<button type="submit" class="btn btn-primary rounded-pill col-5" style="background-color: #708ae8; border:none;">등록</button>
+				</div>
+		</form>
+	</div>
 </div>
 
 {% endblock %}
-
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<style type="text/css">
-        .content {
-            max-width:500px;
-            margin: auto;
-            padding:10px;
-        }
-
-		.board_for_read {
-			width: 100%;
-			background-color:#f1f1f1;
-		}
-
-		#title {
-			height: 32px;
-			width: 100%;
-			border-radius: 0.5em;
-			border: none;
-			font-family: inherit;
-			font-size: inherit;
-		}
-
-        textarea {
-			width: 100%;
-            font-family: inherit;
-            font-size: 100%;
-			resize: none;
-			border-radius: 0.5em;
-			padding-block: 10px;
-			border: 0px;
-        }
-
-		.td_title {
-			background-color: #d8d8d8
-		}
-    </style>
-<body>
-    <div class="content">
-		<form method="post">
-		{% csrf_token %}
-
-		
-
-		<table class="board_for_read">
-			<tbody>
-				<tr>
-					<td class="td_title" style="text-align:center; width:20%;">제목</td>
-                    
-					<td style="padding:10px;">
-						<input type="text" name="title" id="title" value="{{ board.title }}"/>
-					</td>
-				</tr>
-				<tr>
-					<td class="td_title" style="text-align:center;">내용</td>
-					<td style="padding:10px;">
-						<textarea name="detail" id="detail" rows="10">{{ board.content }}</textarea>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-        <div style="text-align:right;padding: 5px;">
-			<input type="submit" value="저장">
-		</div>
-		</form>
-
-		<div style="text-align:left;">
-			<a href="{% url 'main:board' %}">> Home</a>
-		</div>
-
-    </div>
-</body>
-</html> -->

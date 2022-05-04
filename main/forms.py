@@ -1,8 +1,7 @@
-from cProfile import label
-from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.forms import ModelForm
 from django import forms
 from .models import *
 
@@ -19,7 +18,7 @@ class UserForm(UserCreationForm):
 class AddInfoForm(UserChangeForm):
     class Meta:
         model = get_user_model()
-        fields = ('name', 'phone')
+        fields = ('name', 'username', 'phone')
 
 # 유저정보 수정 form
 class UserUpdateForm(UserChangeForm):
