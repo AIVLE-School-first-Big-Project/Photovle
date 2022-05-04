@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import json
-from unittest.mock import DEFAULT
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -61,7 +60,6 @@ INSTALLED_APPS = [
     #이미지 라벨링 추가 : 강준영
     'rest_framework',
     'corsheaders',
-    # 'image_metadata',
 ]
 
 SITE_ID = 1
@@ -77,7 +75,7 @@ SOCIAL_OUTH_CONFIG = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 
-    # 'allauth.account.auth_backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -91,26 +89,18 @@ REST_FRAMEWORK = {
 
 
 # email 전송
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = '587'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
 # EMAIL_HOST_USER와 EMAIL_HOST_PASSWORD는 개인정보이므로 secrets.json에 분리하여 사용
-# EMAIL_HOST_USER = secrets['GOOGLE_HOST_USER']
-# EMAIL_HOST_PASSWORD = secrets['GOOGLE_HOST_PASSWORD']
-# EMAIL_USE_TLS = True
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER = secrets['GOOGLE_HOST_USER']
+EMAIL_HOST_PASSWORD = secrets['GOOGLE_HOST_PASSWORD']
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # 다른 부분 오류 시 비밀번호 지워지는 것 방지
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
-
-# 이미지 라벨링 강준영
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAdminUser',
-#     ],
-#     'PAGE_SIZE': 10
-# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -123,13 +113,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'corsheaders.middleware.CorsPostCsrfMiddleware',
 ]
-
-#라벨링추가: 강준영
-# CORS_ORIGIN_ALLOW_ALL = True
-# CORS_ORIGIN_WHITELIST = (
-#     'localhost:8000',
-#     '127.0.0.1:8000'
-# )
 
 ROOT_URLCONF = 'Photovle.urls'
 
@@ -161,11 +144,6 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        # 'NAME': 'photovle',
-        # 'USER': 'root', 
-        # 'PASSWORD': '1234',
-        # 'HOST': 'localhost',
-        # 'PORT': '',
         'OPTIONS': {
             'read_default_file': os.path.join(BASE_DIR, "my.cnf"),
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" # strict mode 설정 추가
@@ -227,6 +205,6 @@ AUTH_USER_MODEL = 'main.User'
 
 # login session
 ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지
-SESSION_COOKIE_AGE = 7200       # 쿠키 저장 유효시간(단위 sec)
+SESSION_COOKIE_AGE = 72000       # 쿠키 저장 유효시간(단위 sec)
 
 
