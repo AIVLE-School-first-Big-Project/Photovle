@@ -443,8 +443,8 @@
     <div class="canvas-body">
         <div class="control-bar">
             <div class="control-bar-option-area">
-                <img src="/static/image/icon_check.svg" onclick="">
-                <img src="/static/image/icon_trash_can.svg" onclick="">
+                <img src="/static/image/icon_check.svg" onclick="export2json();">
+                <img src="/static/image/icon_trash_can.svg" onclick="clear33();">
             </div>
 
             <!-- step1 -->
@@ -527,7 +527,6 @@
                 <div class="preview">
                     <select disabled>
                     </select>
-                    <button onclick="export2json();">다운로드</button>
                 </div>
 
 
@@ -561,6 +560,7 @@
             let savejson = {};
             let openkey;
             let savelabel;
+            let tmpcanvas , tmpframe;
 
             // Object 정의 함수
             function define_tag() {
@@ -624,6 +624,7 @@
                 const select = document.querySelector("select");
                 const canvas = document.getElementById("edit-area");
                 const ctx = canvas.getContext("2d");
+                tmpcanvas = canvas;
 
 
                 button.onclick = async (evt) => {
@@ -727,6 +728,7 @@
                 }
 
                 // 추가사항
+                
                 function image_click() {
 
                     ctx.beginPath();
@@ -738,10 +740,11 @@
                     console.log(openkey);
 
                     const frame = frames[attribute.split('-')[1]];
+                    tmpframe = frame;
                     canvas.width = frame.width;
                     canvas.height = frame.height;
                     ctx.drawImage(frame, 0, 0);
-                    
+                    console.log(savejson);
                     var t=0;
                     for (var i of savejson[openkey].points) {
                         if (t == 0) {
@@ -767,7 +770,7 @@
                         t++
                     }
 
-                    console.log(savejson);
+                    
                     canvas.onmousedown = function (event) {
 
                         X = event.x - 351 + 66;
@@ -821,6 +824,18 @@
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
+            }
+
+            function clear33() {
+                tmpcanvas.width = tmpframe.width;
+                tmpcanvas.height = tmpframe.height;
+                savejson[openkey].dot = 0;
+                savejson[openkey].points = [];
+                savejson[openkey].firstX = 0;
+                savejson[openkey].firstY = 0;
+                console.log(savejson);
+                tmpcanvas.getContext("2d").clearRect(0, 0, tmpcanvas.width, tmpcanvas.height);
+                tmpcanvas.getContext("2d").drawImage(tmpframe, 0, 0);
             }
 
 
