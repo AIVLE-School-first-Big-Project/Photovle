@@ -13,15 +13,17 @@ app_name='main'
 urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home, name='home'),
-# 회원가입, 로그인
+# 로그인, 로그아웃
     path('home/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('home/logout/', views.logout, name='logout'),
+# 카카오 소셜로그인
     path('home/login/kakao/', views.kakao_login, name='kakao_login'),
     path('home/login/kakao/callback/', views.kakao_callback, name='kakao_callback'),
-    # path('home/kakao/finish/', views.KakaoLogin.as_view(), name='kakao_login_todjango'),
-    path('home/logout/', views.logout, name='logout'),
+# 회원가입
     path('home/signup1/', views.signup1, name='signup1'),
     path('home/signup2/', views.signup2, name='signup2'),
     path('home/<int:pk>/addinfo/', views.addinfo, name='addinfo'),
+# 마이페이지
     path('home/mypage/', views.mypage, name='mypage'),
     path('home/update_user/', views.update_user, name='update_user'),
     path('home/delete_user/', views.delete_user, name='delete_user'),
@@ -32,7 +34,6 @@ urlpatterns = [
     path('board/<int:pk>/', views.detail, name='detail'),
     path('<int:pk>/download/', views.download, name='download'),
     path('write/', views.write, name='write'),
-    # path('write/write_board', views.write_board, name='write_board'),
     path('<int:pk>/update', views.update, name='update'),
     path('<int:pk>/delete', views.delete, name='delete'),
     path('mypost/', views.mypost, name='mypost'),
