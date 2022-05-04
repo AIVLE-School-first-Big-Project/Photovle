@@ -85,8 +85,8 @@ def kakao_callback(request):
     account = profile_json.get('kakao_account')
     email = account.get('email', None)
 
-    if User.objects.filter(username=kakao_id).exists():
-        user = User.objects.get(username=kakao_id)
+    if User.objects.filter(email=email).exists():
+        user = User.objects.get(email=email)
         dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
         return redirect('main:home')
 
@@ -192,7 +192,7 @@ def delete_user(request):
 def board(request):
     board = Board.objects.all().order_by("-pub_date")
     page = int(request.GET.get('page', 1))
-    paginator = Paginator(board, 9)
+    paginator = Paginator(board, 7)
     page_obj = paginator.get_page(page)
     context={ 
                 'page_obj':page_obj,
@@ -257,21 +257,22 @@ def update(request, pk):    # pk = board_id
         board.content = request.POST['content']
         board.user = request.user
         board.pub_date=timezone.now()
-        board.upload_files = request.FILES.get('upload_files')
+        if request.FILES:
+            os.remove(os.path.join(settings.MEDIA_ROOT, board.upload_files.path))
+            board.upload_files = request.FILES.get('upload_files')
         if board.title == '':
             board.title = tmp.title
         if board.content == '':
             board.content = tmp.content
-        if board.upload_files == '':
-            board.upload_files = request.FILES.get(tmp.upload_files)
-        print(tmp.upload_files)
         board.save()
         return redirect('main:detail', pk)
     else:
         context = {
             'board':board,
-            'pk':pk
+            'pk':pk,
         }
+        if board.upload_files:
+            context['file_url'] = board.upload_files.url
     return render(request, 'update.html', context)
     # if request.method == 'POST':
     #     form = BoardForm(request.POST, instance=board)
@@ -349,7 +350,7 @@ def delete_reply(request, pk):  # pk = rep_id
 def mypost(request):
     board = Board.objects.filter(user=request.user).order_by("-pub_date")
     page = int(request.GET.get('page', 1))
-    paginator = Paginator(board, 10)
+    paginator = Paginator(board, 7)
     page_obj = paginator.get_page(page)
     context={ 
                 'page_obj':page_obj,

@@ -50,8 +50,9 @@
 				</div>
 				<div class="from-group" style="padding:10px">
 					<label for="upload_files">
-						<input type="file" value="{{ board.upload_files }}" id="upload_files" name="upload_files" accept="image/*" onchange="loadFile(this)">
+						<input type="file" value="{{board.upload_files }}" id="upload_files" name="upload_files" accept="image/*" onchange="loadFile(this)">
 					</label>
+					<label for="subject" style="text-align:left; padding:10px">새로운 파일 업로드 시 기존 파일은 삭제됩니다.</label>
 				</div>
 				<div style="text-align:right;">
 					<button type="submit" class="btn btn-primary rounded-pill col-5" style="background-color: #708ae8; border:none;">등록</button>
