@@ -34,9 +34,7 @@
 
 <body>
     {% if user.is_authenticated %}
-    <div style="text-align: right; padding:10px;">
-        <button type="button" class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-    </div>
+    
     {% endif %}
     <div class="container">
         <div class="board">
@@ -80,61 +78,62 @@
                     <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
                 </div>
             </div>
-        </div>
-        
-        
-        </div>
-        <div id="paging">
-            <ul class="pagination justify-content-center" style="margin-top: 2rem;">
-                <!-- 이전페이지 -->
-                {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="./?&page=1">맨 앞으로</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="./?&page={{ page_obj.previous_page_number }}">이전</a>
-                    <!-- href로 뎁스 설정 -->
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-                </li>
-                {% endif %}
-                <!-- 페이지리스트 -->
-               
-                {% for page_number in page_obj.paginator.page_range %}
-                    {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
-                    <span class="{% if page_number == page_obj.number %}current{% endif %}">
-                        {% if page_number == page_obj.number %}
-                            <li class="page-item active" aria-current="page">
-                                <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
-                            </li>
-                        {% else %}
-                            <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
-                        {% endif %}
-                    </span>
-                    
-                    {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
-                        ..
-                
+            <div id="paging">
+                <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+                    <!-- 이전페이지 -->
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="./?&page=1">맨 앞으로</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="./?&page={{ page_obj.previous_page_number }}">이전</a>
+                        <!-- href로 뎁스 설정 -->
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                    </li>
                     {% endif %}
-                {% endfor %}
-                
-                <!-- 다음페이지 -->
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="./?&page={{ page_obj.next_page_number }}">다음</a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="./?&page={{ page_obj.paginator.num_pages }}">맨 뒤로</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-                </li>
-                {% endif %}
-            </ul>
+                    <!-- 페이지리스트 -->
+                   
+                    {% for page_number in page_obj.paginator.page_range %}
+                        {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
+                        <span class="{% if page_number == page_obj.number %}current{% endif %}">
+                            {% if page_number == page_obj.number %}
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
+                                </li>
+                            {% else %}
+                                <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
+                            {% endif %}
+                        </span>
+                        
+                        {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
+                            ..
+                    
+                        {% endif %}
+                    {% endfor %}
+                    
+                    <!-- 다음페이지 -->
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="./?&page={{ page_obj.next_page_number }}">다음</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="./?&page={{ page_obj.paginator.num_pages }}">맨 뒤로</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
+        
+        
+        </div>
+        
         <!-- 페이징처리 끝 -->
     </div>
 </body>

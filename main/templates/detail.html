@@ -6,23 +6,23 @@
 
 <style>
    .logo{
-      margin-left:1rem;
-      margin-top:1rem;
-   }
-   .container{
-      background-color:white;
-      margin-top:50px;
-      
-      border-radius:16px;
-      border-width:3px;
-      box-shadow:5px 5px 5px 5px gray;
-   }
-   .board{
-      width:100%;
-      height:100%;
-      align-items:center;
-      padding:20px;
-   }
+        margin-left:1rem;
+        margin-top:1rem;
+    }
+    .container{
+        background-color:white;
+        margin-top:50px;
+        
+        border-radius:16px;
+        border-width:3px;
+        box-shadow:5px 5px 5px 5px gray;
+    }
+    .board{
+        width:100%;
+        height:100%;
+        align-items:center;
+        padding:20px;
+    }
    .content{
       width:1100px;
       height:150px;
@@ -36,11 +36,11 @@
 </style>
 
 <div class="logo">
-   <img src="/static/image/찐로고.png"width="20%" onclick="location.href='{% url 'main:home' %}'">
+    <img src="/static/image/찐로고.png"width="20%" onclick="location.href='{% url 'main:home' %}'">
 </div>
 
 <div class="container">
-   <div class="board">
+    <div class="board">
       <table>
          <tr>
             <td style="color:#708ae8; text-align:left;">{{ board.user }}</td>
@@ -88,7 +88,36 @@
          </tr>
          
       </table>
+      
+      
+      {% comment %} <div class="reply_content">
+          <div>
+            {% if user.is_authenticated %}
+               <a href="{% url 'main:create_reply' board.id %}" class="btn btn-primary">댓글쓰기</a>
+            {% endif %}
+         </div>
 
+         
+         
+         {% for rep in board.reply_set.all %}
+            <span class="reply">{{ rep.user }} {{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}]</span>
+            {% if rep.user == user %}
+               <a href="{% url 'main:update_reply' board.id rep.id %}">수정</a>
+               <a href="{% url 'main:delete_reply' rep.id %}">삭제</a>
+            {% endif %}
+            <br>
+         {% endfor %}
+         
+         {% if user.is_authenticated %}
+            <form action="" method="post" style="text-align: center;">
+               {% csrf_token %}
+               {{ form }}
+            <input type="submit" value="댓글입력">
+            </form>
+            {% else %}
+            <a href="{% url 'main:login' %}">[댓글을 작성하려면 로그인하세요.]</a>
+         {% endif %}
+      </div> {% endcomment %}
       {% if user.is_authenticated %}
       <form action="{% url 'main:create_reply' board.id %}" method="post">
          {% csrf_token %}
@@ -109,19 +138,23 @@
          {% if page_obj %}
             {% for rep in page_obj %}
                <span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span>
-               {% if rep.user == user %}			   
+               {% if rep.user == user %}
+			   
+				  {% comment %} <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="display:none"/> {% endcomment %}
                   <input type="button" value="수정" id="btn" onclick="document.getElementById('comment2').style.display='block'; document.getElementById('comment2').style='width:50%'; document.getElementById('update').style.display='block'; document.getElementById('btn').style.display='none'; document.getElementById('delete').style.display='none';"/>
                   <input type="button" value="삭제" id="delete" onclick="location.href='{% url 'main:delete_reply' rep.id %}';"/>
+				  {% comment %} <a href="{% url 'main:delete_reply' rep.id %}" id="delete">삭제</a> <br> {% endcomment %}
                   <form action="{% url 'main:update_reply' board.id rep.id %}" method="post">
-                     {% csrf_token %}
-                     <div class="form-group">
-                        <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="display:none"/>
-                        <input type="submit" value="수정완료" id=update style="display:none"/>
-                        {% comment %} <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="width:100%"/>
-                        <input type="submit" value="수정완료" id=update style="width:10%"/> {% endcomment %}
-                     </div>
-                     
-                  </form>
+					{% csrf_token %}
+					<div class="form-group">
+					   <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="display:none"/>
+					   {% comment %} <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="width: 100%;"/> {% endcomment %}
+					</div>
+					 
+					<input type="submit" value="수정완료" id=update style="display:none"/>
+					{% comment %} <input type="submit" value="수정완료"> {% endcomment %}
+				 </form>
+                
                {% endif %}
 			   <br>
             {% endfor %}
@@ -193,7 +226,7 @@
 
 
 
-{% comment %} <div class="content">
+<div class="content">
    <table class="board_for_read">
       <tbody>
          <tr>
@@ -231,4 +264,4 @@
       </tbody>
    </table>
    
-</div> {% endcomment %}
+</div>
