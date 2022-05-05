@@ -99,7 +99,6 @@
             margin: 0;
             padding: 0;
             border: 0;
-            font-size: 100%;
             font: inherit;
             vertical-align: baseline;
         }
@@ -186,6 +185,7 @@
         .control-bar-option-area {
             width: 100%;
             height: 30px;
+            border-top: 1px solid #707070;
             border-bottom: 1px solid #707070;
             opacity: 1;
             display: flex;
@@ -291,15 +291,23 @@
             flex-direction: column;
             justify-content: flex-start;
         }
-
-        .preview {
+        .label-add{
             width: 100%;
             display: flex;
-            outline: auto;
-            /* background-color: pink; */
+            outline: none;
+            background-color: greenyellow;
+            justify-content: flex-end;
         }
 
-        .preview>button {
+        .label-add>input{
+            width: 100px;
+        }
+
+        .label-add>input:focus{
+            outline: none;
+        }
+
+        .label-add>button{
             width: 100px;
         }
 
@@ -326,15 +334,27 @@
             font-size: 16px;
         }
 
+
         .infomation-area li>span {
             width: 94px;
             text-align: right;
         }
 
 
-        .infomation-area li>p {
+        .infomation-area li p {
             padding-left: 14px;
             font-weight: bold;
+            width: 153px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break:break-all;
+            overflow: hidden;
+        }
+
+        .edit-label-name{
+            width: calc(100% - 94px);
+            display: flex;
+            justify-content: space-between;
         }
 
         .edit-bar {
@@ -371,33 +391,9 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(112, 138, 232, 0.8);
+            background-color: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
         }
-
-        /*         
-        ::-webkit-scrollbar-corner {
-            background-color: black; */
-
-
-
-        /* ::-webkit-scrollbar {
-            width: 20px;
-        }
-
-        ::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px grey; 
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background:black; 
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background:rgb(54, 56, 58); 
-        } */
 
         #image-list>li {
             display: flex;
@@ -408,7 +404,6 @@
             margin-bottom: 12px;
             margin-left: 6px;
             margin-right: 6px;
-            /* background-color: greenyellow; */
         }
 
         .image-item {
@@ -433,6 +428,96 @@
         #image-list canvas {
             display: inline-block;
         }
+        
+        .modal { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: none; 
+            background-color: rgba(0, 0, 0, 0.4); 
+        }
+
+        .modal_body{
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            width: 400px; 
+            height: 200px; 
+            padding: 40px; 
+            text-align: center; 
+            background-color: rgb(255, 255, 255); 
+            border-radius: 10px; 
+            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); 
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .title{
+            height: 40px;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+
+        }
+
+        .btn-open-popup{
+            color: #708AE8;
+            padding: 0px;
+            height: 20px;
+            margin-top: 4px;
+        }
+        .edit-label-name>img:hover {
+            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
+        }
+
+        #label_name{
+            margin-right: 10px;
+        }
+
+        .preview{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .preview>p{
+            width: 166px;
+        }
+
+        .preview input{
+            outline: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom:  1px solid #707070;
+            /* margin-left: 12px; */
+            padding-left: 4px;
+            width: 100%;
+        }
+
+        .model-control{
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .model-control button{
+            width: 50px;
+            padding: 2px 0;
+            height: 30px;
+        }
+
+        
+        .model-control>button:first-child{
+            background-color: #707070;
+            margin-right: 8px;
+        }
+
+
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
@@ -441,10 +526,6 @@
 
     <div class="canvas-body">
         <div class="control-bar">
-            <div class="control-bar-option-area">
-                <img src="/static/image/icon_check.svg" onclick="export2json();">
-                <img src="/static/image/icon_trash_can.svg" onclick="clear33();">
-            </div>
 
             <!-- step1 -->
             <div id='step1'>
@@ -463,7 +544,6 @@
             <!-- step2 -->
 
             <div class="step2" id="step2" style="display: none;">
-                <!-- <video id="video" style="display:none;"  @loadedmetadata="getVideoDimensions"></video> -->
                 <video id="video" style="display:none;"></video>
 
                 <div class="infomation-area">
@@ -476,25 +556,26 @@
 
                         <li>
                             <span>Object : </span>
-                            <p id="label_name"></p>
-                            
-                            <button class="btn-open-popup">Lable 등록</button>
+                            <div class="edit-label-name">
+                                <p id="label_name"></p>
+                                <img src="/static/image/icon_edit.svg" class="btn-open-popup">
+                            </div>
                         </li>
 
-                        <li>
+                        <!-- <li>
                             <span>Width : </span>
                             <p id="label_width"></p>
-                        </li>
-
-                        <li>
-                            <span>Height : </span>
-                            <p id="label_height"></p>
-                        </li>
+                        </li> -->
 
                         <li>
                             <span>Total Frame : </span>
                             <p id="file_frame">0</p>
                         </li>
+
+                        <li>
+                            <span>Now Frame : </span>
+                            <p id="label_now"></p>
+                        </li> 
 
                         <li>
                             <span>Size : </span>
@@ -509,25 +590,22 @@
                     </ul>
 
                 </div>
+                
 
-
-                <div class="preview">
-                    <input type="text" id="label_tag">
-                    <button type="button" onclick="define_tag();">label</button>
+                <div class="label-add">
+                    <select disabled style="display: none;"></select>
                 </div>
-
-
-                <div class="preview">
-                    <select disabled>
-                    </select>
-                    <button id="divide_video">start</button>
+                
+                <div class="control-bar-option-area">
+                    
+                    <img src="/static/image/icon_images.svg" id="divide_video">
+                    <img src="/static/image/icon_train_data.svg" onclick="">
+                    <img src="/static/image/icon_download.svg" onclick="export2json();">
+                    <img src="/static/image/icon_all_download.svg" onclick="">
+                    <img src="/static/image/icon_video2.svg" onclick="">
+                    <img src="/static/image/icon_trash_can.svg" onclick="img_draw_clear();">
+                    
                 </div>
-
-                <div class="preview">
-                    <select disabled>
-                    </select>
-                </div>
-
 
 
                 <div id="image-area">
@@ -540,13 +618,18 @@
         <div class="modal">
             <div class="modal_body">
                 <div class="title">
-                    <h2>Object Label 등록하기</h2>
+                    <h2>Object Label Title</h2>
                 </div>
-                <div class="close-area">X</div>
+                
                 <div class="content">
                     <div class="preview">
-                        <input type="text" id="label_tag">
-                        <button type="button" onclick="define_tag();">label</button>
+                        <p>Label Name : </p>
+                        <input type="text" id="label_tag" placeholder="입력해주세요.">
+                        
+                    </div>
+                    <div class="model-control">
+                        <button type="button" class="close-area">취소</button>
+                        <button type="button" onclick="define_tag();">확인</button>
                     </div>
                 
                     
@@ -555,7 +638,8 @@
         </div>
 
         <script>
-
+            var isDivideVideo = false;
+            var nowImage;
             let savejson = {};
             let openkey;
             let savelabel;
@@ -569,6 +653,8 @@
                 fileName.textContent = label;
                 savelabel = label;
                 console.log(label);
+                const modal = document.querySelector('.modal'); 
+                modal.style.display = "none"
             }
 
             // 로컬 영상 불러오기
@@ -580,32 +666,23 @@
                 var video = document.getElementById("video");
                 var width, height;
 
+                // var w = width;
+                // var h = height;
 
-                // video.onplaying = function () {
-                //     width = video.videoWidth
-                //     height = video.videoHeight
-                //     console.log("video dimens loaded w="+width+" h="+height)
-                // }
-
-                // console.log(file);
-
-                var w = width;
-                var h = height;
-
-                console.log(w, h);
+                // console.log(w, h);
 
                 // 파일 이름 추가
                 const fileName = document.querySelector("#file_name");
                 fileName.textContent = file['name'];
 
-                const fileWidth = document.querySelector("#label_width");
-                fileWidth.textContent = w;
+                // const fileWidth = document.querySelector("#label_width");
+                // fileWidth.textContent = w;
 
-                const fileHeight = document.querySelector("#label_height");
-                fileHeight.textContent = h;
+                // const fileHeight = document.querySelector("#label_height");
+                // fileHeight.textContent = h;
 
                 const fileSize = document.querySelector("#file_size");
-                fileSize.textContent = file['size'] + " MB";
+                fileSize.textContent = file['size'] + " byte";
 
                 const fileType = document.querySelector("#file_type");
                 fileType.textContent = file['type'];
@@ -636,6 +713,7 @@
                     }
 
                     if (window.MediaStreamTrackProcessor) {
+                        isDivideVideo = true;
                         let stopped = false;
                         const track = await getVideoTrack();
 
@@ -670,8 +748,6 @@
                                     imgjson.dot = 0;
                                     savejson[`${imageId.textContent}`] = imgjson;
 
-
-
                                     const imageCtx = imageCanvas.getContext("2d");
                                     imageCtx.drawImage(bitmap, 0, 0, 120, 100);
 
@@ -687,7 +763,6 @@
 
                                     const fileTotalFram = document.querySelector("#file_frame");
                                     fileTotalFram.textContent = index + 1;
-                                    // console.log(index + 1);
                                 }
                                 if (!done && !stopped) {
                                     readChunk();
@@ -696,7 +771,6 @@
                                 }
 
                             });
-
                         }
 
                         button.onclick = (evt) => stopped = true;
@@ -705,8 +779,6 @@
                         console.error("your browser doesn't support this API yet");
                     }
                 };
-
-
 
                 select.onchange = (evt) => {
                     const frame = frames[select.value];
@@ -726,17 +798,31 @@
                     return track;
                 }
 
-                // 추가사항
-                
+                // 추가사항                
                 function image_click() {
-
                     ctx.beginPath();
                     var firstX, firstY;
                     var X, Y;
                     var attribute = this.getAttribute('id')
                     var tt = new Array(attribute);
                     openkey = tt[0];
-                    console.log(openkey);
+
+                    if(nowImage != null){
+                        nowImage.style.color = 'black';
+                        nowImage.style.fontWeight = 400;
+                    }
+
+                    nowImage = document.getElementById(openkey);
+                    nowImage.style.color = '#708AE8';
+                    nowImage.style.fontWeight = 600;
+
+                    const fileNow = document.querySelector("#label_now");
+                    fileNow.textContent = openkey;
+                    // selectedImage.style.fontWeight = '400';
+                    console.log(">>", nowImage);
+
+                    
+                    console.log(nowImage);
 
                     const frame = frames[attribute.split('-')[1]];
                     tmpframe = frame;
@@ -744,7 +830,8 @@
                     canvas.height = frame.height;
                     ctx.drawImage(frame, 0, 0);
                     console.log(savejson);
-                    var t=0;
+
+                    var t = 0;
                     for (var i of savejson[openkey].points) {
                         if (t == 0) {
                             ctx.moveTo(i[0], i[1]);
@@ -753,25 +840,24 @@
                             ctx.fill();
                         }
                         else if (i[0] >= savejson[openkey].firstX - 10 && i[0] <= savejson[openkey].firstX + 10 && i[1] >= savejson[openkey].firstY * -10 && i[1] <= savejson[openkey].firstY * +10) {
-                        ctx.lineTo(savejson[openkey].firstX, savejson[openkey].firstY);
-                        ctx.fillStyle = "red"
-                        ctx.stroke();
-                        ctx.fill();
+                            ctx.lineTo(savejson[openkey].firstX, savejson[openkey].firstY);
+                            ctx.fillStyle = "red"
+                            ctx.stroke();
+                            ctx.fill();
                         }
                         else {
-                        ctx.lineTo(i[0], i[1]);
-                        ctx.stroke();
-                        ctx.moveTo(i[0], i[1]);
-                        ctx.arc(i[0], i[1], 5, 0, Math.PI * 2, true);// 원그리기
-                        ctx.closePath();
-                        ctx.fill();
+                            ctx.lineTo(i[0], i[1]);
+                            ctx.stroke();
+                            ctx.moveTo(i[0], i[1]);
+                            ctx.arc(i[0], i[1], 5, 0, Math.PI * 2, true);// 원그리기
+                            ctx.closePath();
+                            ctx.fill();
                         }
                         t++
                     }
 
                     
                     canvas.onmousedown = function (event) {
-
                         X = event.x - 351 + 66;
                         Y = event.y - 111;
 
@@ -805,13 +891,14 @@
                         }
                         savejson[openkey].dot++;
                     }
-                }; // 이미지 클릭 후 캔버스 띄우기 함수 끝
+                }; 
 
             });
 
-            function export2json() { // 저장함수
+            // 저장함수
+            function export2json() { 
                 var imgjson = new Object();
-                imgjson.name = openkey;
+                imgjson.name = openkey
                 imgjson.label = savelabel;
                 imgjson.points = [];
                 imgjson.points = savejson[openkey].points;
@@ -825,7 +912,7 @@
                 document.body.removeChild(a);
             }
 
-            function clear33() {
+            function img_draw_clear() {
                 tmpcanvas.width = tmpframe.width;
                 tmpcanvas.height = tmpframe.height;
                 savejson[openkey].dot = 0;
@@ -836,8 +923,6 @@
                 tmpcanvas.getContext("2d").clearRect(0, 0, tmpcanvas.width, tmpcanvas.height);
                 tmpcanvas.getContext("2d").drawImage(tmpframe, 0, 0);
             }
-
-
         </script>
 
 
@@ -845,12 +930,17 @@
             <canvas id="edit-area"> </canvas>
         </div>
 
-    </div>    
+    </div>  
+    
     <script>
         const modal = document.querySelector('.modal'); 
         const btnOpenPopup = document.querySelector('.btn-open-popup'); 
         btnOpenPopup.addEventListener(
             'click', () => { 
+            if(isDivideVideo){
+                alert("영상을 이미지로 분할하여 Object의 이름을 변경할 수 없습니다.")
+                return;
+            }
             modal.style.display = 'block'; 
         });
 
@@ -859,8 +949,6 @@
             modal.style.display = "none"
         })
     </script>
-
-
 </body>
 
 </html>

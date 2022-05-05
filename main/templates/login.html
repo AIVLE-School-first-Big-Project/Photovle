@@ -6,28 +6,28 @@
 
 <style>
 
-  *{
+    *{
     box-sizing:border-box;
-  }
-  img {
+    }
+    img {
     display: block;
-}
-  .container{
-    width: 100vw;
-    height:calc(100vh - 205px);
-    display: flex;
-    justify-content:center;
-    margin-top:100px;
-  }
-  .logo-area{
+    }
+    .container{
+        width: 100vw;
+        height:calc(100vh - 205px);
+        display: flex;
+        justify-content:center;
+        margin-top:100px;
+    }
+    .logo-area{
     width: 65%;
     margin-right:50px;
     background-color:white;
     border-radius:4px;
     border-width:1px;
     box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-  }
-  .login-area{
+    }
+    .login-area{
     width:35%;
     background-color:white;
     border-radius:4px;
@@ -35,27 +35,35 @@
     box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
     padding:30px;
     justify-content:left;
-  }
-  #input1{
+    }
+    #input1{
     border-top:none;
     border-left:none;
     border-right:none;
     border-bottom:3px solid #919494;
-  }
-  #input2{
+    }
+    #input2{
     border-top:none;
     border-left:none;
     border-right:none;
     border-bottom:3px solid #919494;
-  }
+    }
 </style>
 
 <div class="container">
-  <div class="logo-area">
-    <img src="/static/image/찐로고.png" width=30% style="margin-top:30px; padding:20px;">
-    <img src="/static/image/robot.png" 
-    alt="login form" class="img-fluid" style="width:750px;margin-top:25px; align:right; height:500px; padding-left:100px;" />
-  </div>
+    <div class="logo-area">
+        <ul>
+            <li>
+                <img src="/static/image/photovle_logo.png" width=30% style="margin-top:30px; padding:20px;">
+            </li>
+
+            <li>
+                <img src="/static/image/robot.png" 
+                alt="login form" class="img-fluid" style="width:750px;margin-top:25px; align:right; height:500px; padding-left:100px;" />
+            </li>
+        </ul>
+    </div>
+
   <div class="login-area">
     <form action="{% url 'main:login' %}" method='POST'>
       {% csrf_token %}
@@ -91,11 +99,6 @@
     </form>
   </div>
 </div>
-
-
-
-
-
   {% endblock %}
 
 
