@@ -51,11 +51,19 @@
 </style>
 
 <div class="container">
-  <div class="logo-area">
-    <img src="/static/image/찐로고.png" width=30% style="margin-top:30px; padding:20px;">
-    <img src="/static/image/robot.png" 
-    alt="login form" class="img-fluid" style="width:750px;margin-top:25px; align:right; height:500px; padding-left:100px;" />
-  </div>
+    <div class="logo-area">
+        <ul>
+            <li>
+                <img src="/static/image/photovle_logo.png" width=30% style="margin-top:30px; padding:20px;">
+            </li>
+
+            <li>
+                <img src="/static/image/robot.png" 
+                alt="login form" class="img-fluid" style="width:750px;margin-top:25px; align:right; height:500px; padding-left:100px;" />
+            </li>
+        </ul>
+    </div>
+    
   <div class="login-area">
     <form action="{% url 'main:login' %}" method='POST'>
       {% csrf_token %}
@@ -91,11 +99,6 @@
     </form>
   </div>
 </div>
-
-
-
-
-
   {% endblock %}
 
 
