@@ -44,7 +44,7 @@ def signup1(request):
     return render(request, 'signup1.html')
 
 # 회원가입 2페이지
-def signup2(request):
+def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -59,7 +59,7 @@ def signup2(request):
     context = {
         'form':form,
     }
-    return render(request, 'signup2.html', context)
+    return render(request, 'signup.html', context)
 
 # 카카오 로그인
 def kakao_login(request):
@@ -109,7 +109,7 @@ def kakao_callback(request):
         )
         kakao_account.save()
         user = User.objects.get(email=email)
-        # dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
+        dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
         context = {
             'user':user,
         }
@@ -117,10 +117,7 @@ def kakao_callback(request):
 
 # 소셜로그인 시 추가정보 입력
 def addinfo(request, pk):   # pk = user_id
-    user = User.objects.get(id=pk)
-    name = user.name
-    password = user.password
-    
+    user = User.objects.get(id=pk)    
     if request.method == 'POST':
         form = AddInfoForm(request.POST, instance=user)
         if form.is_valid():

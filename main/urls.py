@@ -21,7 +21,7 @@ urlpatterns = [
     path('home/login/kakao/callback/', views.kakao_callback, name='kakao_callback'),
 # 회원가입
     path('home/signup1/', views.signup1, name='signup1'),
-    path('home/signup2/', views.signup2, name='signup2'),
+    path('home/signup/', views.signup, name='signup'),
     path('home/<int:pk>/addinfo/', views.addinfo, name='addinfo'),
 # 마이페이지
     path('home/mypage/', views.mypage, name='mypage'),

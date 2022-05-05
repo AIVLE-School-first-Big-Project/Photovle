@@ -49,7 +49,7 @@
                 <div class="card" style="border-radius: 1rem; align-items:center;">
                     <div class="col-md-6 col-lg-7 d-flex align-items-center">
                         <div class="card-body p-4 p-lg-5 text-black">
-                            <form method="POST" class="post-form" action="{% url 'main:signup2' %}">
+                            <form method="POST" class="post-form" action="{% url 'main:signup' %}">
                                 {% csrf_token %}
                                 {% include "form_errors.html" %}
                                 <div class="d-flex align-items-center mb-3 pb-1">
@@ -59,16 +59,16 @@
                                 <h6 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">가입 후 더 많은 서비스를 만나보세요.</h5>
                                 
                                 <div class="form-outline mb-4">
-                                    
-                                    <input type="hidden" name="name" id="name" value="{{ name }}" class="form-control form-control-lg" placeholder="Please enter your Name"/>
+                                    <label class="form-label" for="form2Example27">Name</label>
+                                    <input type="text" name="name" id="name" value="{{ name }}" class="form-control form-control-lg" placeholder="Please enter your Name"/>
                                 </div>
                                 <div class="form-outline mb-4">
-                                    
-                                    <input type="hidden" name="username" id="username" value="{{ username }}" class="form-control form-control-lg" placeholder="Please enter your ID"/>
+                                    <label class="form-label" for="form2Example27">ID</label>
+                                    <input type="text" name="username" id="username" value="{{ username }}" class="form-control form-control-lg" placeholder="Please enter your ID"/>
                                 </div>
                                 <div class="form-outline mb-4">
-                                    
-                                    <input type="hidden" name="phone" id="phone" value="{{ phone }}" class="form-control form-control-lg" placeholder="Please enter your Email"/>
+                                    <label class="form-label" for="form2Example27">Phone Number</label>
+                                    <input type="text" name="phone" id="phone" value="{{ phone }}" class="form-control form-control-lg" placeholder="Please enter your Email"/>
                                 </div>                        
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example27">Password</label>
