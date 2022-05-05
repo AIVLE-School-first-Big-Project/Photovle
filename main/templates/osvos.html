@@ -454,7 +454,6 @@
         }
 
         .title{
-            /* background-color: palegoldenrod; */
             height: 40px;
             font-size: 20px;
             display: flex;
@@ -559,24 +558,24 @@
                             <span>Object : </span>
                             <div class="edit-label-name">
                                 <p id="label_name"></p>
-                                <img src="/static/image/icon_edit.svg" class="btn-open-popup" onclick="">
+                                <img src="/static/image/icon_edit.svg" class="btn-open-popup">
                             </div>
                         </li>
 
                         <!-- <li>
                             <span>Width : </span>
                             <p id="label_width"></p>
-                        </li>
-
-                        <li>
-                            <span>Height : </span>
-                            <p id="label_height"></p>
                         </li> -->
 
                         <li>
                             <span>Total Frame : </span>
                             <p id="file_frame">0</p>
                         </li>
+
+                        <li>
+                            <span>Now Frame : </span>
+                            <p id="label_now"></p>
+                        </li> 
 
                         <li>
                             <span>Size : </span>
@@ -599,7 +598,7 @@
                 
                 <div class="control-bar-option-area">
                     
-                    <img src="/static/image/icon_images.svg" id="divide_video" onclick="">
+                    <img src="/static/image/icon_images.svg" id="divide_video">
                     <img src="/static/image/icon_train_data.svg" onclick="">
                     <img src="/static/image/icon_download.svg" onclick="export2json();">
                     <img src="/static/image/icon_all_download.svg" onclick="">
@@ -639,7 +638,8 @@
         </div>
 
         <script>
-
+            var isDivideVideo = false;
+            var nowImage;
             let savejson = {};
             let openkey;
             let savelabel;
@@ -713,6 +713,7 @@
                     }
 
                     if (window.MediaStreamTrackProcessor) {
+                        isDivideVideo = true;
                         let stopped = false;
                         const track = await getVideoTrack();
 
@@ -747,8 +748,6 @@
                                     imgjson.dot = 0;
                                     savejson[`${imageId.textContent}`] = imgjson;
 
-
-
                                     const imageCtx = imageCanvas.getContext("2d");
                                     imageCtx.drawImage(bitmap, 0, 0, 120, 100);
 
@@ -772,7 +771,6 @@
                                 }
 
                             });
-
                         }
 
                         button.onclick = (evt) => stopped = true;
@@ -781,8 +779,6 @@
                         console.error("your browser doesn't support this API yet");
                     }
                 };
-
-
 
                 select.onchange = (evt) => {
                     const frame = frames[select.value];
@@ -802,8 +798,7 @@
                     return track;
                 }
 
-                // 추가사항
-                
+                // 추가사항                
                 function image_click() {
                     ctx.beginPath();
                     var firstX, firstY;
@@ -811,7 +806,23 @@
                     var attribute = this.getAttribute('id')
                     var tt = new Array(attribute);
                     openkey = tt[0];
-                    console.log(openkey);
+
+                    if(nowImage != null){
+                        nowImage.style.color = 'black';
+                        nowImage.style.fontWeight = 400;
+                    }
+
+                    nowImage = document.getElementById(openkey);
+                    nowImage.style.color = '#708AE8';
+                    nowImage.style.fontWeight = 600;
+
+                    const fileNow = document.querySelector("#label_now");
+                    fileNow.textContent = openkey;
+                    // selectedImage.style.fontWeight = '400';
+                    console.log(">>", nowImage);
+
+                    
+                    console.log(nowImage);
 
                     const frame = frames[attribute.split('-')[1]];
                     tmpframe = frame;
@@ -912,8 +923,6 @@
                 tmpcanvas.getContext("2d").clearRect(0, 0, tmpcanvas.width, tmpcanvas.height);
                 tmpcanvas.getContext("2d").drawImage(tmpframe, 0, 0);
             }
-
-
         </script>
 
 
@@ -928,6 +937,10 @@
         const btnOpenPopup = document.querySelector('.btn-open-popup'); 
         btnOpenPopup.addEventListener(
             'click', () => { 
+            if(isDivideVideo){
+                alert("영상을 이미지로 분할하여 Object의 이름을 변경할 수 없습니다.")
+                return;
+            }
             modal.style.display = 'block'; 
         });
 
