@@ -371,33 +371,9 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background-color: rgba(112, 138, 232, 0.8);
+            background-color: rgba(0, 0, 0, 0.2);
             border-radius: 16px;
         }
-
-        /*         
-        ::-webkit-scrollbar-corner {
-            background-color: black; */
-
-
-
-        /* ::-webkit-scrollbar {
-            width: 20px;
-        }
-
-        ::-webkit-scrollbar-track {
-            box-shadow: inset 0 0 5px grey; 
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background:black; 
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background:rgb(54, 56, 58); 
-        } */
 
         #image-list>li {
             display: flex;
@@ -408,7 +384,6 @@
             margin-bottom: 12px;
             margin-left: 6px;
             margin-right: 6px;
-            /* background-color: greenyellow; */
         }
 
         .image-item {
@@ -433,6 +408,34 @@
         #image-list canvas {
             display: inline-block;
         }
+        
+        .modal { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: none; 
+            background-color: rgba(0, 0, 0, 0.4); 
+        }
+
+        .modal_body{
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            width: 400px; 
+            height: 600px; 
+            padding: 40px; 
+            text-align: center; 
+            background-color: rgb(255, 255, 255); 
+            border-radius: 10px; 
+            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); 
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+
+
+
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
@@ -580,15 +583,6 @@
                 var video = document.getElementById("video");
                 var width, height;
 
-
-                // video.onplaying = function () {
-                //     width = video.videoWidth
-                //     height = video.videoHeight
-                //     console.log("video dimens loaded w="+width+" h="+height)
-                // }
-
-                // console.log(file);
-
                 var w = width;
                 var h = height;
 
@@ -687,7 +681,6 @@
 
                                     const fileTotalFram = document.querySelector("#file_frame");
                                     fileTotalFram.textContent = index + 1;
-                                    // console.log(index + 1);
                                 }
                                 if (!done && !stopped) {
                                     readChunk();
@@ -805,13 +798,14 @@
                         }
                         savejson[openkey].dot++;
                     }
-                }; // 이미지 클릭 후 캔버스 띄우기 함수 끝
+                }; 
 
             });
 
-            function export2json() { // 저장함수
+            // 저장함수
+            function export2json() { 
                 var imgjson = new Object();
-                imgjson.name = openkey;
+                imgjson.name = openkey
                 imgjson.label = savelabel;
                 imgjson.points = [];
                 imgjson.points = savejson[openkey].points;
@@ -845,7 +839,8 @@
             <canvas id="edit-area"> </canvas>
         </div>
 
-    </div>    
+    </div>  
+    
     <script>
         const modal = document.querySelector('.modal'); 
         const btnOpenPopup = document.querySelector('.btn-open-popup'); 
@@ -859,8 +854,6 @@
             modal.style.display = "none"
         })
     </script>
-
-
 </body>
 
 </html>
