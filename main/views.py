@@ -87,8 +87,12 @@ def kakao_callback(request):
 
     if User.objects.filter(email=email).exists():
         user = User.objects.get(email=email)
-        dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
-        return redirect('main:home')
+        if user.name=="" or user.phone=="":
+            user.delete()
+            return redirect('main:login')
+        else:
+            dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
+            return redirect('main:home')
 
     else:
         # user 테이블에 넣기 위하여 임의의 password를 만들고 sha256으로 암호화
@@ -105,7 +109,7 @@ def kakao_callback(request):
         )
         kakao_account.save()
         user = User.objects.get(email=email)
-        dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
+        # dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
         context = {
             'user':user,
         }
@@ -114,6 +118,9 @@ def kakao_callback(request):
 # 소셜로그인 시 추가정보 입력
 def addinfo(request, pk):   # pk = user_id
     user = User.objects.get(id=pk)
+    name = user.name
+    password = user.password
+    
     if request.method == 'POST':
         form = AddInfoForm(request.POST, instance=user)
         if form.is_valid():
@@ -123,6 +130,9 @@ def addinfo(request, pk):   # pk = user_id
             user = authenticate(username=username, password=raw_password)
             dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
             return redirect('main:home')
+        else:
+            user.delete()
+            return redirect('main:login')
     else:
         form = AddInfoForm(instance=user)
         context = {
