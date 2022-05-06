@@ -1,7 +1,6 @@
 import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
 from Photovle import settings
 
 
@@ -14,7 +13,7 @@ name : 유저의 이름
 email : 유저의 이메일(동일한 이메일로 가입불가, 비밀번호초기화를 위해 입력받음)
 '''
 class User(AbstractUser):
-    phone = models.CharField("전화번호", max_length=20, unique=True)
+    phone = models.CharField("전화번호", max_length=11, unique=True)
     name = models.CharField("이름", max_length=20)
     email = models.EmailField("이메일", max_length=200, unique=True)
     first_name = None
