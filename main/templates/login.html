@@ -13,13 +13,17 @@
     img {
         display: block;
     }
+    
     .container{
         width: 100vw;
         height:calc(100vh - 205px);
+        /* max-width: 1300px; */
+        max-height: 560px;
         display: flex;
         justify-content:center;
         margin-top:100px;
     }
+    
     .logo-area{
         width: 65%;
         margin-right:50px;
@@ -31,6 +35,7 @@
         flex-direction: column;
         justify-content: space-between;
     }
+    
     .logo-area>li:first-child{
         padding:26px;
     }
@@ -146,10 +151,29 @@
         width: 100%;
         
     }
+    
+    .login-body{
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .float-area{
+        position: relative;
+        top: -30px;
+        
+    }
 </style>
 
+<div class="login-body">
+    <div class="float-area">
+        {% include "form_errors.html" %}
+    </div>
+</div>
 <div class="container">
-    
+        
     <ul  class="logo-area">
         <li>
             <img src="/static/image/photovle_logo.png">
@@ -160,11 +184,12 @@
         </li>
     </ul>
     
+    
 
     <div class="login-area">
+        
         <form action="{% url 'main:login' %}" method='POST'>
         {% csrf_token %}
-        {% include "form_errors.html" %}
             <ul class="login-div">
                 <li>
                     <h2 class="login-title">Login</h2>
@@ -208,7 +233,7 @@
         
         </form>
     </div>
-    </div>
+</div>
 {% endblock %}
 
 
