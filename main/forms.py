@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import get_user_model
 from django.forms import ModelForm
 from django import forms
-from .models import User, Board, Reply
+from .models import Board, Reply, User
 
 # 유저 생성 form
 class UserForm(UserCreationForm):

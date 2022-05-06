@@ -35,83 +35,56 @@
         cursor:default;
     }
     {% comment %} modal {% endcomment %}
-    .blur-it {
-        filter: blur(4px);
-    }
-    
-    a.btn {
-        width: 200px;
-        padding: 18px 0;
-        position: absolute;
-        top: 50%; 
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-        font-weight: 700;
-        text-align: center;
-        text-decoration: none;
-        text-transform: uppercase;
-        color: #fff;
-        border-radius: 0;
-        background: #e2525c;
-    }
-    
-    .modal-wrapper {
-        width: 100%;
-        height: 100%;
-        position: fixed;
+    .modal { 
+        position: absolute; 
         top: 0; 
-        left: 0;
-        background: rgba(41, 171, 164, 0.8);
-        visibility: hidden;
-        opacity: 0;
-        transition: all 0.25s ease-in-out;
+        left: 0; 
+        width: 100%; 
+        height: 100%; 
+        display: none; 
+        background-color: rgba(0, 0, 0, 0.4); 
     }
-    
-    .modal-wrapper.open {
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .modal {
-        width: 600px;
-        height: 400px;
-        display: block;
-        margin: 50% 0 0 -300px;
-        position: relative;
+
+    .modal_body{
+        position: absolute; 
         top: 50%; 
-        left: 50%;
-        background: #fff;
-        opacity: 0;
-        transition: all 0.5s ease-in-out;
+        left: 50%; 
+        width: 400px; 
+        height: 600px; 
+        padding: 40px; 
+        text-align: center; 
+        background-color: rgb(255, 255, 255); 
+        border-radius: 10px; 
+        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); 
+        transform: translateX(-50%) translateY(-50%);
     }
-    
-    .modal-wrapper.open .modal {
-        margin-top: -200px;
-        opacity: 1;
-    }
-    
-    .head { 
-        width: 90%;
-        height: 32px;
-        padding: 12px 30px;
-        overflow: hidden;
-        background: #e2525c;
-    }
-    
-    .btn-close {
-        font-size: 28px;
-        display: block;
-        float: right;
-        color: #fff;
-    }
-    
-    .content {
-        padding: 10%;
-    }
+    input{
+        outline: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom:  1px solid #707070;
+        margin-left: 12px;
+        padding-left: 4px;
+}
 
 </style>
-
+<div class="modal">
+            <div class="modal_body">
+                <div class="title">
+                    <h2>Object Label 등록하기</h2>
+                </div>
+                <div class="close-area">X</div>
+                <div class="content">
+                    <div class="preview">
+                        <input type="text" id="label_tag">
+                        <button type="button" onclick="define_tag();">label</button>
+                    </div>
+                
+                    
+                </div>
+            </div>
+        </div>
 <div class="container">
     <div class="board">
 
@@ -161,27 +134,6 @@
         <div class="pt-1 mb-4 d-grid gap-2">
             <button class="btn btn-lg btn-block" type="button" style="background-color: #86878b; color:white; width:100%" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
         </div>
-        <div class="modal-wrapper">
-            <div class="modal">
-                <div class="head">
-                    <a class="btn-close trigger" href="#">
-                        <i class="fa fa-times" aria-hidden="true"></i>
-                    </a>
-                </div>
-                <div class="modal-content">
-                    test
-                </div>
-            </div>
-        </div>
-        <script>
-            $( document ).ready(function() {
-                $('.trigger').on('click', function() {
-                    $('.modal-wrapper').toggleClass('open');
-                    $('.page-wrapper').toggleClass('blur-it');
-                    return false;
-                });
-            });
-        </script>
         <script>
             function btn(){
                 if (confirm("정말 탈퇴하시겠습니까?")==true){
@@ -192,7 +144,20 @@
 
             }
         </script>
-    
+        <script>
+            const modal = document.querySelector('.modal'); 
+            const btnOpenPopup = document.querySelector('.btn-open-popup'); 
+            btnOpenPopup.addEventListener(
+                'click', () => { 
+                modal.style.display = 'block'; 
+            });
+        
+            const closeBtn = modal.querySelector(".close-area")
+            closeBtn.addEventListener("click", e => {
+                modal.style.display = "none"
+            })
+        </script>
     </div>
 </div>
+
 {% endblock %}

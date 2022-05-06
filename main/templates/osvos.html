@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-   
+
 <!DOCTYPE html>
 <html>
 
@@ -604,13 +604,13 @@
                 
                 <div class="control-bar-option-area">
                     
-                    <img src="/static/image/icon_images.svg" id="divide_video" class="btn-open-popup">
-                    <img src="/static/image/icon_color_picker.svg" class="btn-open-popup">
-                    <img src="/static/image/icon_train_data.svg" onclick="" class="btn-open-popup">
-                    <img src="/static/image/icon_download.svg" onclick="export2json();" class="btn-open-popup">
-                    <img src="/static/image/icon_all_download.svg" onclick="" class="btn-open-popup">
-                    <img src="/static/image/icon_video2.svg" onclick="" class="btn-open-popup">
-                    <img src="/static/image/icon_trash_can.svg" onclick="img_draw_clear();" class="btn-open-popup">
+                    <img src="/static/image/icon_images.svg" id="divide_video">
+                    <img src="/static/image/icon_color_picker.svg" onclick = "color_picker();">
+                    <img src="/static/image/icon_train_data.svg" onclick="">
+                    <img src="/static/image/icon_download.svg" onclick="export2json();">
+                    <img src="/static/image/icon_all_download.svg" onclick="">
+                    <img src="/static/image/icon_video2.svg" onclick="">
+                    <img src="/static/image/icon_trash_can.svg" onclick="img_draw_clear();">
                     
                 </div>
 
@@ -651,6 +651,11 @@
             let openkey;
             let savelabel;
             let tmpcanvas , tmpframe;
+
+            let drawcolor="rgb(118,131,243)" ;// 원 그림 그릴떄 색깔
+            let fixcolor="red"    // 다각형 확정됬을때 색깔
+            let linecolor = "black" ; // 선그릴때 색깔
+            let Toggle = 0;
 
             // Object 정의 함수
             function define_tag() {
@@ -805,7 +810,8 @@
                     return track;
                 }
 
-                // 추가사항                
+                // 추가사항 
+                
                 function image_click() {
                     ctx.beginPath();
                     var firstX, firstY;
@@ -844,16 +850,21 @@
                             ctx.moveTo(i[0], i[1]);
                             path = ctx.arc(i[0], i[1], 8, 0, Math.PI * 2, true);
                             ctx.closePath();
+                            ctx.fillStyle = drawcolor;
                             ctx.fill();
                         }
-                        else if (i[0] >= savejson[openkey].firstX - 10 && i[0] <= savejson[openkey].firstX + 10 && i[1] >= savejson[openkey].firstY * -10 && i[1] <= savejson[openkey].firstY * +10) {
+                        else if (i[0] == savejson[openkey].firstX && i[1] == savejson[openkey].firstY ) {
                             ctx.lineTo(savejson[openkey].firstX, savejson[openkey].firstY);
-                            ctx.fillStyle = "red"
+                            ctx.fillStyle = fixcolor;
+                            ctx.lineWidth = 5;
+                            ctx.strokeStyle = linecolor;
                             ctx.stroke();
                             ctx.fill();
                         }
                         else {
                             ctx.lineTo(i[0], i[1]);
+                            ctx.lineWidth = 5;
+                            ctx.strokeStyle = linecolor;
                             ctx.stroke();
                             ctx.moveTo(i[0], i[1]);
                             ctx.arc(i[0], i[1], 5, 0, Math.PI * 2, true);// 원그리기
@@ -869,31 +880,41 @@
                         Y = event.y - 111;
 
                         if (tt[0] == attribute) {
-                            savejson[openkey].points.push([X, Y]);
                             console.log(savejson);
                         }
 
                         if (savejson[openkey].dot<0){}
                         else if (savejson[openkey].dot == 0) {
+                            savejson[openkey].points.push([X, Y]);
                             savejson[openkey].firstX = X;
                             savejson[openkey].firstY = Y;
                             ctx.moveTo(X, Y);
                             path = ctx.arc(X, Y, 8, 0, Math.PI * 2, true);
                             ctx.closePath();
+                            ctx.fillStyle = drawcolor;
                             ctx.fill();
 
                         } else if (X >= savejson[openkey].firstX - 10 && X <= savejson[openkey].firstX + 10 && Y >= savejson[openkey].firstY - 10 && Y <= savejson[openkey].firstY + 10) {
+                            savejson[openkey].points.push([savejson[openkey].firstX, savejson[openkey].firstY]);
                             ctx.lineTo(savejson[openkey].firstX, savejson[openkey].firstY);
-                            ctx.fillStyle = "red"
+                            ctx.fillStyle = fixcolor;
+                            ctx.lineWidth = 5;
+                            ctx.strokeStyle = linecolor;
                             ctx.stroke();
                             ctx.fill();
+                            savejson[openkey].dot = -100;
+
 
                         } else {
+                            savejson[openkey].points.push([X, Y]);
                             ctx.lineTo(X, Y);
+                            ctx.lineWidth = 5;
+                            ctx.strokeStyle = linecolor;
                             ctx.stroke();
                             ctx.moveTo(X, Y);
                             ctx.arc(X, Y, 5, 0, Math.PI * 2, true);// 원그리기
                             ctx.closePath();
+                            ctx.fillStyle = drawcolor;
                             ctx.fill();
                         }
                         savejson[openkey].dot++;
@@ -929,6 +950,22 @@
                 console.log(savejson);
                 tmpcanvas.getContext("2d").clearRect(0, 0, tmpcanvas.width, tmpcanvas.height);
                 tmpcanvas.getContext("2d").drawImage(tmpframe, 0, 0);
+            }
+
+            function color_picker(){
+                if (Toggle == 0){
+                    drawcolor="rgb(118,131,243)";
+                    fixcolor="red"
+                    linecolor = 'white';
+                    Toggle = 1;
+                }
+                else{
+                    drawcolor="rgb(118,131,243)" ;// 원 그림 그릴떄 색깔
+                    fixcolor="red"    // 다각형 확정됬을때 색깔
+                    linecolor = "black" ; // 선그릴때 색깔
+                    Toggle = 0;
+                }
+
             }
         </script>
 

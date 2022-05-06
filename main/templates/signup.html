@@ -1,5 +1,75 @@
 {% extends 'base_non_logo.html' %}
-{% comment %} {% load bootstrap4 %} {% endcomment %}
+{% block content %}
+<style>
+
+    .signup-title{
+        font:normal normal bold 50px/67px Segoe UI;
+        font-size: 34px;
+        margin-bottom: 10px;
+    }
+    .signup-body{
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .float-area{
+        position: relative;
+        top: 0;
+        left: 20px;
+    }
+
+    .signup-area{
+        width:100vw;
+        height: 100vh;
+        padding: 20px 0 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signup-card{
+        width:35%;
+        background-color:white;
+        border-radius:4px;
+        border-width:1px;
+        box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+        padding:40px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 1rem; 
+        align-items:center;
+    }
+
+    .signup-name{
+        width: 400px;
+        /* background-color: #708ae8; */
+    }
+    .signup-card input{
+        border-top:none;
+        border-left:none;
+        border-right:none;
+        border-bottom:1px solid #919494;
+        font-size: 16px;
+        border-radius: 0;
+        margin: 0;
+        
+    }
+
+    .signup-name>input:focus{
+        outline: none;
+    }
+
+    .label{
+        margin-top: 8px;
+    }
+</style>
+
+
+<!-- {% comment %} {% load bootstrap4 %} {% endcomment %}
 {% comment %} {% block content %}
 <div class="container my-3">
     <form method="post" class = "post-form" action="{% url 'main:signup' %}">
@@ -38,62 +108,63 @@
         <button type="submit" class="btn btn-primary">생성하기</button>
     </form>
 </div>
-{% endblock %} {% endcomment %}
+{% endblock %} {% endcomment %} -->
 
 
-{% block content %}
-<section class="vh-100">
-    <div class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-xl-10">
-                <div class="card" style="border-radius: 1rem; align-items:center;">
-                    <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                        <div class="card-body p-4 p-lg-5 text-black">
-                            <form method="POST" class="post-form" action="{% url 'main:signup' %}">
-                                {% csrf_token %}
-                                {% include "form_errors.html" %}
-                                <div class="d-flex align-items-center mb-3 pb-1">
-                                    <i class="fas fa-cubes fa-2x " style="color: #ff6219;"></i>
-                                    <span class="h2 fw-bold mb-0" style="cursor:default">Sign up</span>
-                                </div>
-                                {% comment %} <h6 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">가입 후 더 많은 서비스를 만나보세요.</h5> {% endcomment %}
-                                
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">Name</label>
-                                    <input type="text" name="name" id="name" value="{{ name }}" class="form-control" placeholder="Please enter your Name"/>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">ID</label>
-                                    <input type="text" name="username" id="username" value="{{ username }}" class="form-control" placeholder="Please enter your ID"/>
-                                </div>                        
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">Password</label>
-                                    <input type="password" name="password1" id="password1" class="form-control" placeholder="Please enter your Password"/>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">Confirm Password</label>
-                                    <input type="password" name="password2" id="password2" class="form-control" placeholder="Please confirm your Password"/>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">Phone Number</label>
-                                    <input type="text" name="phone" id="phone" value="{{ phone }}" class="form-control" placeholder="Please enter your Email"/>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">Email</label>
-                                    <input type="email" name="email" id="email" class="form-control" placeholder="Please enter your Email"/>
-                                </div>
-                                
-                                <div class="pt-1 mb-4 d-grid gap-2">
-                                    <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:100%">Create New Account</button>
-                                </div>
-                            </form>
-  
-                
-                        </div>
-                    </div>
-                </div>
+
+<div class="signup-body">
+    <div class="float-area">
+        {% include "form_errors.html" %}
+    </div>
+</div>
+
+<section class="signup-area">
+    <div class="signup-card">
+
+        <form method="POST" class="post-form" action="{% url 'main:signup' %}">
+            {% csrf_token %}
+            
+            <div>
+                <h2 class="signup-title" style="cursor:default">Sign up</h2>
+            </div>      
+
+            <div class="signup-name">
+                <label class="label" for="form2Example27">Name</label>
+                <input type="text" name="name" id="name" value="{{ name }}" class="form-control" placeholder="Please enter your Name"/>
             </div>
-        </div>
+
+            <div>
+                <label class="label" for="form2Example27">ID</label>
+                <input type="text" name="username" id="username" value="{{ username }}" class="form-control" placeholder="Please enter your ID"/>
+            </div>  
+
+            <div>
+                <label class="label" for="form2Example27">Password</label>
+                <input type="password" name="password1" id="password1" class="form-control" placeholder="Please enter your Password"/>
+            </div>
+
+            <div>
+                <label class="label" for="form2Example27">Confirm Password</label>
+                <input type="password" name="password2" id="password2" class="form-control" placeholder="Please confirm your Password"/>
+            </div>
+
+            <div>
+                <label class="label" for="form2Example27">Phone Number</label>
+                <input type="text" name="phone" id="phone" value="{{ phone }}" class="form-control" placeholder="Please enter your Email"/>
+            </div>
+
+            <div>
+                <label class="label" for="form2Example27">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Please enter your Email"/>
+            </div>
+            
+            <div class="pt-1 mb-4 d-grid gap-2" style="margin-top: 20px;">
+                <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:100%">Create New Account</button>
+            </div>
+        </form>
+
     </div>
 </section>
+
+
 {% endblock %}
