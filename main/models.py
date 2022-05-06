@@ -19,6 +19,7 @@ class User(AbstractUser):
     email = models.EmailField("이메일", max_length=200, unique=True)
     first_name = None
     last_name = None
+
     class Meta:
         db_table = 'user'
 
@@ -41,10 +42,12 @@ class Board(models.Model):
 
     def __str__(self):
         return self.title
+
     @property
     def update_counter(self):
         self.hits = self.hits + 1
         self.save()
+        
     def delete(self, *args, **kwargs):
         if self.upload_files:
             os.remove(os.path.join(settings.MEDIA_ROOT, self.upload_files.path))

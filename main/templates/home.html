@@ -25,29 +25,29 @@
     }
     {% comment %} 사이드메뉴 {% endcomment %}
     
-    * {padding:0;margin:0;}
     input[id="menuicon"] {
         display:none;
         padding:10px;
     }
     input[id="menuicon"] + label {
         display:block; 
-        width:60px;
-        height:50px;
+        width:26px;
+        height:22px;
         position:fixed;
         right:0;
         top:calc(50%-25px);
         transition:all .35s;
         cursor:pointer;
-        margin:10px;
+        margin:29px 29px 0 0;
     }
     input[id="menuicon"] + label span {
-        display:block;
-        position:absolute;
-        width:100%;
-        height:5px;
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 3px;
         border-radius:30px;
-        background:#000; transition:all .35s;
+        background:#9e9e9e; 
+        transition:all .35s;
 
     }
     input[id="menuicon"] + label span:nth-child(1){
@@ -62,10 +62,10 @@
     }
     input[id="menuicon"]:checked + label {
         z-index:2;
-        right:300px;
+        right:227px;
     }
     input[id="menuicon"]:checked + label span {
-        background:#000;
+        background:#fff;
     }
     input[id="menuicon"]:checked + label span:nth-child(1){
         top:50%;
@@ -81,84 +81,164 @@
 
     .sidebar {
         width:300px;
-        height:100%;
+        height:100vh;
         background:#708ae8;
         position:fixed;
         top:0;
         right:-300px;
         z-index:1;
         transition:all .35s;
-        opacity:0.7;
+        /* opacity: 0.92; */
         display:flex;
         flex-direction:column;
         align-items:center;
         justify-content:space-between;
         text-align:center;
+        border-left: 1px solid #fff;
     }
     input[id="menuicon"]:checked + label + div {right:0;}
+
     .nav-links{
-        margin-top:30px;
-        margin-bottom:30px;
+        margin-top:46px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
     }
     .nav-links .link{
-        margin: 20px 0;
+        /* margin: 20px 0; */
         text-decoration: none;
         font-family: sans-serif;
-        color: rgba(0,0,0,0.9);
-        font-weight: 700;
+        color: #fff;
+        font-weight: 400;
         text-transform: uppercase;
         font-size: 1.2rem;
         transition: all 300ms cubic-bezier(.9, 0, .33, 1);
+        
     }
+    .nav-links>li{
+        display: block;
+        color: #fff;
+        padding: 16px 0;
+        width: 100%;
+        border-bottom: 1px solid #fff;
+    }
+
+    .nav-links>li:first-child>a{
+        margin-top:20px; 
+        color: #fff;
+        font-size:x-large; 
+        text-align:left;
+        
+    }
+
+    .nav-links>li:first-child>span{
+        color: #fff;
+        text-align:left;
+    }
+
+    .nav-login{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
     .nav-login .link{
-        margin: 20px 0;
         text-decoration: none;
         font-family: sans-serif;
-        color: rgba(0,0,0,0.9);
-        font-weight: 700;
+        color: #fff;
+        font-weight: 400;
         text-transform: uppercase;
         font-size: 1.2rem;
         transition: all 300ms cubic-bezier(.9, 0, .33, 1);
     }
+    
+    .nav-login>li{
+        display: block;
+        color: #fff;
+        padding: 16px 0;
+        width: 100%;
+        border-top: 1px solid #fff;
+    }
+
+    /* .nav-login:after{
+        content: "";
+        display: block;
+        height: 16px;
+        weight: 10px;
+    } */
 
 </style>
 {% if user.is_authenticated %}
-<input type="checkbox" id="menuicon">
-<label for="menuicon">
-    <span></span>
-    <span></span>
-    <span></span>
-</label>
-<div class="sidebar">
-    <div class="nav-links">
-        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">님 안녕하세요.</span><br><hr style="width:100%;">
-        <a href="{% url 'main:osvos' %}" class="link">Image Segmentation</a><br><hr>
-        <a href="{% url 'main:board' %}" class="link">게시판</a><br><hr>
-        <a href="{% url 'main:mypost' %}" class="link">나의 게시글</a>
-    </div>
-    <div class="nav-login">
-        <hr><a href="{% url 'main:mypage' %}" class="link">마이페이지</a></br><hr>
-        <a href="{% url 'main:logout' %}" class="link">로그아웃</a>
-    </div>
-</div>
-{% else %}
-<input type="checkbox" id="menuicon">
-<label for="menuicon">
-    <span></span>
-    <span></span>
-    <span></span>
-</label>
-<div class="sidebar">
-    <div class="nav-links">
-        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">로그인이 필요합니다.</span><br><hr style="width:100%;">
-        <a href="{% url 'main:login' %}" class="link">Image Segmentation</a><br><hr>
-        <a href="{% url 'main:login' %}" class="link">게시판</a><br><hr>
-    </div>
-    <div class="nav-login">
-        <a href="{% url 'main:login' %}" class="link">로그인</a>
-    </div>
-</div>
-{% endif %}
+        <input type="checkbox" id="menuicon">
+
+        <label for="menuicon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div class="sidebar">
+            
+            <ul class="nav-links">
+                <li>
+                    <a style="color:#fff">{{user.name}}</a>
+                    <span >님 안녕하세요.</span>
+                </li>
+
+                <li>
+                    <a href="{% url 'main:osvos' %}" class="link">Image Segmentation</a>        
+                </li>
+
+                <li>
+                    <a href="{% url 'main:board' %}" class="link">게시판</a>        
+                </li>
+
+                <li>
+                    <a href="{% url 'main:mypost' %}" class="link">나의 게시글</a>
+                </li>
+            </ul>        
+                
+            <ul class="nav-login">
+                <li>
+                    <a href="{% url 'main:mypage' %}" class="link" style="font-size: 1.2rem;">마이페이지</a>
+                </li>
+                <li>
+                    <a href="{% url 'main:logout' %}" class="link">로그아웃</a>
+                </li>
+            </ul>        
+            
+        </div>
+        {% else %}
+        <input type="checkbox" id="menuicon">
+        <label for="menuicon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div class="sidebar">
+            <ul class="nav-links">
+                <li>
+                    <span style="text-align:left;">로그인이 필요합니다.</span>
+                </li>
+
+                <li>
+                    <a href="{% url 'main:login' %}" class="link">Image Segmentation</a>
+                </li>
+
+                <li>
+                    <a href="{% url 'main:login' %}" class="link">게시판</a>
+                </li>
+            </ul>
+            
+            <div class="nav-login">
+                <li>
+                    <a href="{% url 'main:login' %}" class="link">로그인</a>
+                </li>
+                <li>
+                    <a href="{% url 'main:signup' %}" class="link">회원가입</a>
+                </li>
+            </div>
+        </div>
+        {% endif %}
 
 <div class="wrapper" style="text-align: center;">
     <div class="content" style="text-align: center;">
@@ -169,24 +249,12 @@
             <div>
                 <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:osvos' %}'">Image Segmentation</button>
             </div>
-                <div>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-                </div>
-                <div>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:mypage' %}'">마이페이지</button>
-                </div>
-                <div>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-                </div>
             {% else %}
-                <div>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-                </div>
                 <div>
                     <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">로그인</button>
                 </div>
                 <div>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup1' %}'">회원가입</button>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:signup' %}'">회원가입</button>
                 </div>
             {% endif %}
         </div>
