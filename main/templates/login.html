@@ -9,8 +9,9 @@
     *{
     box-sizing:border-box;
     }
+
     img {
-    display: block;
+        display: block;
     }
     .container{
         width: 100vw;
@@ -20,85 +21,194 @@
         margin-top:100px;
     }
     .logo-area{
-    width: 65%;
-    margin-right:50px;
-    background-color:white;
-    border-radius:4px;
-    border-width:1px;
-    box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+        width: 65%;
+        margin-right:50px;
+        background-color:white;
+        border-radius:4px;
+        border-width:1px;
+        box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
+    .logo-area>li:first-child{
+        padding:26px;
+    }
+
+    .logo-area>li:first-child>img{
+        height: 46px;
+    }
+
+    .logo-area>li:last-child{
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .logo-area>li:last-child>img{
+        max-height: 32%;
+        margin-bottom: 20px;
+    }
+
     .login-area{
-    width:35%;
-    background-color:white;
-    border-radius:4px;
-    border-width:1px;
-    box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-    padding:30px;
-    justify-content:left;
+        width:35%;
+        background-color:white;
+        border-radius:4px;
+        border-width:1px;
+        box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+        padding:40px;
+        display: flex;
+        flex-direction: column;
+
     }
+
+    .login-title{
+        font:normal normal bold 50px/67px Segoe UI;
+        font-size: 34px;
+    }
+
+    .login-div>li:first-child>span{
+        letter-spacing: 1px; 
+        font: normal normal normal 16px/21px Segoe UI; 
+        color:#707070;
+    }   
+
+    .form-title{
+        margin-top: 20px;
+        margin-bottom: 1px;
+    }
+
     #input1{
-    border-top:none;
-    border-left:none;
-    border-right:none;
-    border-bottom:3px solid #919494;
+        border-top:none;
+        border-left:none;
+        border-right:none;
+        border-bottom:1px solid #919494;
+        font-size: 16px;
     }
+    #input1:focus{
+        outline: none;
+    }
+
     #input2{
-    border-top:none;
-    border-left:none;
-    border-right:none;
-    border-bottom:3px solid #919494;
+        border-top:none;
+        border-left:none;
+        border-right:none;
+        border-bottom:1px solid #919494;
+        font-size: 16px;
+    }
+
+    #input2:focus{
+        outline: none;
+    }
+
+    .input-control {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        
+    }
+    .login-btn{
+        margin-top: 20px;
+    }
+    .login-btn>button{
+        background-color: #708ae8;
+        color: white;
+        width: 100%;
+        height: 48px;
+        border-radius: 0.3rem;
+        outline: none;
+        border: none;
+        font-size: 18px;
+    }
+
+    .kakao-btn{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        background-color: #fee500;        
+        border-radius: 0.3rem;
+        margin-top: 6px;
+        height: 48px;
+        margin-bottom: 4px;
+    }
+
+    .kakao-btn>img{
+        width: 100%;
+        
     }
 </style>
 
 <div class="container">
-    <div class="logo-area">
-        <ul>
-            <li>
-                <img src="/static/image/photovle_logo.png" width=30% style="margin-top:30px; padding:20px;">
-            </li>
+    
+    <ul  class="logo-area">
+        <li>
+            <img src="/static/image/photovle_logo.png">
+        </li>
 
-            <li>
-                <img src="/static/image/robot.png" 
-                alt="login form" class="img-fluid" style="width:750px;margin-top:25px; align:right; height:500px; padding-left:100px;" />
-            </li>
-        </ul>
-    </div>
+        <li>
+            <img src="/static/image/robot.png" alt="login form"/>
+        </li>
+    </ul>
+    
 
-  <div class="login-area">
-    <form action="{% url 'main:login' %}" method='POST'>
-      {% csrf_token %}
-      {% include "form_errors.html" %}
+    <div class="login-area">
+        <form action="{% url 'main:login' %}" method='POST'>
+        {% csrf_token %}
+        {% include "form_errors.html" %}
+            <ul class="login-div">
+                <li>
+                    <h2 class="login-title">Login</h2>
+                    <span>이미지 레이블링 보조 작업자</span>
+                </li>
 
-      <h1 style="padding-top:10px; padding-left:10px; font:normal normal bold 50px/67px Segoe UI;">Login</h1>
-      <span class="fw-normal mb-3 pb-3" style="letter-spacing: 1px; font: normal normal normal 16px/21px Segoe UI; color:#707070;">이미지 레이블링 보조 작업자</span>
-      <div class="form-outline mb-4" style="margin-top:70px;">
-          <label class="form-label">Email address</label>
-        <input type="text" id="input1" name="username" class="form-control form-control-lg" 
-        value="{{ form.username.value|default_if_none:'' }}" placeholder="Please enter your Email"/>
-      </div>
+                <li>
+                    <div>
+                        <label class="form-title" style="margin-top: 28px;">Email address</label>
+                        <input type="text" id="input1" name="username" class="input-control" style="border-radius: none;"
+                        value="{{ form.username.value|default_if_none:'' }}" placeholder="Please enter your Email"/>
+                    </div>
+                </li>
 
-      <div class="form-outline mb-4">
-          <label class="form-label" for="form2Example27">Password</label>
-        <input type="password" id="input2" name="password" class="form-control form-control-lg" 
-        value="{{ form.password.value|default_if_none:'' }}" placeholder="Please enter your Password"/>
-      </div>
-      <a class="small text-muted" style="color:#708AE8; text-decoration:none;" href="{% url 'password_reset' %}">Forgot password?</a>
-      <div class="pt-1 mb-4 d-grid gap-2">
-        <button class="btn btn-lg btn-block" type="submit" style="background-color: #708ae8; color:white; width:100%; " 
-        value='Login'>Login</button>
-        <img src="/static/image/kakao_login_real.png" style="width:100%; height:60px;" onclick="location.href='{% url 'main:kakao_login' %}'"></a>
-        <a href="{% provider_login_url 'google' %}"><img src="/static/image/google_login.png" style="width:auto; height:50px;"></a>
+                <li>
+                    <div>
+                        <label class="form-title" for="form2Example27">Password</label>
+                        <input type="password" id="input2" name="password" class="input-control" style="border-radius: none;"
+                        value="{{ form.password.value|default_if_none:'' }}" placeholder="Please enter your Password"/>
+                    </div>
+                </li>
+
+                <li>
+                    <a class="small text-muted" style="color:#708AE8; text-decoration:none;" href="{% url 'password_reset' %}">Forgot password?</a>
+                </li>
+
+                <li class="login-btn">
+                    <button type="submit" style="background-color: #708ae8; color:white; width:100%; " value='Login'>Login</button>
+                </li>
+                <li  class="kakao-btn">
+                    <img src="/static/image/kakao_login_real.png" onclick="location.href='{% url 'main:kakao_login' %}'"></a>
+                </li>
+
+                <li>
+                    <div style="text-align:center">
+                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{% url 'main:signup' %}"
+                            style="color: #393f81;">signup</a></p>
+                        </div>
+                </li>
+            </ul>
         
-      </div>
-      
-
-      <div style="text-align:center">
-      <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{% url 'main:signup' %}"
-          style="color: #393f81;">signup</a></p>
-      </div>
-    </form>
-  </div>
-</div>
-  {% endblock %}
+        </form>
+    </div>
+    </div>
+{% endblock %}
 
 
