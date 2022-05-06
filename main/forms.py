@@ -3,13 +3,14 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.forms import ModelForm
 from django import forms
-from .models import *
+from .models import Board, Reply
 
 # 유저 생성 form
 class UserForm(UserCreationForm):
     name = forms.CharField(label='이름')
     email = forms.EmailField(label="이메일")
     phone = forms.CharField(label='전화번호')
+    
     class Meta:
         model = User
         fields = ('name', 'username', 'password1', 'password2', 'email', 'phone')

@@ -9,8 +9,8 @@ from django.http import HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from django.utils import timezone
 from Photovle.settings import SOCIAL_OUTH_CONFIG
-from .models import *
-from .forms import *
+from .models import User, Board, Reply
+from .forms import UserForm, AddInfoForm, UserUpdateForm, ReplyForm, BoardForm, settings
 import random
 import string
 import hashlib
@@ -24,26 +24,10 @@ def index(request):
 
 # 메인페이지
 def home(request):
-    print(request.user)
     return render(request, 'home.html')
 
 #######################회원관련################################
-# 회원가입 1페이지
-def signup1(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        username = request.POST.get('username')
-        phone = request.POST.get('phone')
-        context = {
-            'name':name,
-            'username':username,
-            'phone':phone,
-        }
-        return render(request, 'signup2.html', context)
-
-    return render(request, 'signup1.html')
-
-# 회원가입 2페이지
+# 회원가입
 def signup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -193,7 +177,7 @@ def delete_user(request):
     auth.logout(request)
     return redirect('main:home')
 
-######################## 게시판 ############################
+#######################게시판################################
 
 # 게시판 메인페이지
 def board(request):
@@ -365,7 +349,7 @@ def mypost(request):
         }
     return render(request, 'mypost.html', context)
 
-######################## Canvas ############################
+#######################Canvas################################
 def canvas(request):
     return render(request, 'canvas.html')
 
