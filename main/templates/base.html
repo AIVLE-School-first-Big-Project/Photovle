@@ -149,6 +149,7 @@
         }
         .logo{
             display:flex;
+            cursor:pointer;
             height:52px;
             margin-top:40px;
             margin-left:50px;
@@ -265,6 +266,7 @@
     .nav-links>li:first-child>span{
         color: #fff;
         text-align:left;
+        cursor:default;
     }
 
     .nav-login{
@@ -316,7 +318,7 @@
     
     <ul class="nav-links">
         <li>
-            <a style="color:#fff">{{user.name}}</a>
+            <a style="color:#fff; cursor:default;">{{user.name}}</a>
             <span >님 안녕하세요.</span>
         </li>
 

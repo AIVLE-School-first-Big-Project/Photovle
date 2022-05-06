@@ -19,6 +19,9 @@
         border-radius: 1rem;
         width: 100vh;
     }
+    .content > p {
+        cursor:default;
+    }
 
     button{
         width:20%;
@@ -131,7 +134,7 @@
 </label>
 <div class="sidebar">
     <div class="nav-links">
-        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">님 안녕하세요.</span><br><hr style="width:100%;">
+        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;  cursor:default;">님 안녕하세요.</span><br><hr style="width:100%;">
         <a href="{% url 'main:osvos' %}" class="link">Image Segmentation</a><br><hr>
         <a href="{% url 'main:board' %}" class="link">게시판</a><br><hr>
         <a href="{% url 'main:mypost' %}" class="link">나의 게시글</a>
@@ -150,7 +153,7 @@
 </label>
 <div class="sidebar">
     <div class="nav-links">
-        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;">로그인이 필요합니다.</span><br><hr style="width:100%;">
+        <a style="margin-top:20px; font-weight:bold; font-size:x-large; text-align:left;">{{user.name}}</a><span style="text-align:left;  cursor:default;">로그인이 필요합니다.</span><br><hr style="width:100%;">
         <a href="{% url 'main:login' %}" class="link">Image Segmentation</a><br><hr>
         <a href="{% url 'main:login' %}" class="link">게시판</a><br><hr>
     </div>

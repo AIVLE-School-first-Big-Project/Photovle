@@ -54,7 +54,7 @@
                                 {% include "form_errors.html" %}
                                 <div class="d-flex align-items-center mb-3 pb-1">
                                     <i class="fas fa-cubes fa-2x " style="color: #ff6219;"></i>
-                                    <span class="h2 fw-bold mb-0">Sign up</span>
+                                    <span class="h2 fw-bold mb-0" style="cursor:default">Sign up</span>
                                 </div>
                                 {% comment %} <h6 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">가입 후 더 많은 서비스를 만나보세요.</h5> {% endcomment %}
                                 
@@ -65,10 +65,6 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example27">ID</label>
                                     <input type="text" name="username" id="username" value="{{ username }}" class="form-control" placeholder="Please enter your ID"/>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label class="form-label" for="form2Example27">Phone Number</label>
-                                    <input type="text" name="phone" id="phone" value="{{ phone }}" class="form-control" placeholder="Please enter your Email"/>
                                 </div>                        
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example27">Password</label>
@@ -77,6 +73,10 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example27">Confirm Password</label>
                                     <input type="password" name="password2" id="password2" class="form-control" placeholder="Please confirm your Password"/>
+                                </div>
+                                <div class="form-outline mb-4">
+                                    <label class="form-label" for="form2Example27">Phone Number</label>
+                                    <input type="text" name="phone" id="phone" value="{{ phone }}" class="form-control" placeholder="Please enter your Email"/>
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="form2Example27">Email</label>

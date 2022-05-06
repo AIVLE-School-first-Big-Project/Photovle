@@ -37,11 +37,13 @@
 
     .logo-area>li:first-child>img{
         height: 46px;
+        cursor: pointer;
     }
 
     .logo-area>li:last-child{
         display: flex;
         justify-content: flex-end;
+        
     }
 
     .logo-area>li:last-child>img{
@@ -70,6 +72,7 @@
         letter-spacing: 1px; 
         font: normal normal normal 16px/21px Segoe UI; 
         color:#707070;
+        cursor:default;
     }   
 
     .form-title{
@@ -134,6 +137,7 @@
     .kakao-btn{
         padding: 0;
         margin: 0;
+        cursor: pointer;
         box-sizing: border-box;
         background-color: #fee500;        
         border-radius: 0.3rem;
@@ -152,7 +156,7 @@
     
     <ul  class="logo-area">
         <li>
-            <img src="/static/image/photovle_logo.png">
+            <img src="/static/image/photovle_logo.png" onclick="location.href='{% url 'main:home' %}'">
         </li>
 
         <li>
@@ -164,10 +168,9 @@
     <div class="login-area">
         <form action="{% url 'main:login' %}" method='POST'>
         {% csrf_token %}
-        {% include "form_errors.html" %}
             <ul class="login-div">
                 <li>
-                    <h2 class="login-title">Login</h2>
+                    <h2 class="login-title" style="cursor:default;">Login</h2>
                     <span>이미지 레이블링 보조 작업자</span>
                 </li>
 
@@ -200,12 +203,12 @@
 
                 <li>
                     <div style="text-align:center">
-                        <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="{% url 'main:signup' %}"
+                        <p class="mb-5 pb-lg-2" style="color: #393f81; cursor:default;">Don't have an account? <a href="{% url 'main:signup' %}"
                             style="color: #393f81;">signup</a></p>
                         </div>
                 </li>
             </ul>
-        
+            {% include "form_errors.html" %}
         </form>
     </div>
     </div>
