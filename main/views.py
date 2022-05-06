@@ -9,8 +9,9 @@ from django.http import HttpResponseRedirect, FileResponse
 from django.urls import reverse
 from django.utils import timezone
 from Photovle.settings import SOCIAL_OUTH_CONFIG
+from Photovle import settings
 from .models import User, Board, Reply
-from .forms import UserForm, AddInfoForm, UserUpdateForm, ReplyForm, BoardForm, settings
+from .forms import UserForm, AddInfoForm, UserUpdateForm, ReplyForm, BoardForm
 import random
 import string
 import hashlib
