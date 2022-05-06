@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-SITE_ID = 2
+SITE_ID = 3
 
 # kakao client key
 SOCIAL_OUTH_CONFIG = {
