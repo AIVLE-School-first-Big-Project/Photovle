@@ -228,7 +228,7 @@
             text-align: left;
             font: normal normal normal 16px/18px Segoe UI;
             display: block;
-            cursor:default;
+            cursor: default;
             margin-bottom: 12px;
         }
 
@@ -257,7 +257,7 @@
 
         .input-file .file-label {
             display: inline-block;
-            cursor:pointer;
+            cursor: pointer;
             height: 28px;
             line-height: 28px;
             text-align: center;
@@ -293,7 +293,8 @@
             flex-direction: column;
             justify-content: flex-start;
         }
-        .label-add{
+
+        .label-add {
             width: 100%;
             display: flex;
             outline: none;
@@ -301,15 +302,15 @@
             justify-content: flex-end;
         }
 
-        .label-add>input{
+        .label-add>input {
             width: 100px;
         }
 
-        .label-add>input:focus{
+        .label-add>input:focus {
             outline: none;
         }
 
-        .label-add>button{
+        .label-add>button {
             width: 100px;
         }
 
@@ -349,10 +350,10 @@
             width: 153px;
             text-overflow: ellipsis;
             white-space: nowrap;
-            word-break:break-all;
+            word-break: break-all;
         }
 
-        .edit-label-name{
+        .edit-label-name {
             width: calc(100% - 94px);
             display: flex;
             justify-content: space-between;
@@ -409,7 +410,7 @@
 
         .image-item {
             display: inline-block;
-            cursor:pointer;
+            cursor: pointer;
         }
 
         #image-list>li:hover {
@@ -430,140 +431,151 @@
         #image-list canvas {
             display: inline-block;
         }
-        
-        .modal { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            display: none; 
-            background-color: rgba(0, 0, 0, 0.4); 
+
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
-        .modal_body{
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            width: 400px; 
-            height: 200px; 
-            padding: 40px; 
-            text-align: center; 
-            background-color: rgb(255, 255, 255); 
-            border-radius: 10px; 
-            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); 
+        .modal_body {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 200px;
+            padding: 40px;
+            text-align: center;
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
             transform: translateX(-50%) translateY(-50%);
         }
 
-        .title{
+        .title {
             height: 40px;
             font-size: 20px;
             display: flex;
-            cursor:default;
+            cursor: default;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
 
         }
 
-        .btn-open-popup{
+        .btn-open-popup {
             color: #708AE8;
-            cursor:pointer;
+            cursor: pointer;
             padding: 0px;
             height: 20px;
             margin-top: 4px;
         }
+
         .edit-label-name>img:hover {
             filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
         }
 
-        #label_name{
+        #label_name {
             margin-right: 10px;
         }
 
-        .preview{
+        .preview {
             display: flex;
-            cursor:default;
+            cursor: default;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
         }
 
-        .preview>p{
+        .preview>p {
             width: 166px;
         }
 
-        .preview input{
+        .preview input {
             outline: none;
             border-top: none;
             border-left: none;
             border-right: none;
-            border-bottom:  1px solid #707070;
+            border-bottom: 1px solid #707070;
             /* margin-left: 12px; */
             padding-left: 4px;
             width: 100%;
         }
 
-        .model-control{
+        .model-control {
             display: flex;
             justify-content: flex-end;
             align-items: center;
         }
 
-        .model-control button{
+        .model-control button {
             width: 50px;
             padding: 2px 0;
             height: 30px;
         }
 
-        
-        .model-control>button:first-child{
+
+        .model-control>button:first-child {
             background-color: #707070;
             margin-right: 8px;
         }
-        #imgViewer{border:1px solid black;}
-        #drawArea{border:1px solid red;}
 
-        #toolbara{
-            width :412px;
-            height :40px;
-            padding:10px;
+        #imgViewer {
+            border: 1px solid black;
+        }
+
+        #drawArea {
+            border: 1px solid red;
+        }
+
+        #toolbara {
+            width: 412px;
+            height: 40px;
+            padding: 10px;
             position: relative;
-            top:0px;
-            background-color:#2f2f2f;
+            top: 0px;
+            background-color: #2f2f2f;
             color: white;
         }
-        .radcontrol{
-            width : 30px;
-            height : 20px;
-            background-color:#4f4f4f;
-            display:inline-block;
-            text-align:center;
+
+        .radcontrol {
+            width: 30px;
+            height: 20px;
+            background-color: #4f4f4f;
+            display: inline-block;
+            text-align: center;
         }
 
-        #rad{
-        float:left;
-        }
-        #colour{
-        /* position: relative; */
-            float:center;
+        #rad {
+            float: left;
         }
 
-        .swatch{
-            width:20px;
-            height:20px;
-            border-radius:10px;
-            box-shadow: inset 0px 2px 0px rgba(255,255,255,0.5), 0px 2px 2px rgba(0,0,0,0.5);
-            display:inline-block;
-            margin-left:5px;
-            margin-bottom:50px;
-            background-color:cyan;
+        #colour {
+            /* position: relative; */
+            float: center;
         }
-        .swatch.active{
-            border:2px solid white;
-            box-shadow: inset 0px 1px 2px rgba(0,0,0,0.5) ;
+
+        .swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.5), 0px 2px 2px rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            margin-left: 5px;
+            margin-bottom: 50px;
+            background-color: cyan;
         }
-        #save{
+
+        .swatch.active {
+            border: 2px solid white;
+            box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        #save {
             background-color: #4f4f4f;
             /* width: 50px; */
             padding: 5px;
@@ -571,45 +583,45 @@
             float: left;
             top: -75px;
             left: 294px;
-            margin-right:0px;
+            margin-right: 0px;
         }
-        #save:hover{
+
+        #save:hover {
             background-color: #818181;
 
         }
 
-        #eraser{
-            background-color: #4f4f4f;
+        #my-eraser {
+            /* background-color: #4f4f4f; */
+            background-color: red;
             /* width: 50px; */
             padding: 5px;
             position: relative;
-            float :left;
-            top:-75px;
-            left: 300px;
+            float: left;
+            top: -75px;
+            left: 320px;
             /* margin-right:0px; */
         }
-        #eraser:hover{
+
+        #my-eraser:hover {
             background-color: #818181;
         }
-        
 
-        #clear{
+
+        #clear {
             background-color: #4f4f4f;
             /* width: 50px; */
             padding: 5px;
             position: relative;
-            float :left;
-            top:-75px;
+            float: left;
+            top: -75px;
             left: 310px;
             /* margin-right:0px; */
         }
-        #clear:hover{
+
+        #clear:hover {
             background-color: #818181;
         }
-
-        
-
-
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
@@ -662,7 +674,7 @@
                         <li>
                             <span>Now Frame : </span>
                             <p id="label_now"></p>
-                        </li> 
+                        </li>
 
                         <li>
                             <span>Size : </span>
@@ -675,7 +687,7 @@
                         </li>
                     </ul>
                 </div>
-            
+
                 <div class="label-add">
                     <select disabled style="display: none;"></select>
                 </div>
@@ -683,13 +695,13 @@
                 <!-- 여러 설정 바 -->
                 <div class="control-bar-option-area">
                     <img src="/static/image/icon_images.svg" id="divide_video">
-                    <img src="/static/image/icon_color_picker.svg" onclick = "color_picker();">
+                    <img src="/static/image/icon_color_picker.svg" onclick="color_picker();">
                     <img src="/static/image/icon_train_data.svg" onclick="">
                     <img src="/static/image/icon_download.svg" onclick="export2json();">
                     <img src="/static/image/icon_all_download.svg" onclick="">
                     <img src="/static/image/icon_video2.svg" onclick="">
                     <img src="/static/image/icon_trash_can.svg" onclick="img_draw_clear();">
-                    
+
                 </div>
 
                 <!-- 이미지 프레임 목록 -->
@@ -706,12 +718,12 @@
                 <div class="title">
                     <h2>Object Label Title</h2>
                 </div>
-                
+
                 <div class="content">
                     <div class="preview">
                         <p>Label Name : </p>
                         <input type="text" id="label_tag" placeholder="입력해주세요.">
-                        
+
                     </div>
                     <div class="model-control">
                         <button type="button" class="close-area">취소</button>
@@ -727,14 +739,14 @@
             let savejson = {};
             let openkey;
             let savelabel;
-            let tmpcanvas , tmpframe;
+            let tmpcanvas, tmpframe;
 
             // let drawcolor="rgb(118,131,243)" ;  // 원 그림 그릴떄 색깔
             // let fixcolor="red"                  // 다각형 확정됬을때 색깔
             // let linecolor = "black" ;           // 선그릴때 색깔
             // let Toggle = 0;
-            
-            
+
+
             // 1. Object 이름 정의 및 변경 함수 (ex. cat Label)
             function define_tag() {
                 const label = document.getElementById("label_tag").value;
@@ -743,7 +755,7 @@
                 fileName.textContent = label;
                 savelabel = label;
                 console.log(label);
-                const modal = document.querySelector('.modal'); 
+                const modal = document.querySelector('.modal');
                 modal.style.display = "none"
             }
 
@@ -781,16 +793,18 @@
                 tmpcanvas = canvas;
 
                 // ratataca
-                const drawCanvas = document.getElementById("drawArea");
-                const drawCtx = drawCanvas.getContext("2d");
-                drawCanvas.width = 1270;
-                drawCanvas.height = 700;
+                // const drawCanvas = document.getElementById("drawArea");
+                // const drawCtx = drawCanvas.getContext("2d");
+                // drawCanvas.width = 1280;
+                // drawCanvas.height = 720;
 
-                drawCtx.strokeStyle = 'black';
-                drawCtx.lineWidth = '30';
-                drawCtx.lineCap = ctx.lineJoin = 'round';
-                
-                
+                // drawCtx.strokeStyle = 'black';
+                // drawCtx.lineWidth = '30';
+                // drawCtx.lineCap = ctx.lineJoin = 'round';
+                // bErasing = false;
+                // console.log("now : ", bErasing);
+
+
                 // 4) 분할 Icon 클릭시
                 const button = document.getElementById("divide_video");
                 button.onclick = async (evt) => {
@@ -861,6 +875,7 @@
                                     select.disabled = false;
                                 }
                             });
+                            button.onclick = (evt) => stopped = true;
                         }
                     } else {
                         console.error("your browser doesn't support this API yet");
@@ -896,7 +911,7 @@
                     var tt = new Array(attribute);
                     openkey = tt[0];
 
-                    if(nowImage != null){
+                    if (nowImage != null) {
                         nowImage.style.color = 'black';
                         nowImage.style.fontWeight = 400;
                     }
@@ -918,33 +933,34 @@
                     canvas.height = frame.height;
                     ctx.drawImage(frame, 0, 0);
 
-                    
+
                     // 4) canvas 태그 관련된 초기화
-                    
-                    drawCanvas.style.width = canvas.width - 100;
-                    drawCanvas.style.height = canvas.height - 100;
-                    // drawCtx.drawImage(drawCanvas.width, drawCanvas.height, 0, 0);
-                    
-                    // drawCtx.beginPath();
-                    // drawCtx.strokeStyle = '#f00';
-                    // drawCtx.lineWidth = '30';
-                    // drawCtx.lineCap = ctx.lineaJoin = 'round';
-                    
+                    const drawCanvas = document.getElementById("drawArea");
+                    const drawCtx = drawCanvas.getContext("2d");
+                    drawCanvas.width = frame.width;
+                    drawCanvas.height = frame.height;
+
+                    drawCtx.strokeStyle = 'black';
+                    drawCtx.lineWidth = '30';
+                    drawCtx.lineCap = ctx.lineJoin = 'round';
+                    bErasing = false;
+                    console.log("now : ", bErasing);
+
+
                     console.log(savejson);
-                }; 
+                };
 
             });
-
 
         </script>
 
         <div class="edit-bar" style="position: relative;">
-            <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
-            <canvas id="drawArea" style="position: absolute; z-index: 2;">
+            <canvas id="imgViewer" style="position: absolute; z-index: 1; margin-top: 40px;"></canvas>
+            <canvas id="drawArea" style="position: absolute; z-index: 2; margin-top: 40px;">
                 <p>Your browser doesn't support canvas.</p>
             </canvas>
-            
-            <div id ="toolbara" style="position: absolute; z-index: 3;">
+
+            <div id="toolbara" style="position: absolute; z-index: 3;">
                 <div id="rad">
                     Radius <span id="radval">1</span>
                     <div id="decrad" class="radcontrol">-</div>
@@ -952,70 +968,83 @@
                 </div>
                 <div id="colors"></div>
                 <div id="save"> Save </div>
-                <div id="eraser"> Eraser </div>
                 <div id="clear"> Clear </div>
+                <button id="my-eraser" onclick="eraserImage()"> Eraser</button>
             </div>
-            
-            
         </div>
 
         <script>
-
             var canvas = document.getElementById('drawArea');
             var context = canvas.getContext('2d');
             var radius = 5;
-            var dragging=false;
-            
+            var dragging = false;
+            var bErasing = false;
+
             context.beginPath();
             context.rect(0, 0, canvas.width, canvas.height);
             context.fillStyle = 'rgba(255, 0, 0, 0.2)';
             context.fill();
             context.beginPath();
-            
+
             context.lineWidth = radius * 2;
-            
-            var putPoint = function(e){
-                if(dragging) {
+
+            var putPoint = function (e) {
+                console.log("> putPoint");
+                if (dragging) {
                     context.lineTo(e.offsetX, e.offsetY);
                     context.stroke();
                     context.beginPath();
-                    context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
+                    context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI * 2);
                     context.fill();
                     context.beginPath();
+                    if (bErasing == true) {
+                        context.globalCompositeOperation = "destination-out";
+                    } else {
+                        context.globalCompositeOperation = "source-over";
+                    }
                     context.moveTo(e.offsetX, e.offsetY);
+                    // context.lineTo(e.pageX ,e.pageY);
+                    // context.stroke();
+                    // context.lineTo(e.offsetX, e.offsetY);
+                    // context.stroke();
+                    // context.beginPath();
+                    // context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
+                    // context.fill();
+                    // context.beginPath();
+                    // context.moveTo(e.offsetX, e.offsetY);
                 }
             }
-            
-            var engage=function(e){ 
-                dragging=true;
+
+            var engage = function (e) {
+                dragging = true;
                 putPoint(e);
             }
-            
-            var disengage=function(){   
-                dragging=false;
+
+            var disengage = function () {
+                dragging = false;
                 context.beginPath();
             }
-            
-                canvas.addEventListener('mousedown', engage);
-                canvas.addEventListener('mouseup', disengage);
-                canvas.addEventListener('mousemove', putPoint);
-                
+
+            canvas.addEventListener('mousedown', engage);
+            canvas.addEventListener('mouseup', disengage);
+            canvas.addEventListener('mousemove', putPoint);
+
             var setRadius = function (newRadius) {
                 if (newRadius < minRad) newRadius = minRad;
                 else if (newRadius > maxRad) newRadius = maxRad;
                 radius = newRadius;
                 context.lineWidth = radius * 2;
-        
+
                 radSpan.innerHTML = radius;
             }
-                        
+
             var minRad = 1,
-            maxRad = 40,
-            defaultRad = 15,
-            interval = 5,
-            radSpan = document.getElementById('radval'),
-            decRad = document.getElementById('decrad'),
-            incRad = document.getElementById('incrad');
+                maxRad = 40,
+                defaultRad = 15,
+                interval = 5,
+                radSpan = document.getElementById('radval'),
+                decRad = document.getElementById('decrad'),
+                incRad = document.getElementById('incrad');
 
             decRad.addEventListener('click', function () {
                 setRadius(radius - interval);
@@ -1025,28 +1054,29 @@
             });
 
             setRadius(defaultRad);
-            
+
             //////////////////////////////////////////////////////
 
-            var colors = ['black', 'white', 'red', 'yellow', 'green', 'blue']; //Color array to select from
+            var colors = ['black', 'pink', 'red', 'yellow', 'green', 'blue']; //Color array to select from
             /*Handles the creation of color*/
-            for(var i=0, n=colors.length;i<n; i++){
+            for (var i = 0, n = colors.length; i < n; i++) {
                 var swatch = document.createElement('nav');
                 swatch.className = 'swatch';
                 swatch.style.backgroundColor = colors[i];
                 swatch.addEventListener('click', setSwatch);
                 document.getElementById('colors').appendChild(swatch);
-                }
+            }
             /*set color*/
-            function setColor(color){
+            function setColor(color) {
                 context.fillStyle = color;
                 context.strokeStyle = color;
                 var active = document.getElementsByClassName('active')[0];
-                if(active){
+                if (active) {
                     active.className = 'swatch';
                 }
             }
-            function setSwatch(e){
+            function setSwatch(e) {
+                bErasing = false;
                 //identify swatch
                 var swatch = e.target;
                 //set color
@@ -1054,15 +1084,16 @@
                 //give active class
                 swatch.className += ' active';
             }
-            setSwatch({target: document.getElementsByClassName('swatch')[0]}); //set default swatch
+            setSwatch({ target: document.getElementsByClassName('swatch')[0] }); //set default swatch
 
             //////////////////////////////////////
-            
+
             var button = document.getElementById('save');
-                        button.addEventListener('click', saveImage)
-                        
-            function saveImage(el){
+            button.addEventListener('click', saveImage);
+
+            function saveImage(el) {
                 console.log('download');
+                bErasing = true;
                 // const canvas = document.getElementById('drawArea');
                 var canvas = document.getElementById('drawArea');
                 const link = document.createElement('a');
@@ -1071,50 +1102,43 @@
                 link.click();
                 link.delete;
             };
-                        
-            var butonclear = document.getElementById('clear');
-            butonclear.addEventListener('click', clearImage);
-                        
-            function clearImage(){     
+
+            var buttonclear = document.getElementById('clear');
+            buttonclear.addEventListener('click', clearImage);
+
+            function clearImage() {
+                console.log("clear!!");
                 var currentFillStyle = context.fillStyle;
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 context.rect(0, 0, canvas.width, canvas.height);
                 context.fillStyle = "rgba(255, 0, 0, 0%)";
                 context.fill();
                 context.beginPath();
-                context.fillStyle = currentFillStyle ;
-                context.strokeStyle = currentFillStyle;
-            };  
-            
-            var butonclear = document.getElementById('eraser');
-            butonclear.addEventListener('eraser', undoImage);
-                        
-            function undoImage(){     
-                var currentFillStyle = context.fillStyle;
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.rect(0, 0, canvas.width, canvas.height);
-                context.fillStyle = "rgba(255, 0, 0, 0%)";
-                context.fill();
-                context.beginPath();
-                context.fillStyle = currentFillStyle ;
+                context.fillStyle = currentFillStyle;
                 context.strokeStyle = currentFillStyle;
             };
 
-            </script>
+            function eraserImage() {
+                console.log('eraser');
+                bErasing = true;
+            };
 
-    </div>  
-    
+
+        </script>
+
+    </div>
+
     <script>
-        const modal = document.querySelector('.modal'); 
-        const btnOpenPopup = document.querySelector('.btn-open-popup'); 
+        const modal = document.querySelector('.modal');
+        const btnOpenPopup = document.querySelector('.btn-open-popup');
         btnOpenPopup.addEventListener(
-            'click', () => { 
-            if(isDivideVideo){
-                alert("영상을 이미지로 분할하여 Object의 이름을 변경할 수 없습니다.")
-                return;
-            }
-            modal.style.display = 'block'; 
-        });
+            'click', () => {
+                if (isDivideVideo) {
+                    alert("영상을 이미지로 분할하여 Object의 이름을 변경할 수 없습니다.")
+                    return;
+                }
+                modal.style.display = 'block';
+            });
 
         const closeBtn = modal.querySelector(".close-area")
         closeBtn.addEventListener("click", e => {
