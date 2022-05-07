@@ -533,30 +533,35 @@
         }
 
         #toolbara {
-            width: 412px;
+            width: 100%;
             height: 40px;
             padding: 10px;
-            position: relative;
-            top: 0px;
             background-color: #2f2f2f;
             color: white;
+            display: flex;
+            align-items: center;
+
         }
 
         .radcontrol {
-            width: 30px;
+            width: 26px;
             height: 20px;
             background-color: #4f4f4f;
             display: inline-block;
             text-align: center;
+            cursor: pointer;
+        }
+        .radcontrol:hover{
+            color: #708AE8;
         }
 
         #rad {
-            float: left;
+            margin-right: 10px;
         }
 
-        #colour {
-            /* position: relative; */
-            float: center;
+        #colors>nav{
+            margin: 0 4px;
+            
         }
 
         .swatch {
@@ -576,51 +581,37 @@
         }
 
         #save {
-            background-color: #4f4f4f;
+            
             /* width: 50px; */
-            padding: 5px;
-            position: relative;
-            float: left;
-            top: -75px;
-            left: 294px;
             margin-right: 0px;
         }
 
         #save:hover {
-            background-color: #818181;
+            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
 
         }
 
         #my-eraser {
             /* background-color: #4f4f4f; */
-            background-color: red;
+            /* background-color: red; */
             /* width: 50px; */
-            padding: 5px;
-            position: relative;
-            float: left;
-            top: -75px;
-            left: 320px;
+            
             /* margin-right:0px; */
         }
 
         #my-eraser:hover {
-            background-color: #818181;
+            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
         }
 
 
         #clear {
-            background-color: #4f4f4f;
-            /* width: 50px; */
+            filter: white;
             padding: 5px;
-            position: relative;
-            float: left;
-            top: -75px;
-            left: 310px;
             /* margin-right:0px; */
         }
 
         #clear:hover {
-            background-color: #818181;
+            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
         }
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -695,12 +686,11 @@
                 <!-- 여러 설정 바 -->
                 <div class="control-bar-option-area">
                     <img src="/static/image/icon_images.svg" id="divide_video">
-                    <img src="/static/image/icon_color_picker.svg" onclick="color_picker();">
+                    <!-- <img src="/static/image/icon_color_picker.svg" onclick="color_picker();"> -->
                     <img src="/static/image/icon_train_data.svg" onclick="">
-                    <img src="/static/image/icon_download.svg" onclick="export2json();">
                     <img src="/static/image/icon_all_download.svg" onclick="">
                     <img src="/static/image/icon_video2.svg" onclick="">
-                    <img src="/static/image/icon_trash_can.svg" onclick="img_draw_clear();">
+                    
 
                 </div>
 
@@ -954,22 +944,23 @@
 
         </script>
 
-        <div class="edit-bar" style="position: relative;">
-            <canvas id="imgViewer" style="position: absolute; z-index: 1; margin-top: 40px;"></canvas>
-            <canvas id="drawArea" style="position: absolute; z-index: 2; margin-top: 40px;">
-                <p>Your browser doesn't support canvas.</p>
-            </canvas>
-
-            <div id="toolbara" style="position: absolute; z-index: 3;">
+        <div class="edit-bar" >
+            <div id="toolbara">
                 <div id="rad">
                     Radius <span id="radval">1</span>
-                    <div id="decrad" class="radcontrol">-</div>
-                    <div id="incrad" class="radcontrol">+</div>
+                    <div id="decrad" class="radcontrol"> - </div>
+                    <div id="incrad" class="radcontrol"> + </div>
                 </div>
+
                 <div id="colors"></div>
-                <div id="save"> Save </div>
-                <div id="clear"> Clear </div>
-                <button id="my-eraser" onclick="eraserImage()"> Eraser</button>
+                                
+                <img src="/static/image/icon_eraser.svg" id="my-eraser"  onclick="eraserImage()" style="height: 30px; margin: 0 3px 0 6px;">
+                <img src="/static/image/icon_all_draw_delete.svg" id="clear" style="height: 34px; margin: 0 3px 0 3px;">
+                <img src="/static/image/icon_downloads.svg" id="save" style="height: 30px; margin: 0 3px 0 3px;">
+            </div>
+            <div class="edit-bar" style="position: relative;">    
+                <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
+                <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>            
             </div>
         </div>
 
