@@ -37,7 +37,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -61,8 +60,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 ]
-
-SITE_ID = 3
 
 # kakao client key
 SOCIAL_OUTH_CONFIG = {
