@@ -522,7 +522,7 @@
             background-color: #707070;
             margin-right: 8px;
         }
-
+        canvas{border:1px solid red;}
 
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -549,7 +549,6 @@
             </div>
 
             <!-- step2 -->
-
             <div class="step2" id="step2" style="display: none;">
                 <video id="video" style="display:none;"></video>
 
@@ -568,11 +567,6 @@
                                 <img src="/static/image/icon_edit.svg" class="btn-open-popup">
                             </div>
                         </li>
-
-                        <!-- <li>
-                            <span>Width : </span>
-                            <p id="label_width"></p>
-                        </li> -->
 
                         <li>
                             <span>Total Frame : </span>
@@ -593,18 +587,15 @@
                             <span>Type : </span>
                             <p id="file_type"></p>
                         </li>
-
                     </ul>
-
                 </div>
-                
-
+            
                 <div class="label-add">
                     <select disabled style="display: none;"></select>
                 </div>
-                
+
+                <!-- 여러 설정 바 -->
                 <div class="control-bar-option-area">
-                    
                     <img src="/static/image/icon_images.svg" id="divide_video">
                     <img src="/static/image/icon_color_picker.svg" onclick = "color_picker();">
                     <img src="/static/image/icon_train_data.svg" onclick="">
@@ -615,7 +606,7 @@
                     
                 </div>
 
-
+                <!-- 이미지 프레임 목록 -->
                 <div id="image-area">
                     <ul id="image-list"></ul>
                 </div>
@@ -623,6 +614,7 @@
 
         </div>
 
+        <!-- Object 수정 모달 -->
         <div class="modal">
             <div class="modal_body">
                 <div class="title">
@@ -639,8 +631,6 @@
                         <button type="button" class="close-area">취소</button>
                         <button type="button" onclick="define_tag();">확인</button>
                     </div>
-                
-                    
                 </div>
             </div>
         </div>
@@ -653,12 +643,12 @@
             let savelabel;
             let tmpcanvas , tmpframe;
 
-            let drawcolor="rgb(118,131,243)" ;// 원 그림 그릴떄 색깔
-            let fixcolor="red"    // 다각형 확정됬을때 색깔
-            let linecolor = "black" ; // 선그릴때 색깔
-            let Toggle = 0;
+            // let drawcolor="rgb(118,131,243)" ;  // 원 그림 그릴떄 색깔
+            // let fixcolor="red"                  // 다각형 확정됬을때 색깔
+            // let linecolor = "black" ;           // 선그릴때 색깔
+            // let Toggle = 0;
 
-            // Object 정의 함수
+            // 1. Object 이름 정의 및 변경 함수 (ex. cat Label)
             function define_tag() {
                 const label = document.getElementById("label_tag").value;
 
@@ -670,29 +660,16 @@
                 modal.style.display = "none"
             }
 
-            // 로컬 영상 불러오기
+            // 2. 사용자 업로드 영상 불러오기 (ex. demo_cat.mp4 -> 각 frame-idx)
             const elImage = document.querySelector("#upload_video");
-
-
             elImage.addEventListener("change", (evt) => {
                 const file = evt.target.files[0];
                 var video = document.getElementById("video");
                 var width, height;
 
-                // var w = width;
-                // var h = height;
-
-                // console.log(w, h);
-
-                // 파일 이름 추가
+                // 1) 파일 이름 추가
                 const fileName = document.querySelector("#file_name");
                 fileName.textContent = file['name'];
-
-                // const fileWidth = document.querySelector("#label_width");
-                // fileWidth.textContent = w;
-
-                // const fileHeight = document.querySelector("#label_height");
-                // fileHeight.textContent = h;
 
                 const fileSize = document.querySelector("#file_size");
                 fileSize.textContent = file['size'] + " byte";
@@ -701,29 +678,29 @@
                 fileType.textContent = file['type'];
 
 
-                // 비디오 화면에 추가하기
-                // 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
+                // 2) 비디오 화면에 추가하기
+                //   - 인자로 File객체를 받으며, 해당 file의 고유 URL 정보 생성하고 반환
                 const videourl = URL.createObjectURL(file);
                 document.getElementById("step1").style.display = 'none';
                 document.getElementById("step2").style.display = 'block';
 
-                // 영상 분리하기 qwe
+                // 3) 영상 분리하기
                 const frames = [];
                 const button = document.getElementById("divide_video");
                 const select = document.querySelector("select");
-                const canvas = document.getElementById("edit-area");
+                // const canvas = document.getElementById("drawing");
+                const canvas = document.getElementById("imgViewer");
                 const ctx = canvas.getContext("2d");
                 tmpcanvas = canvas;
 
-
+                // 4) 분할 Icon 클릭시
                 button.onclick = async (evt) => {
-                    console.log(document.querySelector("#label_name").textContent)
-
-                    // TODO : label이 선택되지 않은 상태에서 입력 요청
-                    if (document.querySelector("#label_name").textContent == "") {
-                        alert("레이블링의 object를 정의해주세요.");
-                        return;
-                    }
+                    // (1) Object 이름 설정 여부 확인
+                    // console.log(document.querySelector("#label_name").textContent)
+                    // if (document.querySelector("#label_name").textContent == "") {
+                    //     alert("레이블링의 object를 정의해주세요.");
+                    //     return;
+                    // }
 
                     if (window.MediaStreamTrackProcessor) {
                         isDivideVideo = true;
@@ -734,6 +711,7 @@
                         const reader = processor.readable.getReader();
                         readChunk();
 
+                        // (2) 각각 이미지들 Tag로 만들기
                         function readChunk() {
                             reader.read().then(async ({ done, value }) => {
                                 if (value) {
@@ -741,7 +719,7 @@
                                     const index = frames.length;
                                     frames.push(bitmap);
 
-                                    // 이미지 리스트 내 ID 값, 실제 해당하는 이미지
+                                    //  - 이미지 리스트 내 ID 값, 실제 해당하는 이미지
                                     select.append(new Option("Frame #" + (index + 1), index));
 
                                     const imageListUl = document.getElementById("image-list");
@@ -764,16 +742,17 @@
                                     const imageCtx = imageCanvas.getContext("2d");
                                     imageCtx.drawImage(bitmap, 0, 0, 120, 100);
 
-                                    // 사이드바 이미지 리스트
+                                    // - 사이드바 이미지 리스트
                                     imageItem.append(imageCanvas);
                                     imageItem.append(imageId);
-
                                     imageListUl.append(imageItem);
+
                                     // console.log(imageItem);
                                     // console.log(imageListUl);
 
                                     value.close();
 
+                                    // - Information bar - Total Frame의 값
                                     const fileTotalFram = document.querySelector("#file_frame");
                                     fileTotalFram.textContent = index + 1;
                                 }
@@ -782,17 +761,14 @@
                                 } else {
                                     select.disabled = false;
                                 }
-
                             });
                         }
-
-                        button.onclick = (evt) => stopped = true;
-                        button.textContent = "stop";
                     } else {
                         console.error("your browser doesn't support this API yet");
                     }
                 };
 
+                // 3. select tag 선택 될 때 화면 전환
                 select.onchange = (evt) => {
                     const frame = frames[select.value];
                     canvas.width = frame.width;
@@ -800,6 +776,7 @@
                     ctx.drawImage(frame, 0, 0);
                 };
 
+                // 4. 영상 이미지 분리를 위한 재생 함수
                 async function getVideoTrack() {
                     video.crossOrigin = "anonymous";
                     video.src = videourl;
@@ -811,8 +788,7 @@
                     return track;
                 }
 
-                // 추가사항 
-                
+                // 5. Frame-idx 가 클릭 되었을 때
                 function image_click() {
                     ctx.beginPath();
                     var firstX, firstY;
@@ -826,153 +802,206 @@
                         nowImage.style.fontWeight = 400;
                     }
 
+                    // 1) 이미지 선택 되었을 때 frame-idx text bold 및 색 변경
                     nowImage = document.getElementById(openkey);
                     nowImage.style.color = '#708AE8';
                     nowImage.style.fontWeight = 600;
 
+                    // 2) Information bar - Now Frame 값 (ex. Now Frame : frame-2)
                     const fileNow = document.querySelector("#label_now");
                     fileNow.textContent = openkey;
-                    // selectedImage.style.fontWeight = '400';
-                    console.log(">>", nowImage);
-
-                    
                     console.log(nowImage);
 
+                    // 3) canvas 태그에 각 이미지 그리기
                     const frame = frames[attribute.split('-')[1]];
                     tmpframe = frame;
                     canvas.width = frame.width;
                     canvas.height = frame.height;
+
+                    // 4) canvas 태그 관련된 초기화
                     ctx.drawImage(frame, 0, 0);
+                    ctx.strokeStyle = '#f00';
+                    ctx.lineWidth = '30';
+                    ctx.lineCap = ctx.lineJoin = 'round';
+
                     console.log(savejson);
-
-                    var t = 0;
-                    for (var i of savejson[openkey].points) {
-                        if (t == 0) {
-                            ctx.moveTo(i[0], i[1]);
-                            path = ctx.arc(i[0], i[1], 8, 0, Math.PI * 2, true);
-                            ctx.closePath();
-                            ctx.fillStyle = drawcolor;
-                            ctx.fill();
-                        }
-                        else if (i[0] == savejson[openkey].firstX && i[1] == savejson[openkey].firstY ) {
-                            ctx.lineTo(savejson[openkey].firstX, savejson[openkey].firstY);
-                            ctx.fillStyle = fixcolor;
-                            ctx.lineWidth = 5;
-                            ctx.strokeStyle = linecolor;
-                            ctx.stroke();
-                            ctx.fill();
-                        }
-                        else {
-                            ctx.lineTo(i[0], i[1]);
-                            ctx.lineWidth = 5;
-                            ctx.strokeStyle = linecolor;
-                            ctx.stroke();
-                            ctx.moveTo(i[0], i[1]);
-                            ctx.arc(i[0], i[1], 5, 0, Math.PI * 2, true);// 원그리기
-                            ctx.closePath();
-                            ctx.fill();
-                        }
-                        t++
-                    }
-
-                    
-                    canvas.onmousedown = function (event) {
-                        X = event.x - 351 + 66;
-                        Y = event.y - 111;
-
-                        if (tt[0] == attribute) {
-                            console.log(savejson);
-                        }
-
-                        if (savejson[openkey].dot<0){}
-                        else if (savejson[openkey].dot == 0) {
-                            savejson[openkey].points.push([X, Y]);
-                            savejson[openkey].firstX = X;
-                            savejson[openkey].firstY = Y;
-                            ctx.moveTo(X, Y);
-                            path = ctx.arc(X, Y, 8, 0, Math.PI * 2, true);
-                            ctx.closePath();
-                            ctx.fillStyle = drawcolor;
-                            ctx.fill();
-
-                        } else if (X >= savejson[openkey].firstX - 10 && X <= savejson[openkey].firstX + 10 && Y >= savejson[openkey].firstY - 10 && Y <= savejson[openkey].firstY + 10) {
-                            savejson[openkey].points.push([savejson[openkey].firstX, savejson[openkey].firstY]);
-                            ctx.lineTo(savejson[openkey].firstX, savejson[openkey].firstY);
-                            ctx.fillStyle = fixcolor;
-                            ctx.lineWidth = 5;
-                            ctx.strokeStyle = linecolor;
-                            ctx.stroke();
-                            ctx.fill();
-                            savejson[openkey].dot = -100;
-
-
-                        } else {
-                            savejson[openkey].points.push([X, Y]);
-                            ctx.lineTo(X, Y);
-                            ctx.lineWidth = 5;
-                            ctx.strokeStyle = linecolor;
-                            ctx.stroke();
-                            ctx.moveTo(X, Y);
-                            ctx.arc(X, Y, 5, 0, Math.PI * 2, true);// 원그리기
-                            ctx.closePath();
-                            ctx.fillStyle = drawcolor;
-                            ctx.fill();
-                        }
-                        savejson[openkey].dot++;
-                    }
                 }; 
 
             });
 
+            // 6. brash 관련 함수
+            $(function(){
+                // get reference to canvas and save canvas offsets
+                var canvas = document.getElementById('imgViewer');
+                var offsetX = canvas.offsetLeft;
+                var offsetY = canvas.offsetTop;
+
+                var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+                /**
+                * @param {CanvasRenderingContext2D} context
+                */
+                function PrimitiveBrush(context) {
+                    if (!(context instanceof CanvasRenderingContext2D)) {
+                        throw new Error('No 2D rendering context given!');
+                    }
+                    console.log("PrimitiveBrush!!!");
+
+                    this.ctx = context;
+                    this.strokes = [];
+                    this.strokeIndex=0;
+                    this.workingStrokes=[];
+                    this.lastLength=0;
+                    this.isTouching = false;
+
+                    // init context
+                    this.ctx.strokeStyle = '#f00';
+                    this.ctx.lineWidth = '20';
+                    this.ctx.lineCap = this.ctx.lineJoin = 'round';
+
+                    console.log(this.ctx);
+                    // start the drawing loop
+                    this._draw();
+                }
+
+                /**
+                 * 
+                
+                * Begins a new stroke
+                * @param  {MouseEvent} event
+                */
+                PrimitiveBrush.prototype.start = function (event) {
+                    var x = event.clientX - offsetX;
+                    var y = event.clientY - offsetY;
+                    this.workingStrokes = [{x:x,y:y}];
+
+                    this.strokes.push(this.workingStrokes);
+                    this.lastLength = 1;
+                    this.isTouching = true;
+                                        
+                    console.log("strokes", this.strokes);
+                    console.log("workingStrokes", this.workingStrokes);
+                };
+
+                /**
+                * Moves the current position of our brush
+                * @param  {MouseEvent} event
+                */
+                PrimitiveBrush.prototype.move = function (event) {
+                    if(!this.isTouching){
+                        return; 
+                    }
+                    var x = event.clientX - offsetX;
+                    var y = event.clientY - offsetY;
+                    this.workingStrokes.push({x:x,y:y});
+                };
+
+                /**
+                * Stops a stroke
+                * @param  {MouseEvent} event
+                */
+                PrimitiveBrush.prototype.end = function (event, foo) {
+                    this.move(event);
+                    this.isTouching = false;
+                };
+
+                PrimitiveBrush.prototype._draw = function () {
+
+                    requestAnimationFrame(this._draw.bind(this));
+
+                    // save the current length quickly (it's dynamic)
+                    var length = this.workingStrokes.length;
+
+                    // return if there's no work to do
+                    if(length <= this.lastLength){
+                        return;
+                    }
+
+                    var startIndex = this.lastLength - 1;
+                    this.lastLength = length;
+                    var pt0 = this.workingStrokes[startIndex];
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(pt0.x, pt0.y);
+
+                    for(var j = startIndex ; j < this.lastLength ; j++){
+                        var pt=this.workingStrokes[j];
+                        this.ctx.lineTo(pt.x, pt.y);
+                    }
+
+                    this.ctx.stroke();
+                };
+
+                // Set up brush to listen to events
+                var brush = new PrimitiveBrush(canvas.getContext('2d'));
+
+                canvas.addEventListener('mousedown', brush.start.bind(brush));
+                canvas.addEventListener('mousemove', brush.move.bind(brush));
+                canvas.addEventListener('mouseup', brush.end.bind(brush));
+
+            }); // end $(function(){});
+
             // 저장함수
-            function export2json() { 
-                var imgjson = new Object();
-                imgjson.name = openkey
-                imgjson.label = savelabel;
-                imgjson.points = [];
-                imgjson.points = savejson[openkey].points;
-                const a = document.createElement("a");
-                a.href = URL.createObjectURL(new Blob([JSON.stringify(imgjson, null, 2)], {
-                    type: "text/plain"
-                }));
-                a.setAttribute("download", "data.json");
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }
+            // function export2json() { 
+            //     var imgjson = new Object();
+            //     imgjson.name = openkey
+            //     imgjson.label = savelabel;
+            //     imgjson.points = [];
+            //     imgjson.points = savejson[openkey].points;
+            //     const a = document.createElement("a");
+            //     a.href = URL.createObjectURL(new Blob([JSON.stringify(imgjson, null, 2)], {
+            //         type: "text/plain"
+            //     }));
+            //     a.setAttribute("download", "data.json");
+            //     document.body.appendChild(a);
+            //     a.click();
+            //     document.body.removeChild(a);
+            // }
 
             function img_draw_clear() {
-                tmpcanvas.width = tmpframe.width;
-                tmpcanvas.height = tmpframe.height;
-                savejson[openkey].dot = 0;
-                savejson[openkey].points = [];
-                savejson[openkey].firstX = 0;
-                savejson[openkey].firstY = 0;
-                console.log(savejson);
-                tmpcanvas.getContext("2d").clearRect(0, 0, tmpcanvas.width, tmpcanvas.height);
-                tmpcanvas.getContext("2d").drawImage(tmpframe, 0, 0);
+                const canvas = document.getElementById("imgViewer");
+                const ctx = canvas.getContext("2d");
+                ctx.beginPath();
+                console.log("draw clear event");
+
+                const fileNow = document.querySelector("#label_now");
+                const frame = frames[fileNow.textContent.split('-')[1]];
+
+                // canvas = document.getElementById('drawing');
+                canvas.width = tmpframe.height;
+                canvas.height = tmpframe.height;
+                strokes = [];
+                workingStrokes = [];
+                // ctx.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(tmpframe, 0, 0);
+                ctx.strokeStyle = '#f00';
+                ctx.lineWidth = '30';
+                ctx.lineCap = ctx.lineJoin = 'round';
+
+
+                // tmpcanvas.width = tmpframe.width;
+                // tmpcanvas.height = tmpframe.height;
+                // savejson[openkey].dot = 0;
+                // savejson[openkey].points = [];
+                // savejson[openkey].firstX = 0;
+                // savejson[openkey].firstY = 0;
+                
+                // console.log(savejson);
+                // tmpcanvas.getContext("2d").clearRect(0, 0, tmpcanvas.width, tmpcanvas.height);
+                // tmpcanvas.getContext("2d").drawImage(tmpframe, 0, 0);
+
+                // ctx.strokeStyle = '#f00';
+                // ctx.lineWidth = '10';
+                // ctx.lineCap = ctx.lineJoin = 'round';
             }
 
-            function color_picker(){
-                if (Toggle == 0){
-                    drawcolor="rgb(118,131,243)";
-                    fixcolor="red"
-                    linecolor = 'white';
-                    Toggle = 1;
-                }
-                else{
-                    drawcolor="rgb(118,131,243)" ;// 원 그림 그릴떄 색깔
-                    fixcolor="red"    // 다각형 확정됬을때 색깔
-                    linecolor = "black" ; // 선그릴때 색깔
-                    Toggle = 0;
-                }
-
-            }
+            
         </script>
 
 
-        <div class="edit-bar">
-            <canvas id="edit-area"> </canvas>
+        <div class="edit-bar" style="position: relative;">
+            <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
+            <canvas id="edit-area" style="position: absolute; z-index: 2;"></canvas>
+            
         </div>
 
     </div>  
