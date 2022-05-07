@@ -613,6 +613,11 @@
         #clear:hover {
             filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
         }
+
+        .draw-canvas{
+            position: absolute; 
+            z-index: 2; 
+        }
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
@@ -686,7 +691,6 @@
                 <!-- 여러 설정 바 -->
                 <div class="control-bar-option-area">
                     <img src="/static/image/icon_images.svg" id="divide_video">
-                    <!-- <img src="/static/image/icon_color_picker.svg" onclick="color_picker();"> -->
                     <img src="/static/image/icon_train_data.svg" onclick="">
                     <img src="/static/image/icon_all_download.svg" onclick="">
                     <img src="/static/image/icon_video2.svg" onclick="">
@@ -726,7 +730,8 @@
         <script>
             var isDivideVideo = false;
             var nowImage;
-            let savejson = {};
+            var nowDrawNum = 'canvas-0';
+            let drawFrames = {};
             let openkey;
             let savelabel;
             let tmpcanvas, tmpframe;
@@ -744,7 +749,6 @@
                 const fileName = document.querySelector("#label_name");
                 fileName.textContent = label;
                 savelabel = label;
-                console.log(label);
                 const modal = document.querySelector('.modal');
                 modal.style.display = "none"
             }
@@ -840,7 +844,13 @@
                                     var imgjson = new Object();
                                     imgjson.points = [];
                                     imgjson.dot = 0;
-                                    savejson[`${imageId.textContent}`] = imgjson;
+                                    
+
+                                    // ***** Dict 만드는 곳
+                                    const newDrawFrame = document.createElement('canvas');
+                                    const newDrawCtx = newDrawFrame.getContext("2d");
+                                    
+                                    drawFrames[`${imageId.textContent}`] = newDrawFrame
 
                                     const imageCtx = imageCanvas.getContext("2d");
                                     imageCtx.drawImage(bitmap, 0, 0, 120, 100);
@@ -851,7 +861,7 @@
                                     imageListUl.append(imageItem);
 
                                     // console.log(imageItem);
-                                    // console.log(imageListUl);
+                                    // console.log(drawFrames);
 
                                     value.close();
 
@@ -922,10 +932,16 @@
                     canvas.width = frame.width;
                     canvas.height = frame.height;
                     ctx.drawImage(frame, 0, 0);
+                    console.log("1. frame : ", frame);
 
+                    var frameNum = attribute.split("-")[1];
+                    nowDrawNum = "canvas-" + frameNum;
 
+                    console.log("Draw Frame : ", drawFrames, " Attribute : ", attribute);
                     // 4) canvas 태그 관련된 초기화
-                    const drawCanvas = document.getElementById("drawArea");
+                    const drawCanvas = drawFrames[attribute];
+                    drawCanvas.className = "draw-canvas";
+                    drawCanvas.setAttribute('id', nowDrawNum);
                     const drawCtx = drawCanvas.getContext("2d");
                     drawCanvas.width = frame.width;
                     drawCanvas.height = frame.height;
@@ -934,10 +950,177 @@
                     drawCtx.lineWidth = '30';
                     drawCtx.lineCap = ctx.lineJoin = 'round';
                     bErasing = false;
-                    console.log("now : ", bErasing);
+
+                    const tmp = document.getElementById('edit-area');
+                    tmp.removeChild(tmp.childNodes[tmp.childNodes.length - 1])
+                    tmp.appendChild(drawCanvas);
+
+                    console.log("2. drawCanvas", drawCanvas);
+                    //=============================================================//
+                    var canvas2 = document.getElementById("canvas-" + frameNum);
+                    var context = canvas2.getContext('2d');
+                    var radius = 5;
+                    var dragging = false;
+                    var bErasing = false;
+
+                    context.beginPath();
+                    context.rect(0, 0, canvas2.width, canvas2.height);
+                    context.fillStyle = 'rgba(255, 0, 0, 0.2)';
+                    context.fill();
+                    context.beginPath();
+
+                    context.lineWidth = radius * 2;
+
+                    var putPoint = function (e) {
+                        if (dragging) {
+                            context.lineTo(e.offsetX, e.offsetY);
+                            context.stroke();
+                            context.beginPath();
+                            context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI * 2);
+                            context.fill();
+                            context.beginPath();
+                            if (bErasing == true) {
+                                context.globalCompositeOperation = "destination-out";
+                            } else {
+                                context.globalCompositeOperation = "source-over";
+                            }
+                            context.moveTo(e.offsetX, e.offsetY);
+                            
+                            // context.lineTo(e.pageX ,e.pageY);
+                            // context.stroke();
+                            // context.lineTo(e.offsetX, e.offsetY);
+                            // context.stroke();
+                            // context.beginPath();
+                            // context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
+                            // context.fill();
+                            // context.beginPath();
+                            // context.moveTo(e.offsetX, e.offsetY);
+                        }
+                    }
+
+                    var engage = function (e) {
+                        dragging = true;
+                        putPoint(e);
+                    }
+
+                    var disengage = function () {
+                        dragging = false;
+                        context.beginPath();
+                    }
+
+                    canvas2.addEventListener('mousedown', engage);
+                    canvas2.addEventListener('mouseup', disengage);
+                    canvas2.addEventListener('mousemove', putPoint);
+
+                    var setRadius = function (newRadius) {
+                        if (newRadius < minRad) newRadius = minRad;
+                        else if (newRadius > maxRad) newRadius = maxRad;
+                        radius = newRadius;
+                        context.lineWidth = radius * 2;
+                        radSpan.innerHTML = radius;
+                    }
+
+                    var minRad = 1,
+                        maxRad = 40,
+                        defaultRad = 15,
+                        interval = 5,
+                        radSpan = document.getElementById('radval'),
+                        decRad = document.getElementById('decrad'),
+                        incRad = document.getElementById('incrad');
+
+                    decRad.addEventListener('click', function () {
+                        setRadius(radius - interval);
+                    });
+                    incRad.addEventListener('click', function () {
+                        setRadius(radius < interval ? interval : radius + interval);
+                    });
+
+                    setRadius(defaultRad);
+
+                         //////////////////////////////////////////////////////
+
+                    var colors = ['black', 'pink', 'red', 'yellow', 'green', 'blue']; //Color array to select from
+                    /*Handles the creation of color*/
+                    document.getElementById('colors').innerHTML = '';
+                    
+                    for (var i = 0, n = colors.length; i < n; i++) {
+                        var swatch = document.createElement('nav');
+                        swatch.className = 'swatch';
+                        swatch.style.backgroundColor = colors[i];
+                        swatch.addEventListener('click', setSwatch);
+                        
+                        document.getElementById('colors').appendChild(swatch);
+                    }
+                    /*set color*/
+                    function setColor(color) {
+                        context.fillStyle = color;
+                        context.strokeStyle = color;
+                        var active = document.getElementsByClassName('active')[0];
+                        if (active) {
+                            active.className = 'swatch';
+                        }
+                    }
+                    function setSwatch(e) {
+                        bErasing = false;
+                        //identify swatch
+                        var swatch = e.target;
+                        //set color
+                        setColor(swatch.style.backgroundColor);
+                        //give active class
+                        swatch.className += ' active';
+                    }
+                    setSwatch({ target: document.getElementsByClassName('swatch')[0] }); //set default swatch
+
+                        //////////////////////////////////////
+
+                    var button = document.getElementById('save');
+                    button.addEventListener('click', saveImage);
+
+                    function saveImage(el) {
+                        console.log('download');
+                        bErasing = true;
+                        // const canvas2 = document.getElementById('drawArea');
+                        var canvas2 = document.getElementById("canvas-" + frameNum);
+                        const link = document.createElement('a');
+                        link.download = 'download.png';
+                        link.href = canvas2.toDataURL();
+                        link.click();
+                        link.delete;
+                    };
+
+                    var buttonclear = document.getElementById('clear');
+                    buttonclear.addEventListener('click', clearImage);
+
+                    function clearImage() {
+                        var currentFillStyle = context.fillStyle;
+                        context.clearRect(0, 0, canvas2.width, canvas2.height);
+                        context.rect(0, 0, canvas2.width, canvas2.height);
+                        context.fillStyle = "rgba(255, 0, 0, 0%)";
+                        context.fill();
+                        context.beginPath();
+                        context.fillStyle = currentFillStyle;
+                        context.strokeStyle = currentFillStyle;
+                    };
+
+                    function eraserImage() {
+                        console.log('eraser');
+                        bErasing = true;
+                    };                    
+                    //=============================================================//
 
 
-                    console.log(savejson);
+                    // 4) 원본 
+                    // const drawCanvas = document.getElementById("drawArea");
+                    // const drawCtx = drawCanvas.getContext("2d");
+                    // drawCanvas.width = frame.width;
+                    // drawCanvas.height = frame.height;
+
+                    // drawCtx.strokeStyle = 'black';
+                    // drawCtx.lineWidth = '30';
+                    // drawCtx.lineCap = ctx.lineJoin = 'round';
+                    // bErasing = false;
+
+                    console.log(drawFrames);
                 };
 
             });
@@ -953,166 +1136,164 @@
                 </div>
 
                 <div id="colors"></div>
-                                
                 <img src="/static/image/icon_eraser.svg" id="my-eraser"  onclick="eraserImage()" style="height: 30px; margin: 0 3px 0 6px;">
                 <img src="/static/image/icon_all_draw_delete.svg" id="clear" style="height: 34px; margin: 0 3px 0 3px;">
                 <img src="/static/image/icon_downloads.svg" id="save" style="height: 30px; margin: 0 3px 0 3px;">
             </div>
-            <div class="edit-bar" style="position: relative;">    
+            
+            <div class="edit-bar" id='edit-area' style="position: relative;">    
                 <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
-                <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>            
+                <!-- <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>             -->
             </div>
         </div>
 
         <script>
-            var canvas = document.getElementById('drawArea');
-            var context = canvas.getContext('2d');
-            var radius = 5;
-            var dragging = false;
-            var bErasing = false;
+            // var canvas = document.getElementById('drawArea');
+            // var context = canvas.getContext('2d');
+            // var radius = 5;
+            // var dragging = false;
+            // var bErasing = false;
 
-            context.beginPath();
-            context.rect(0, 0, canvas.width, canvas.height);
-            context.fillStyle = 'rgba(255, 0, 0, 0.2)';
-            context.fill();
-            context.beginPath();
+            // context.beginPath();
+            // context.rect(0, 0, canvas.width, canvas.height);
+            // context.fillStyle = 'rgba(255, 0, 0, 0.2)';
+            // context.fill();
+            // context.beginPath();
 
-            context.lineWidth = radius * 2;
+            // context.lineWidth = radius * 2;
 
-            var putPoint = function (e) {
-                console.log("> putPoint");
-                if (dragging) {
-                    context.lineTo(e.offsetX, e.offsetY);
-                    context.stroke();
-                    context.beginPath();
-                    context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI * 2);
-                    context.fill();
-                    context.beginPath();
-                    if (bErasing == true) {
-                        context.globalCompositeOperation = "destination-out";
-                    } else {
-                        context.globalCompositeOperation = "source-over";
-                    }
-                    context.moveTo(e.offsetX, e.offsetY);
-                    // context.lineTo(e.pageX ,e.pageY);
-                    // context.stroke();
-                    // context.lineTo(e.offsetX, e.offsetY);
-                    // context.stroke();
-                    // context.beginPath();
-                    // context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
-                    // context.fill();
-                    // context.beginPath();
-                    // context.moveTo(e.offsetX, e.offsetY);
-                }
-            }
+            // var putPoint = function (e) {
+            //     if (dragging) {
+            //         context.lineTo(e.offsetX, e.offsetY);
+            //         context.stroke();
+            //         context.beginPath();
+            //         context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI * 2);
+            //         context.fill();
+            //         context.beginPath();
+            //         if (bErasing == true) {
+            //             context.globalCompositeOperation = "destination-out";
+            //         } else {
+            //             context.globalCompositeOperation = "source-over";
+            //         }
+            //         context.moveTo(e.offsetX, e.offsetY);
+                    
+            //         // context.lineTo(e.pageX ,e.pageY);
+            //         // context.stroke();
+            //         // context.lineTo(e.offsetX, e.offsetY);
+            //         // context.stroke();
+            //         // context.beginPath();
+            //         // context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
+            //         // context.fill();
+            //         // context.beginPath();
+            //         // context.moveTo(e.offsetX, e.offsetY);
+            //     }
+            // }
 
-            var engage = function (e) {
-                dragging = true;
-                putPoint(e);
-            }
+            // var engage = function (e) {
+            //     dragging = true;
+            //     putPoint(e);
+            // }
 
-            var disengage = function () {
-                dragging = false;
-                context.beginPath();
-            }
+            // var disengage = function () {
+            //     dragging = false;
+            //     context.beginPath();
+            // }
 
-            canvas.addEventListener('mousedown', engage);
-            canvas.addEventListener('mouseup', disengage);
-            canvas.addEventListener('mousemove', putPoint);
+            // canvas.addEventListener('mousedown', engage);
+            // canvas.addEventListener('mouseup', disengage);
+            // canvas.addEventListener('mousemove', putPoint);
 
-            var setRadius = function (newRadius) {
-                if (newRadius < minRad) newRadius = minRad;
-                else if (newRadius > maxRad) newRadius = maxRad;
-                radius = newRadius;
-                context.lineWidth = radius * 2;
+            // var setRadius = function (newRadius) {
+            //     if (newRadius < minRad) newRadius = minRad;
+            //     else if (newRadius > maxRad) newRadius = maxRad;
+            //     radius = newRadius;
+            //     context.lineWidth = radius * 2;
+            //     radSpan.innerHTML = radius;
+            // }
 
-                radSpan.innerHTML = radius;
-            }
+            // var minRad = 1,
+            //     maxRad = 40,
+            //     defaultRad = 15,
+            //     interval = 5,
+            //     radSpan = document.getElementById('radval'),
+            //     decRad = document.getElementById('decrad'),
+            //     incRad = document.getElementById('incrad');
 
-            var minRad = 1,
-                maxRad = 40,
-                defaultRad = 15,
-                interval = 5,
-                radSpan = document.getElementById('radval'),
-                decRad = document.getElementById('decrad'),
-                incRad = document.getElementById('incrad');
+            // decRad.addEventListener('click', function () {
+            //     setRadius(radius - interval);
+            // });
+            // incRad.addEventListener('click', function () {
+            //     setRadius(radius < interval ? interval : radius + interval);
+            // });
 
-            decRad.addEventListener('click', function () {
-                setRadius(radius - interval);
-            });
-            incRad.addEventListener('click', function () {
-                setRadius(radius < interval ? interval : radius + interval);
-            });
+            // setRadius(defaultRad);
 
-            setRadius(defaultRad);
+            // //////////////////////////////////////////////////////
 
-            //////////////////////////////////////////////////////
+            // var colors = ['black', 'pink', 'red', 'yellow', 'green', 'blue']; //Color array to select from
+            // /*Handles the creation of color*/
+            // for (var i = 0, n = colors.length; i < n; i++) {
+            //     var swatch = document.createElement('nav');
+            //     swatch.className = 'swatch';
+            //     swatch.style.backgroundColor = colors[i];
+            //     swatch.addEventListener('click', setSwatch);
+            //     document.getElementById('colors').appendChild(swatch);
+            // }
+            // /*set color*/
+            // function setColor(color) {
+            //     context.fillStyle = color;
+            //     context.strokeStyle = color;
+            //     var active = document.getElementsByClassName('active')[0];
+            //     if (active) {
+            //         active.className = 'swatch';
+            //     }
+            // }
+            // function setSwatch(e) {
+            //     bErasing = false;
+            //     //identify swatch
+            //     var swatch = e.target;
+            //     //set color
+            //     setColor(swatch.style.backgroundColor);
+            //     //give active class
+            //     swatch.className += ' active';
+            // }
+            // setSwatch({ target: document.getElementsByClassName('swatch')[0] }); //set default swatch
 
-            var colors = ['black', 'pink', 'red', 'yellow', 'green', 'blue']; //Color array to select from
-            /*Handles the creation of color*/
-            for (var i = 0, n = colors.length; i < n; i++) {
-                var swatch = document.createElement('nav');
-                swatch.className = 'swatch';
-                swatch.style.backgroundColor = colors[i];
-                swatch.addEventListener('click', setSwatch);
-                document.getElementById('colors').appendChild(swatch);
-            }
-            /*set color*/
-            function setColor(color) {
-                context.fillStyle = color;
-                context.strokeStyle = color;
-                var active = document.getElementsByClassName('active')[0];
-                if (active) {
-                    active.className = 'swatch';
-                }
-            }
-            function setSwatch(e) {
-                bErasing = false;
-                //identify swatch
-                var swatch = e.target;
-                //set color
-                setColor(swatch.style.backgroundColor);
-                //give active class
-                swatch.className += ' active';
-            }
-            setSwatch({ target: document.getElementsByClassName('swatch')[0] }); //set default swatch
+            // //////////////////////////////////////
 
-            //////////////////////////////////////
+            // var button = document.getElementById('save');
+            // button.addEventListener('click', saveImage);
 
-            var button = document.getElementById('save');
-            button.addEventListener('click', saveImage);
+            // function saveImage(el) {
+            //     console.log('download');
+            //     bErasing = true;
+            //     // const canvas = document.getElementById('drawArea');
+            //     var canvas = document.getElementById('drawArea');
+            //     const link = document.createElement('a');
+            //     link.download = 'download.png';
+            //     link.href = canvas.toDataURL();
+            //     link.click();
+            //     link.delete;
+            // };
 
-            function saveImage(el) {
-                console.log('download');
-                bErasing = true;
-                // const canvas = document.getElementById('drawArea');
-                var canvas = document.getElementById('drawArea');
-                const link = document.createElement('a');
-                link.download = 'download.png';
-                link.href = canvas.toDataURL();
-                link.click();
-                link.delete;
-            };
+            // var buttonclear = document.getElementById('clear');
+            // buttonclear.addEventListener('click', clearImage);
 
-            var buttonclear = document.getElementById('clear');
-            buttonclear.addEventListener('click', clearImage);
+            // function clearImage() {
+            //     var currentFillStyle = context.fillStyle;
+            //     context.clearRect(0, 0, canvas.width, canvas.height);
+            //     context.rect(0, 0, canvas.width, canvas.height);
+            //     context.fillStyle = "rgba(255, 0, 0, 0%)";
+            //     context.fill();
+            //     context.beginPath();
+            //     context.fillStyle = currentFillStyle;
+            //     context.strokeStyle = currentFillStyle;
+            // };
 
-            function clearImage() {
-                console.log("clear!!");
-                var currentFillStyle = context.fillStyle;
-                context.clearRect(0, 0, canvas.width, canvas.height);
-                context.rect(0, 0, canvas.width, canvas.height);
-                context.fillStyle = "rgba(255, 0, 0, 0%)";
-                context.fill();
-                context.beginPath();
-                context.fillStyle = currentFillStyle;
-                context.strokeStyle = currentFillStyle;
-            };
-
-            function eraserImage() {
-                console.log('eraser');
-                bErasing = true;
-            };
+            // function eraserImage() {
+            //     console.log('eraser');
+            //     bErasing = true;
+            // };
 
 
         </script>
