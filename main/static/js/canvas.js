@@ -6,7 +6,8 @@ let stopped = false;    // 이미지 분리 기준
 let canvasImage;        // 이미지만 띄우는 Canvas
 let ctxImage;           // 이미지만 띄우는 Canvas
 
-bErasing = false;       // 지우개 토글 기준
+let bErasing = false;       // 지우개 토글 기준
+let isDivideVideo = false;
 
 var selectedFrameItem;  // 현재 이미지 선택된 객체
 var previousCanvasId = 0;
@@ -66,7 +67,6 @@ function clearImage() {
     const currentCanvas = document.getElementById("canvas-drawing-" + previousCanvasId);
     const currentContext = currentCanvas.getContext("2d");
 
-    console.log("clear!!");
     var currentFillStyle = currentContext.fillStyle;
     currentContext.clearRect(0, 0, currentCanvas.width, currentCanvas.height);
     currentContext.rect(0, 0, currentCanvas.width, currentCanvas.height);
@@ -85,12 +85,16 @@ var button = document.getElementById('save');
 button.addEventListener('click', saveImage);
 
 function saveImage(el) {
-    console.log('download');
     bErasing = true;
     
     var canvas = document.getElementById("canvas-drawing-" + previousCanvasId);
     const link = document.createElement('a');
-    link.download = 'download.png';
+    const labelName = document.getElementById('label_name').innerHTML;
+    if(labelName === null){
+        labelName = "object";
+    }
+
+    link.download = labelName + "-" + previousCanvasId + ".png";
     link.href = canvas.toDataURL();
     link.click();
     link.delete;
@@ -154,6 +158,10 @@ async function getVideoTrack(video, videourl) {
 
 // 비디오를 각 프레임으로 분할(분할 아이콘 클릭)
 async function divideVideo(){
+    // if (document.querySelector("#label_name").textContent == "") {
+    //     alert("레이블링의 object를 정의해주세요.");
+    //     return;
+    // }
     if (window.MediaStreamTrackProcessor) {
         isDivideVideo = true;
         const track = await getVideoTrack();
@@ -279,6 +287,33 @@ function createCanvas(bitmapWidth, bitmapHeight){
 
     /////////////////////////////////////////////////////
     var putPoint = function (e) {
+        if(bErasing){
+            document.getElementById("mouse-cursor").style.width = currentLineWidth + "px";
+            document.getElementById("mouse-cursor").style.height = currentLineWidth + "px";
+            document.getElementById("mouse-cursor").style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            document.getElementById("mouse-cursor").style.border = '#fff';
+
+            const w = document.getElementById("mouse-cursor").style.width.split("px")[0];
+            const h = document.getElementById("mouse-cursor").style.height.split("px")[0];
+
+            document.getElementById("mouse-cursor").style.top = (e.offsetY - h / 2) + "px";
+            document.getElementById("mouse-cursor").style.left = (e.offsetX - w / 2) + "px";
+
+        }else{
+            document.getElementById("mouse-cursor").style.width = currentLineWidth + "px";
+            document.getElementById("mouse-cursor").style.height = currentLineWidth + "px";
+            document.getElementById("mouse-cursor").style.backgroundColor = currentSelectedColor;
+
+            const w = document.getElementById("mouse-cursor").style.width.split("px")[0];
+            const h = document.getElementById("mouse-cursor").style.height.split("px")[0];
+
+            document.getElementById("mouse-cursor").style.top = (e.offsetY - h / 2) + "px";
+            document.getElementById("mouse-cursor").style.left = (e.offsetX - w / 2) + "px";
+        }
+
+        
+        // console.log(e.offsetX, e.offsetY);
+
         if (dragging) {
             context.lineTo(e.offsetX, e.offsetY);
             context.stroke();
@@ -312,11 +347,22 @@ function createCanvas(bitmapWidth, bitmapHeight){
         dragging = false;
         context.beginPath();
     }
+    
+    var canvasMouseEnter = function (e) {
+        document.getElementById("mouse-cursor").style.display = 'block';
+    }
+
+    var canvasMouseOver = function(e){
+        document.getElementById("mouse-cursor").style.display = 'none';
+    }
 
     predefinedCanvas.addEventListener('mousedown', engage);
     predefinedCanvas.addEventListener('mouseup', disengage);
     predefinedCanvas.addEventListener('mousemove', putPoint);
 
+    predefinedCanvas.addEventListener('mouseenter', canvasMouseEnter);
+    predefinedCanvas.addEventListener('mouseleave', canvasMouseOver);
+    
     /////////////////////////////////////////////////////
     context.strokeStyle = 'black';
     context.lineWidth = '30';
@@ -367,6 +413,21 @@ function changeInfromationNowFrame(clickFrameID){
     fileNow.textContent = clickFrameID;
 }
 
+// 마우스 커서 도형으로 대체하기
+function mouseCursorMove(e){
+    x = e.clientX, y = e.clientY; 
+    h1.innerHTML = `x: ${x} y: ${y}`; 
+    cursor.style.transform = `translate(${x}px, ${y}px)`;
+
+}
+
+// window.onload = () =>{ 
+//     cursor = document.getElementsByClassName("cursor_item")[0]; 
+//     h1 = document.getElementsByTagName("h1")[0]; 
+//     document.addEventListener("mousemove", mouseFunc); 
+// }
+
+
 
 // 그림판 상단 컬러 선택 버튼 생성
 initDrawingBoard();
@@ -379,3 +440,12 @@ uploadVideoButton.addEventListener("change", (evt) => loadUploadVideo(evt));
 // 이미지 분할 아이콘 버튼 이벤트
 const imgSplittingButton = document.getElementById("divide_video");
 imgSplittingButton.onclick = async (evt) => divideVideo();
+
+// 모달 이벤트
+const modal = document.querySelector('.modal');
+
+const btnOpenPopup = document.querySelector('.btn-open-popup');
+btnOpenPopup.addEventListener('click', modalOpen)
+
+const closeBtn = modal.querySelector(".close-area");
+closeBtn.addEventListener('click', modalOff)

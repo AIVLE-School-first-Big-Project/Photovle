@@ -148,7 +148,6 @@ body {
 
     width: 100vw;
     height: calc(100vh - 115px);
-    background-color: blue;
     display: flex;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     border: 1px solid #707070;
@@ -508,10 +507,6 @@ select {
     margin-right: 8px;
 }
 
-#imgViewer {
-    border: 1px solid black;
-}
-
 #drawArea {
     border: 1px solid red;
 }
@@ -556,7 +551,7 @@ select {
     display: inline-block;
     margin-left: 5px;
     margin-bottom: 50px;
-    background-color: cyan;
+    
 }
 
 .swatch.active {
@@ -593,5 +588,8 @@ select {
 
 canvas:last-child{
     border: 1px solid #d2310e;
-    background-color: rgba(255, 0, 0, 0.2);
+}
+
+#drawAreaStack{
+    cursor: none;
 }

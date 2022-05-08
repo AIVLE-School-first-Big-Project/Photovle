@@ -138,6 +138,7 @@
                 <img src="/static/image/icon_downloads.svg" id="save" style="height: 30px; margin: 0 3px 0 3px;">
             </div>
             <div class="edit-bar" style="position: relative;">    
+                <div id="mouse-cursor" style="position: absolute; z-index: 3; cursor: none; pointer-events: none; border-radius: 50%; display: none"></div>
                 <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
                 <ul id="drawAreaStack" style="position: absolute; z-index: 2;"></ul>
 
@@ -146,6 +147,8 @@
         </div>
 
     </div>
+
+    
     <script type="text/javascript" src="{% static 'js/canvas.js' %}"> </script>
 </body>
 
