@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static "css/sidemenu.css"%}"/>
+<link rel="stylesheet" href="{% static 'css/sidemenu.css' %}"/>
 <script src="/static/js/sidemenu.js" type="text/javascript"></script>
 
 <style>
@@ -183,8 +183,8 @@
             
             <ul class="nav-links">
                 <li>
-                    <a style="color:#fff">{{user.name}}</a>
-                    <span >님 안녕하세요.</span>
+                    <a style="color:#fff; cursor:default;">{{user.name}}</a>
+                    <span style="cursor:default;">님 안녕하세요.</span>
                 </li>
 
                 <li>
@@ -220,7 +220,7 @@
         <div class="sidebar">
             <ul class="nav-links">
                 <li>
-                    <span style="text-align:left;">로그인이 필요합니다.</span>
+                    <span style="text-align:left; cursor:default;">로그인이 필요합니다.</span>
                 </li>
 
                 <li>
