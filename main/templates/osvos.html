@@ -779,7 +779,7 @@
 
                 const canvas = document.getElementById("imgViewer");
                 const ctx = canvas.getContext("2d");
-                tmpcanvas = canvas;
+                // tmpcanvas = canvas;
 
                 // ratataca
                 // const drawCanvas = document.getElementById("drawArea");
@@ -903,8 +903,11 @@
                     var firstX, firstY;
                     var X, Y;
                     var attribute = this.getAttribute('id')
-                    var tt = new Array(attribute);
-                    openkey = tt[0];
+
+                    // attribute ==
+                    // var tt = new Array(attribute);
+                    // openkey = tt[0];
+                    // console.log("attribute :", attribute, 'openkey : ', openkey);
 
                     if (nowImage != null) {
                         nowImage.style.color = 'black';
@@ -912,7 +915,7 @@
                     }
 
                     // 1) 이미지 선택 되었을 때 frame-idx text bold 및 색 변경
-                    nowImage = document.getElementById(openkey);
+                    nowImage = document.getElementById(attribute);
                     nowImage.style.color = '#708AE8';
                     nowImage.style.fontWeight = 600;
 
