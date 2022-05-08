@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Photovle{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
-    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
 
     <style>
         /* html css init */
@@ -228,7 +228,7 @@
             text-align: left;
             font: normal normal normal 16px/18px Segoe UI;
             display: block;
-            cursor: default;
+            cursor:default;
             margin-bottom: 12px;
         }
 
@@ -257,7 +257,7 @@
 
         .input-file .file-label {
             display: inline-block;
-            cursor: pointer;
+            cursor:pointer;
             height: 28px;
             line-height: 28px;
             text-align: center;
@@ -293,8 +293,7 @@
             flex-direction: column;
             justify-content: flex-start;
         }
-
-        .label-add {
+        .label-add{
             width: 100%;
             display: flex;
             outline: none;
@@ -302,15 +301,15 @@
             justify-content: flex-end;
         }
 
-        .label-add>input {
+        .label-add>input{
             width: 100px;
         }
 
-        .label-add>input:focus {
+        .label-add>input:focus{
             outline: none;
         }
 
-        .label-add>button {
+        .label-add>button{
             width: 100px;
         }
 
@@ -350,10 +349,11 @@
             width: 153px;
             text-overflow: ellipsis;
             white-space: nowrap;
-            word-break: break-all;
+            word-break:break-all;
+            overflow: hidden;
         }
 
-        .edit-label-name {
+        .edit-label-name{
             width: calc(100% - 94px);
             display: flex;
             justify-content: space-between;
@@ -410,7 +410,7 @@
 
         .image-item {
             display: inline-block;
-            cursor: pointer;
+            cursor:pointer;
         }
 
         #image-list>li:hover {
@@ -431,193 +431,100 @@
         #image-list canvas {
             display: inline-block;
         }
-
-        .modal {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            background-color: rgba(0, 0, 0, 0.4);
+        
+        .modal { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            display: none; 
+            background-color: rgba(0, 0, 0, 0.4); 
         }
 
-        .modal_body {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            height: 200px;
-            padding: 40px;
-            text-align: center;
-            background-color: rgb(255, 255, 255);
-            border-radius: 10px;
-            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+        .modal_body{
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            width: 400px; 
+            height: 200px; 
+            padding: 40px; 
+            text-align: center; 
+            background-color: rgb(255, 255, 255); 
+            border-radius: 10px; 
+            box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); 
             transform: translateX(-50%) translateY(-50%);
         }
 
-        .title {
+        .title{
             height: 40px;
             font-size: 20px;
             display: flex;
-            cursor: default;
+            cursor:default;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
 
         }
 
-        .btn-open-popup {
+        .btn-open-popup{
             color: #708AE8;
-            cursor: pointer;
+            cursor:pointer;
             padding: 0px;
             height: 20px;
             margin-top: 4px;
         }
-
         .edit-label-name>img:hover {
             filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
         }
 
-        #label_name {
+        #label_name{
             margin-right: 10px;
         }
 
-        .preview {
+        .preview{
             display: flex;
-            cursor: default;
+            cursor:default;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
         }
 
-        .preview>p {
+        .preview>p{
             width: 166px;
         }
 
-        .preview input {
+        .preview input{
             outline: none;
             border-top: none;
             border-left: none;
             border-right: none;
-            border-bottom: 1px solid #707070;
+            border-bottom:  1px solid #707070;
             /* margin-left: 12px; */
             padding-left: 4px;
             width: 100%;
         }
 
-        .model-control {
+        .model-control{
             display: flex;
             justify-content: flex-end;
             align-items: center;
         }
 
-        .model-control button {
+        .model-control button{
             width: 50px;
             padding: 2px 0;
             height: 30px;
         }
 
-
-        .model-control>button:first-child {
+        
+        .model-control>button:first-child{
             background-color: #707070;
             margin-right: 8px;
         }
+        #imgViewer{border:1px solid black;}
+        #drawArea{border:1px solid red;}
 
-        #imgViewer {
-            border: 1px solid black;
-        }
-
-        #drawArea {
-            border: 1px solid red;
-        }
-
-        #toolbara {
-            width: 100%;
-            height: 40px;
-            padding: 10px;
-            background-color: #2f2f2f;
-            color: white;
-            display: flex;
-            align-items: center;
-
-        }
-
-        .radcontrol {
-            width: 26px;
-            height: 20px;
-            background-color: #4f4f4f;
-            display: inline-block;
-            text-align: center;
-            cursor: pointer;
-        }
-        .radcontrol:hover{
-            color: #708AE8;
-        }
-
-        #rad {
-            margin-right: 10px;
-        }
-
-        #colors>nav{
-            margin: 0 4px;
-            
-        }
-
-        .swatch {
-            width: 20px;
-            height: 20px;
-            border-radius: 10px;
-            box-shadow: inset 0px 2px 0px rgba(255, 255, 255, 0.5), 0px 2px 2px rgba(0, 0, 0, 0.5);
-            display: inline-block;
-            margin-left: 5px;
-            margin-bottom: 50px;
-            background-color: cyan;
-        }
-
-        .swatch.active {
-            border: 2px solid white;
-            box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        #save {
-            
-            /* width: 50px; */
-            margin-right: 0px;
-        }
-
-        #save:hover {
-            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
-
-        }
-
-        #my-eraser {
-            /* background-color: #4f4f4f; */
-            /* background-color: red; */
-            /* width: 50px; */
-            
-            margin-right:0px;
-        }
-
-        #my-eraser:hover {
-            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
-        }
-
-
-        #clear {
-            filter: white;
-            padding: 5px;
-            /* margin-right:0px; */
-        }
-
-        #clear:hover {
-            filter: invert(61%) sepia(18%) saturate(6443%) hue-rotate(202deg) brightness(95%) contrast(92%);
-        }
-
-        .draw-canvas{
-            position: absolute; 
-            z-index: 2; 
-        }
     </style>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
@@ -670,7 +577,7 @@
                         <li>
                             <span>Now Frame : </span>
                             <p id="label_now"></p>
-                        </li>
+                        </li> 
 
                         <li>
                             <span>Size : </span>
@@ -683,7 +590,7 @@
                         </li>
                     </ul>
                 </div>
-
+            
                 <div class="label-add">
                     <select disabled style="display: none;"></select>
                 </div>
@@ -691,11 +598,13 @@
                 <!-- 여러 설정 바 -->
                 <div class="control-bar-option-area">
                     <img src="/static/image/icon_images.svg" id="divide_video">
+                    <img src="/static/image/icon_color_picker.svg" onclick = "color_picker();">
                     <img src="/static/image/icon_train_data.svg" onclick="">
+                    <img src="/static/image/icon_download.svg" onclick="export2json();">
                     <img src="/static/image/icon_all_download.svg" onclick="">
                     <img src="/static/image/icon_video2.svg" onclick="">
+                    <img src="/static/image/icon_trash_can.svg" onclick="img_draw_clear();">
                     
-
                 </div>
 
                 <!-- 이미지 프레임 목록 -->
@@ -712,12 +621,12 @@
                 <div class="title">
                     <h2>Object Label Title</h2>
                 </div>
-
+                
                 <div class="content">
                     <div class="preview">
                         <p>Label Name : </p>
                         <input type="text" id="label_tag" placeholder="입력해주세요.">
-
+                        
                     </div>
                     <div class="model-control">
                         <button type="button" class="close-area">취소</button>
@@ -730,13 +639,17 @@
         <script>
             var isDivideVideo = false;
             var nowImage;
-            var nowDrawNum = 'canvas-0';
-            let drawFrames = {};
+            let savejson = {};
             let openkey;
             let savelabel;
-            let tmpcanvas, tmpframe;
+            let tmpcanvas , tmpframe;
 
-
+            // let drawcolor="rgb(118,131,243)" ;  // 원 그림 그릴떄 색깔
+            // let fixcolor="red"                  // 다각형 확정됬을때 색깔
+            // let linecolor = "black" ;           // 선그릴때 색깔
+            // let Toggle = 0;
+            
+            
             // 1. Object 이름 정의 및 변경 함수 (ex. cat Label)
             function define_tag() {
                 const label = document.getElementById("label_tag").value;
@@ -744,7 +657,8 @@
                 const fileName = document.querySelector("#label_name");
                 fileName.textContent = label;
                 savelabel = label;
-                const modal = document.querySelector('.modal');
+                console.log(label);
+                const modal = document.querySelector('.modal'); 
                 modal.style.display = "none"
             }
 
@@ -779,20 +693,19 @@
 
                 const canvas = document.getElementById("imgViewer");
                 const ctx = canvas.getContext("2d");
-                // tmpcanvas = canvas;
+                tmpcanvas = canvas;
 
                 // ratataca
-                // const drawCanvas = document.getElementById("drawArea");
-                // const drawCtx = drawCanvas.getContext("2d");
-                // drawCanvas.width = 1280;
-                // drawCanvas.height = 720;
+                const drawCanvas = document.getElementById("drawArea");
+                const drawCtx = drawCanvas.getContext("2d");
+                drawCanvas.width = 1270;
+                drawCanvas.height = 700;
 
-                // drawCtx.strokeStyle = 'black';
-                // drawCtx.lineWidth = '30';
-                // drawCtx.lineCap = ctx.lineJoin = 'round';
-                // bErasing = false;
-                // console.log("now : ", bErasing);
-
+                drawCtx.strokeStyle = '#f00';
+                drawCtx.lineWidth = '30';
+                drawCtx.lineCap = ctx.lineJoin = 'round';
+                
+                
 
                 // 4) 분할 Icon 클릭시
                 const button = document.getElementById("divide_video");
@@ -839,13 +752,7 @@
                                     var imgjson = new Object();
                                     imgjson.points = [];
                                     imgjson.dot = 0;
-                                    
-
-                                    // ***** Dict 만드는 곳
-                                    const newDrawFrame = document.createElement('canvas');
-                                    const newDrawCtx = newDrawFrame.getContext("2d");
-                                    
-                                    drawFrames[`${imageId.textContent}`] = newDrawFrame
+                                    savejson[`${imageId.textContent}`] = imgjson;
 
                                     const imageCtx = imageCanvas.getContext("2d");
                                     imageCtx.drawImage(bitmap, 0, 0, 120, 100);
@@ -856,7 +763,7 @@
                                     imageListUl.append(imageItem);
 
                                     // console.log(imageItem);
-                                    // console.log(drawFrames);
+                                    // console.log(imageListUl);
 
                                     value.close();
 
@@ -870,7 +777,6 @@
                                     select.disabled = false;
                                 }
                             });
-                            button.onclick = (evt) => stopped = true;
                         }
                     } else {
                         console.error("your browser doesn't support this API yet");
@@ -903,19 +809,16 @@
                     var firstX, firstY;
                     var X, Y;
                     var attribute = this.getAttribute('id')
+                    var tt = new Array(attribute);
+                    openkey = tt[0];
 
-                    // attribute ==
-                    // var tt = new Array(attribute);
-                    // openkey = tt[0];
-                    // console.log("attribute :", attribute, 'openkey : ', openkey);
-
-                    if (nowImage != null) {
+                    if(nowImage != null){
                         nowImage.style.color = 'black';
                         nowImage.style.fontWeight = 400;
                     }
 
                     // 1) 이미지 선택 되었을 때 frame-idx text bold 및 색 변경
-                    nowImage = document.getElementById(attribute);
+                    nowImage = document.getElementById(openkey);
                     nowImage.style.color = '#708AE8';
                     nowImage.style.fontWeight = 600;
 
@@ -930,385 +833,211 @@
                     canvas.width = frame.width;
                     canvas.height = frame.height;
                     ctx.drawImage(frame, 0, 0);
-                    console.log("1. frame : ", frame);
 
-                    var frameNum = attribute.split("-")[1];
-                    nowDrawNum = "canvas-" + frameNum;
-
-                    console.log("Draw Frame : ", drawFrames, " Attribute : ", attribute);
-                    // 4) canvas 태그 관련된 초기화
-                    const drawCanvas = drawFrames[attribute];
-                    drawCanvas.className = "draw-canvas";
-                    drawCanvas.setAttribute('id', nowDrawNum);
-                    const drawCtx = drawCanvas.getContext("2d");
-                    drawCanvas.width = frame.width;
-                    drawCanvas.height = frame.height;
-
-                    drawCtx.strokeStyle = 'black';
-                    drawCtx.lineWidth = '30';
-                    drawCtx.lineCap = ctx.lineJoin = 'round';
-                    bErasing = false;
-
-                    const tmp = document.getElementById('edit-area');
-                    tmp.removeChild(tmp.childNodes[tmp.childNodes.length - 1])
-                    tmp.appendChild(drawCanvas);
-
-                    console.log("2. drawCanvas", drawCanvas);
-                    //=============================================================//
-                    var canvas2 = document.getElementById("canvas-" + frameNum);
-                    var context = canvas2.getContext('2d');
-                    var radius = 5;
-                    var dragging = false;
-                    var bErasing = false;
-
-                    context.beginPath();
-                    context.rect(0, 0, canvas2.width, canvas2.height);
-                    context.fillStyle = 'rgba(255, 0, 0, 0.2)';
-                    context.fill();
-                    context.beginPath();
-
-                    context.lineWidth = radius * 2;
-
-                    var putPoint = function (e) {
-                        if (dragging) {
-                            context.lineTo(e.offsetX, e.offsetY);
-                            context.stroke();
-                            context.beginPath();
-                            context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI * 2);
-                            context.fill();
-                            context.beginPath();
-                            if (bErasing == true) {
-                                context.globalCompositeOperation = "destination-out";
-                            } else {
-                                context.globalCompositeOperation = "source-over";
-                            }
-                            context.moveTo(e.offsetX, e.offsetY);
-                            
-                            // context.lineTo(e.pageX ,e.pageY);
-                            // context.stroke();
-                            // context.lineTo(e.offsetX, e.offsetY);
-                            // context.stroke();
-                            // context.beginPath();
-                            // context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
-                            // context.fill();
-                            // context.beginPath();
-                            // context.moveTo(e.offsetX, e.offsetY);
-                        }
-                    }
-
-                    var engage = function (e) {
-                        dragging = true;
-                        putPoint(e);
-                    }
-
-                    var disengage = function () {
-                        dragging = false;
-                        context.beginPath();
-                    }
-
-                    canvas2.addEventListener('mousedown', engage);
-                    canvas2.addEventListener('mouseup', disengage);
-                    canvas2.addEventListener('mousemove', putPoint);
-
-                    var setRadius = function (newRadius) {
-                        if (newRadius < minRad) newRadius = minRad;
-                        else if (newRadius > maxRad) newRadius = maxRad;
-                        radius = newRadius;
-                        context.lineWidth = radius * 2;
-                        radSpan.innerHTML = radius;
-                    }
-
-                    var minRad = 1,
-                        maxRad = 40,
-                        defaultRad = 15,
-                        interval = 5,
-                        radSpan = document.getElementById('radval'),
-                        decRad = document.getElementById('decrad'),
-                        incRad = document.getElementById('incrad');
-
-                    decRad.addEventListener('click', function () {
-                        setRadius(radius - interval);
-                    });
-                    incRad.addEventListener('click', function () {
-                        setRadius(radius < interval ? interval : radius + interval);
-                    });
-
-                    setRadius(defaultRad);
-
-                         //////////////////////////////////////////////////////
-
-                    var colors = ['black', 'pink', 'red', 'yellow', 'green', 'blue']; //Color array to select from
-                    /*Handles the creation of color*/
-                    document.getElementById('colors').innerHTML = '';
                     
-                    for (var i = 0, n = colors.length; i < n; i++) {
-                        var swatch = document.createElement('nav');
-                        swatch.className = 'swatch';
-                        swatch.style.backgroundColor = colors[i];
-                        swatch.addEventListener('click', setSwatch);
-                        
-                        document.getElementById('colors').appendChild(swatch);
+                    // 4) canvas 태그 관련된 초기화
+                    
+                    drawCanvas.style.width = canvas.width - 100;
+                    drawCanvas.style.height = canvas.height - 100;
+                    // drawCtx.drawImage(drawCanvas.width, drawCanvas.height, 0, 0);
+                    
+                    drawCtx.beginPath();
+                    drawCtx.strokeStyle = '#f00';
+                    drawCtx.lineWidth = '30';
+                    drawCtx.lineCap = ctx.lineaJoin = 'round';
+                    
+                    console.log(savejson);
+                }; 
+
+            });
+
+            // 6. brash 관련 함수
+            $(function(){
+                // get reference to canvas and save canvas offsets
+                var canvas = document.getElementById('drawArea');
+                var offsetX = canvas.offsetLeft;
+                var offsetY = canvas.offsetTop;
+
+                var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+                /**
+                * @param {CanvasRenderingContext2D} context
+                */
+                function PrimitiveBrush(context) {
+                    if (!(context instanceof CanvasRenderingContext2D)) {
+                        throw new Error('No 2D rendering context given!');
                     }
-                    /*set color*/
-                    function setColor(color) {
-                        context.fillStyle = color;
-                        context.strokeStyle = color;
-                        var active = document.getElementsByClassName('active')[0];
-                        if (active) {
-                            active.className = 'swatch';
-                        }
-                    }
-                    function setSwatch(e) {
-                        bErasing = false;
-                        //identify swatch
-                        var swatch = e.target;
-                        //set color
-                        setColor(swatch.style.backgroundColor);
-                        //give active class
-                        swatch.className += ' active';
-                    }
-                    setSwatch({ target: document.getElementsByClassName('swatch')[0] }); //set default swatch
+                    console.log("PrimitiveBrush!!!");
 
-                        //////////////////////////////////////
+                    this.ctx = context;
+                    this.strokes = [];
+                    this.strokeIndex=0;
+                    this.workingStrokes=[];
+                    this.lastLength=0;
+                    this.isTouching = false;
 
-                    var button = document.getElementById('save');
-                    button.addEventListener('click', saveImage);
+                    // init context
+                    this.ctx.strokeStyle = '#f00';
+                    this.ctx.lineWidth = '20';
+                    this.ctx.lineCap = this.ctx.lineJoin = 'round';
 
-                    function saveImage(el) {
-                        console.log('download');
-                        bErasing = true;
-                        // const canvas2 = document.getElementById('drawArea');
-                        var canvas2 = document.getElementById("canvas-" + frameNum);
-                        const link = document.createElement('a');
-                        link.download = 'download.png';
-                        link.href = canvas2.toDataURL();
-                        link.click();
-                        link.delete;
-                    };
+                    console.log(this.ctx);
+                    // start the drawing loop
+                    this._draw();
+                }
 
-                    var buttonclear = document.getElementById('clear');
-                    buttonclear.addEventListener('click', clearImage);
+                /**
+                 * 
+                
+                * Begins a new stroke
+                * @param  {MouseEvent} event
+                */
+                PrimitiveBrush.prototype.start = function (event) {
+                    var x = event.clientX - offsetX;
+                    var y = event.clientY - offsetY;
+                    this.workingStrokes = [{x:x,y:y}];
 
-                    function clearImage() {
-                        var currentFillStyle = context.fillStyle;
-                        context.clearRect(0, 0, canvas2.width, canvas2.height);
-                        context.rect(0, 0, canvas2.width, canvas2.height);
-                        context.fillStyle = "rgba(255, 0, 0, 0%)";
-                        context.fill();
-                        context.beginPath();
-                        context.fillStyle = currentFillStyle;
-                        context.strokeStyle = currentFillStyle;
-                    };
-
-                    function eraserImage() {
-                        console.log('eraser');
-                        bErasing = true;
-                    };                    
-                    //=============================================================//
-
-
-                    // 4) 원본 
-                    // const drawCanvas = document.getElementById("drawArea");
-                    // const drawCtx = drawCanvas.getContext("2d");
-                    // drawCanvas.width = frame.width;
-                    // drawCanvas.height = frame.height;
-
-                    // drawCtx.strokeStyle = 'black';
-                    // drawCtx.lineWidth = '30';
-                    // drawCtx.lineCap = ctx.lineJoin = 'round';
-                    // bErasing = false;
-
-                    console.log(drawFrames);
+                    this.strokes.push(this.workingStrokes);
+                    this.lastLength = 1;
+                    this.isTouching = true;
+                                        
+                    console.log("strokes", this.strokes);
+                    console.log("workingStrokes", this.workingStrokes);
                 };
 
-            });
+                /**
+                * Moves the current position of our brush
+                * @param  {MouseEvent} event
+                */
+                PrimitiveBrush.prototype.move = function (event) {
+                    if(!this.isTouching){
+                        return; 
+                    }
+                    var x = event.clientX - offsetX;
+                    var y = event.clientY - offsetY;
+                    this.workingStrokes.push({x:x,y:y});
+                };
 
+                /**
+                * Stops a stroke
+                * @param  {MouseEvent} event
+                */
+                PrimitiveBrush.prototype.end = function (event, foo) {
+                    this.move(event);
+                    this.isTouching = false;
+                };
+
+                PrimitiveBrush.prototype._draw = function () {
+
+                    requestAnimationFrame(this._draw.bind(this));
+
+                    // save the current length quickly (it's dynamic)
+                    var length = this.workingStrokes.length;
+
+                    // return if there's no work to do
+                    if(length <= this.lastLength){
+                        return;
+                    }
+
+                    var startIndex = this.lastLength - 1;
+                    this.lastLength = length;
+                    var pt0 = this.workingStrokes[startIndex];
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(pt0.x, pt0.y);
+
+                    for(var j = startIndex ; j < this.lastLength ; j++){
+                        var pt=this.workingStrokes[j];
+                        this.ctx.lineTo(pt.x, pt.y);
+                    }
+
+                    this.ctx.stroke();
+                };
+
+                // Set up brush to listen to events
+                var brush = new PrimitiveBrush(canvas.getContext('2d'));
+
+                canvas.addEventListener('mousedown', brush.start.bind(brush));
+                canvas.addEventListener('mousemove', brush.move.bind(brush));
+                canvas.addEventListener('mouseup', brush.end.bind(brush));
+
+            }); // end $(function(){});
+
+            // 저장함수
+            // function export2json() { 
+            //     var imgjson = new Object();
+            //     imgjson.name = openkey
+            //     imgjson.label = savelabel;
+            //     imgjson.points = [];
+            //     imgjson.points = savejson[openkey].points;
+            //     const a = document.createElement("a");
+            //     a.href = URL.createObjectURL(new Blob([JSON.stringify(imgjson, null, 2)], {
+            //         type: "text/plain"
+            //     }));
+            //     a.setAttribute("download", "data.json");
+            //     document.body.appendChild(a);
+            //     a.click();
+            //     document.body.removeChild(a);
+            // }
+
+            function img_draw_clear() {
+                const canvas = document.getElementById("drawArea");
+                const ctx = canvas.getContext("2d");
+                ctx.beginPath();
+                console.log("draw clear event");
+
+                const fileNow = document.querySelector("#label_now");
+                const frame = frames[fileNow.textContent.split('-')[1]];
+
+                // canvas = document.getElementById('drawing');
+                canvas.width = tmpframe.height;
+                canvas.height = tmpframe.height;
+                
+                // ctx.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(tmpframe, 0, 0);
+                ctx.strokeStyle = '#f00';
+                ctx.lineWidth = '30';
+                ctx.lineCap = ctx.lineJoin = 'round';
+
+
+                // tmpcanvas.width = tmpframe.width;
+                // tmpcanvas.height = tmpframe.height;
+                // savejson[openkey].dot = 0;
+                // savejson[openkey].points = [];
+                // savejson[openkey].firstX = 0;
+                // savejson[openkey].firstY = 0;
+                
+                // console.log(savejson);
+                // tmpcanvas.getContext("2d").clearRect(0, 0, tmpcanvas.width, tmpcanvas.height);
+                // tmpcanvas.getContext("2d").drawImage(tmpframe, 0, 0);
+
+                // ctx.strokeStyle = '#f00';
+                // ctx.lineWidth = '10';
+                // ctx.lineCap = ctx.lineJoin = 'round';
+            }
+
+            
         </script>
 
-        <div class="edit-bar" >
-            <div id="toolbara">
-                <div id="rad">
-                    Radius <span id="radval">1</span>
-                    <div id="decrad" class="radcontrol"> - </div>
-                    <div id="incrad" class="radcontrol"> + </div>
-                </div>
 
-                <div id="colors"></div>
-                <img src="/static/image/icon_eraser.svg" id="my-eraser"  onclick="eraserImage()" style="height: 30px; margin: 0 3px 0 6px;">
-                <img src="/static/image/icon_all_draw_delete.svg" id="clear" style="height: 34px; margin: 0 3px 0 3px;">
-                <img src="/static/image/icon_downloads.svg" id="save" style="height: 30px; margin: 0 3px 0 3px;">
-            </div>
+        <div class="edit-bar" style="position: relative;">
+            <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
+            <canvas id="drawArea" style="position: absolute; z-index: 2; background-color: rgba(255, 0, 0, 0.2);"></canvas>
             
-            <div class="edit-bar" id='edit-area' style="position: relative;">    
-                <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
-                <!-- <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>             -->
-            </div>
         </div>
 
-        <script>
-            // var canvas = document.getElementById('drawArea');
-            // var context = canvas.getContext('2d');
-            // var radius = 5;
-            // var dragging = false;
-            // var bErasing = false;
-
-            // context.beginPath();
-            // context.rect(0, 0, canvas.width, canvas.height);
-            // context.fillStyle = 'rgba(255, 0, 0, 0.2)';
-            // context.fill();
-            // context.beginPath();
-
-            // context.lineWidth = radius * 2;
-
-            // var putPoint = function (e) {
-            //     if (dragging) {
-            //         context.lineTo(e.offsetX, e.offsetY);
-            //         context.stroke();
-            //         context.beginPath();
-            //         context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI * 2);
-            //         context.fill();
-            //         context.beginPath();
-            //         if (bErasing == true) {
-            //             context.globalCompositeOperation = "destination-out";
-            //         } else {
-            //             context.globalCompositeOperation = "source-over";
-            //         }
-            //         context.moveTo(e.offsetX, e.offsetY);
-                    
-            //         // context.lineTo(e.pageX ,e.pageY);
-            //         // context.stroke();
-            //         // context.lineTo(e.offsetX, e.offsetY);
-            //         // context.stroke();
-            //         // context.beginPath();
-            //         // context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI*2);
-            //         // context.fill();
-            //         // context.beginPath();
-            //         // context.moveTo(e.offsetX, e.offsetY);
-            //     }
-            // }
-
-            // var engage = function (e) {
-            //     dragging = true;
-            //     putPoint(e);
-            // }
-
-            // var disengage = function () {
-            //     dragging = false;
-            //     context.beginPath();
-            // }
-
-            // canvas.addEventListener('mousedown', engage);
-            // canvas.addEventListener('mouseup', disengage);
-            // canvas.addEventListener('mousemove', putPoint);
-
-            // var setRadius = function (newRadius) {
-            //     if (newRadius < minRad) newRadius = minRad;
-            //     else if (newRadius > maxRad) newRadius = maxRad;
-            //     radius = newRadius;
-            //     context.lineWidth = radius * 2;
-            //     radSpan.innerHTML = radius;
-            // }
-
-            // var minRad = 1,
-            //     maxRad = 40,
-            //     defaultRad = 15,
-            //     interval = 5,
-            //     radSpan = document.getElementById('radval'),
-            //     decRad = document.getElementById('decrad'),
-            //     incRad = document.getElementById('incrad');
-
-            // decRad.addEventListener('click', function () {
-            //     setRadius(radius - interval);
-            // });
-            // incRad.addEventListener('click', function () {
-            //     setRadius(radius < interval ? interval : radius + interval);
-            // });
-
-            // setRadius(defaultRad);
-
-            // //////////////////////////////////////////////////////
-
-            // var colors = ['black', 'pink', 'red', 'yellow', 'green', 'blue']; //Color array to select from
-            // /*Handles the creation of color*/
-            // for (var i = 0, n = colors.length; i < n; i++) {
-            //     var swatch = document.createElement('nav');
-            //     swatch.className = 'swatch';
-            //     swatch.style.backgroundColor = colors[i];
-            //     swatch.addEventListener('click', setSwatch);
-            //     document.getElementById('colors').appendChild(swatch);
-            // }
-            // /*set color*/
-            // function setColor(color) {
-            //     context.fillStyle = color;
-            //     context.strokeStyle = color;
-            //     var active = document.getElementsByClassName('active')[0];
-            //     if (active) {
-            //         active.className = 'swatch';
-            //     }
-            // }
-            // function setSwatch(e) {
-            //     bErasing = false;
-            //     //identify swatch
-            //     var swatch = e.target;
-            //     //set color
-            //     setColor(swatch.style.backgroundColor);
-            //     //give active class
-            //     swatch.className += ' active';
-            // }
-            // setSwatch({ target: document.getElementsByClassName('swatch')[0] }); //set default swatch
-
-            // //////////////////////////////////////
-
-            // var button = document.getElementById('save');
-            // button.addEventListener('click', saveImage);
-
-            // function saveImage(el) {
-            //     console.log('download');
-            //     bErasing = true;
-            //     // const canvas = document.getElementById('drawArea');
-            //     var canvas = document.getElementById('drawArea');
-            //     const link = document.createElement('a');
-            //     link.download = 'download.png';
-            //     link.href = canvas.toDataURL();
-            //     link.click();
-            //     link.delete;
-            // };
-
-            // var buttonclear = document.getElementById('clear');
-            // buttonclear.addEventListener('click', clearImage);
-
-            // function clearImage() {
-            //     var currentFillStyle = context.fillStyle;
-            //     context.clearRect(0, 0, canvas.width, canvas.height);
-            //     context.rect(0, 0, canvas.width, canvas.height);
-            //     context.fillStyle = "rgba(255, 0, 0, 0%)";
-            //     context.fill();
-            //     context.beginPath();
-            //     context.fillStyle = currentFillStyle;
-            //     context.strokeStyle = currentFillStyle;
-            // };
-
-            // function eraserImage() {
-            //     console.log('eraser');
-            //     bErasing = true;
-            // };
-
-
-        </script>
-
-    </div>
-
+    </div>  
+    
     <script>
-        const modal = document.querySelector('.modal');
-        const btnOpenPopup = document.querySelector('.btn-open-popup');
+        const modal = document.querySelector('.modal'); 
+        const btnOpenPopup = document.querySelector('.btn-open-popup'); 
         btnOpenPopup.addEventListener(
-            'click', () => {
-                if (isDivideVideo) {
-                    alert("영상을 이미지로 분할하여 Object의 이름을 변경할 수 없습니다.")
-                    return;
-                }
-                modal.style.display = 'block';
-            });
+            'click', () => { 
+            if(isDivideVideo){
+                alert("영상을 이미지로 분할하여 Object의 이름을 변경할 수 없습니다.")
+                return;
+            }
+            modal.style.display = 'block'; 
+        });
 
         const closeBtn = modal.querySelector(".close-area")
         closeBtn.addEventListener("click", e => {

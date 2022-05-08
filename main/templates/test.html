@@ -1,297 +1,153 @@
-<!doctype html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
 <html>
+
 <head>
-<link rel="stylesheet" type="text/css" media="all" href="css/reset.css" /> <!-- reset css -->
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-<style>
-    body{ background-color: ivory; }
-    canvas{border:1px solid red;}
-</style>
-<script>
-$(function(){
-
-    // get reference to canvas and save canvas offsets
-    var canvas = document.getElementById('drawing');
-    var offsetX=canvas.offsetLeft;
-    var offsetY=canvas.offsetTop;
-
-    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-
-    /**
-     * @param {CanvasRenderingContext2D} context
-     */
-    function PrimitiveBrush(context) {
-        if (!(context instanceof CanvasRenderingContext2D)) {
-            throw new Error('No 2D rendering context given!');
-        }
-
-        this.ctx = context;
-        this.strokes = [];
-        this.strokeIndex=0;
-        this.workingStrokes=[];
-        this.lastLength=0;
-        this.isTouching = false;
-
-        // init context
-        this.ctx.strokeStyle = '#f00';
-        this.ctx.lineWidth = '10';
-        this.ctx.lineCap = this.ctx.lineJoin = 'round';
-
-        // start the drawing loop
-        this._draw();
-    }
-
-    /**
-     * Begins a new stroke
-     * @param  {MouseEvent} event
-     */
-    PrimitiveBrush.prototype.start = function (event) {
-        var x=event.clientX-offsetX;
-        var y=event.clientY-offsetY;
-        this.workingStrokes=[{x:x,y:y}];
-        this.strokes.push(this.workingStrokes);
-        this.lastLength=1;
-        this.isTouching = true;
-    };
-
-    /**
-     * Moves the current position of our brush
-     * @param  {MouseEvent} event
-     */
-    PrimitiveBrush.prototype.move = function (event) {
-        if(!this.isTouching){return;}
-        var x=event.clientX-offsetX;
-        var y=event.clientY-offsetY;
-        this.workingStrokes.push({x:x,y:y});
-    };
-
-    /**
-     * Stops a stroke
-     * @param  {MouseEvent} event
-     */
-    PrimitiveBrush.prototype.end = function (event, foo) {
-        this.move(event);
-        this.isTouching = false;
-    };
-
-    PrimitiveBrush.prototype._draw = function () {
-
-        requestAnimationFrame(this._draw.bind(this));
-
-        // save the current length quickly (it's dynamic)
-        var length=this.workingStrokes.length;
-
-        // return if there's no work to do
-        if(length<=this.lastLength){return;}
-
-        var startIndex=this.lastLength-1;
-
-        this.lastLength=length;
-
-        var pt0=this.workingStrokes[startIndex];
-
-        this.ctx.beginPath();
-
-        this.ctx.moveTo(pt0.x,pt0.y);
-
-        for(var j=startIndex;j<this.lastLength;j++){
-
-            var pt=this.workingStrokes[j];
-
-            this.ctx.lineTo(pt.x,pt.y);
-
-        }
-
-        this.ctx.stroke();
-
-    };
-
-    // Set up brush to listen to events
-    var brush = new PrimitiveBrush(canvas.getContext('2d'));
-
-    canvas.addEventListener('mousedown', brush.start.bind(brush));
-    canvas.addEventListener('mousemove', brush.move.bind(brush));
-    canvas.addEventListener('mouseup', brush.end.bind(brush));
-
-}); // end $(function(){});
-</script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Photovle{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/test.css' %}">
+    <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
-<body>
-    <canvas id="drawing" width=300 height=300></canvas>
+
+<body
+
+    <div class="canvas-body">
+        <div class="control-bar">
+
+            <!-- step1 -->
+            <div id='step1'>
+                <div class="step1" id="step1">
+                    <img src="/static/image/icon_camera.png" onclick="">
+                    <p>편집할 동영상이 없습니다.</p>
+                    <p>Canvas 화면</p>
+
+
+                    <div class="input-file">
+                        <label for="upload_video" class="file-label">파일 업로드</label>
+                        <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
+                    </div>
+                </div>
+            </div>
+
+            <!-- step2 -->
+            <div class="step2" id="step2" style="display: none;">
+                <video id="video" style="display:none;"></video>
+
+                <div class="infomation-area" style="cursor:default;">
+                    <h3>Information</h3>
+                    <ul>
+                        <li>
+                            <span>File Name : </span>
+                            <p id="file_name"></p>
+                        </li>
+
+                        <li>
+                            <span>Object : </span>
+                            <div class="edit-label-name">
+                                <p id="label_name"></p>
+                                <img src="/static/image/icon_edit.svg" class="btn-open-popup">
+                            </div>
+                        </li>
+
+                        <li>
+                            <span>Total Frame : </span>
+                            <p id="file_frame">0</p>
+                        </li>
+
+                        <li>
+                            <span>Now Frame : </span>
+                            <p id="label_now"></p>
+                        </li>
+
+                        <li>
+                            <span>Size : </span>
+                            <p id="file_size"></p>
+                        </li>
+
+                        <li>
+                            <span>Type : </span>
+                            <p id="file_type"></p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="label-add">
+                    <select disabled style="display: none;"></select>
+                </div>
+
+                <!-- 여러 설정 바 -->
+                <div class="control-bar-option-area">
+                    <img src="/static/image/icon_images.svg" id="divide_video">
+                    <!-- <img src="/static/image/icon_color_picker.svg" onclick="color_picker();"> -->
+                    <img src="/static/image/icon_train_data.svg" onclick="">
+                    <img src="/static/image/icon_all_download.svg" onclick="">
+                    <img src="/static/image/icon_video2.svg" onclick="">
+                    
+
+                </div>
+
+                <!-- 이미지 프레임 목록 -->
+                <div id="image-area">
+                    <ul id="image-list"></ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Object 수정 모달 -->
+        <div class="modal">
+            <div class="modal_body">
+                <div class="title">
+                    <h2>Object Label Title</h2>
+                </div>
+
+                <div class="content">
+                    <div class="preview">
+                        <p>Label Name : </p>
+                        <input type="text" id="label_tag" placeholder="입력해주세요.">
+
+                    </div>
+                    <div class="model-control">
+                        <button type="button" class="close-area">취소</button>
+                        <button type="button" onclick="define_tag();">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 그림판 영역 -->
+        <div class="edit-bar" >
+            <div id="toolbara">
+                <div id="rad">
+                    Radius <span id="radval">1</span>
+                    <div id="decrad" class="radcontrol"> - </div>
+                    <div id="incrad" class="radcontrol"> + </div>
+                </div>
+
+                <div id="colors"></div>
+                                
+                <img src="/static/image/icon_eraser.svg" id="my-eraser"  onclick="eraserImage()" style="height: 30px; margin: 0 3px 0 6px;">
+                <img src="/static/image/icon_all_draw_delete.svg" id="clear" style="height: 34px; margin: 0 3px 0 3px;">
+                <img src="/static/image/icon_downloads.svg" id="save" style="height: 30px; margin: 0 3px 0 3px;">
+            </div>
+            <div class="edit-bar" style="position: relative;">    
+                <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
+                <ul id="drawAreaStack" style="position: absolute; z-index: 2;"></ul>
+
+                <!-- <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>             -->
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript" src="{% static 'js/test.js' %}"> </script>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% comment %} <!DOCTYPE html>
-<html lang="ko">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-
-  <style>
-    canvas {
-      border: 1px solid black;
-    }
-  </style>
-
-</head>
-
-<body>
-
-  <div>
-    <input type="text" id="label">
-    <button type="button" class="btn btn-success" onclick="func1();">label</button>
-    <button type="button" class="btn btn-success" onclick="clear33();">지우기</button>
-    <button onclick="export2json();">다운로드</button>
-    <button onclick="PrintPoints();">불러오기</button>
-
-  </div>
-
-  <canvas id="my_canvas"></canvas>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-  <script type="text/javascript">
-    var my_canvas = document.getElementById('my_canvas');
-    my_canvas.width = 800;
-    my_canvas.height = 800;
-    var ctx = my_canvas.getContext('2d');
-
-    var img = new Image();
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, my_canvas.width, my_canvas.height);
-      ctx.save();
-    }
-    // 이미지 URL
-    img.src = 'https://img.etoday.co.kr/pto_db/2022/03/600/20220307095246_1725389_1200_899.jpg';
-    var obj = new Object();
-    obj.points = [];
-
-
-    ctx.beginPath();
-    var t = 0;
-    var firstX, firstY;
-
-    my_canvas.onmousedown = function (event) {
-
-      if (t < 0) {
-      }
-      else if (t == 0) {
-        obj.points.push([event.x, event.y]);
-        console.log(obj);
-        firstX = event.x;
-        firstY = event.y;
-        ctx.moveTo(event.x, event.y);
-        path = ctx.arc(event.x, event.y, 8, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.fill();
-      }
-      else if (event.x >= firstX - 10 && event.x <= firstX + 10 && event.y >= firstY * -10 && event.y <= firstY * +10) {
-        obj.points.push([event.x, event.y]);
-        console.log(obj);
-        ctx.lineTo(firstX, firstY);
-        ctx.fillStyle = "red"
-        ctx.stroke();
-        ctx.fill();
-        t = -100;
-
-      }
-      else {
-        obj.points.push([event.x, event.y]);
-        console.log(obj);
-        ctx.lineTo(event.x, event.y);
-        ctx.stroke();
-        ctx.moveTo(event.x, event.y);
-        ctx.arc(event.x, event.y, 5, 0, Math.PI * 2, true);// 원그리기
-        ctx.closePath();
-        ctx.fill();
-      }
-      t++
-    }
-
-    function func1() {
-      obj.label = document.getElementById("label").value;
-      console.log(obj);
-    }
-
-    function clear33() {
-      // obj.points=[];
-      console.log('1');
-      my_canvas = document.getElementById('my_canvas');
-      my_canvas.width = 800;
-      my_canvas.height = 800;
-      ctx = my_canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, my_canvas.width, my_canvas.height);
-      t = 0;
-    }
-    function export2json() {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([JSON.stringify(obj, null, 2)], {
-        type: "text/plain"
-      }));
-      a.setAttribute("download", "data.json");
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-
-    function PrintPoints() {
-      t = 0;
-      for (var i of obj.points) {
-        if (t < 0) {
-
-        }
-        else if (t == 0) {
-          firstX = i[0];
-          firstY = i[1];
-          ctx.moveTo(i[0], i[1]);
-          path = ctx.arc(i[0], i[1], 8, 0, Math.PI * 2, true);
-          ctx.closePath();
-          ctx.fill();
-        }
-        else if (i[0] >= firstX - 10 && i[0] <= firstX + 10 && i[1] >= firstY * -10 && i[1] <= firstY * +10) {
-          ctx.lineTo(firstX, firstY);
-          ctx.fillStyle = "red"
-          ctx.stroke();
-          ctx.fill();
-          t = -100;
-        }
-        else {
-          ctx.lineTo(i[0], i[1]);
-          ctx.stroke();
-          ctx.moveTo(i[0], i[1]);
-          ctx.arc(i[0], i[1], 5, 0, Math.PI * 2, true);// 원그리기
-          ctx.closePath();
-          ctx.fill();
-        }
-        t++
-      }
-
-    }// 함수끝
-
-
-  </script>
-
-</body>
-
-</html> {% endcomment %}
+{% endblock %}
