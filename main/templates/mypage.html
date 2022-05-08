@@ -70,21 +70,20 @@
 
 </style>
 <div class="modal">
-            <div class="modal_body">
-                <div class="title">
-                    <h2>Object Label 등록하기</h2>
-                </div>
-                <div class="close-area">X</div>
-                <div class="content">
-                    <div class="preview">
-                        <input type="text" id="label_tag">
-                        <button type="button" onclick="define_tag();">label</button>
-                    </div>
-                
-                    
+    <div class="modal_body">
+        <div class="title">
+            h2>Object Label 등록하기</h2>
+        </div>
+        <div class="close-area">X</div>
+            <div class="content">
+                <div class="preview">
+                    <input type="text" id="label_tag">
+                    <button type="button" onclick="define_tag();">label</button>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 <div class="container">
     <div class="board">
 
@@ -92,31 +91,31 @@
         <hr>
     <table>
         <tr class="form-outline mb-4" style="padding:10px;">
-            <td class="td_title" style="text-align:center; width:20%;">이름</td>
+            <td class="td_title" style="text-align:right; width:20%;">이름</td>
             <td style="border-style:solid; padding:10px;">
                 <input type="text" name="name" id="name" value="{{ user.name }}" style="border-style:solid; max-width:450px; width:80%" readonly/>
             </td>
         </tr>
         <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:center; width:20%; ">전화번호</td>
+            <td class="td_title" style="text-align:right; width:20%; ">전화번호</td>
             <td style="padding:10px;">
                 <input type="tel" id="phone" value="{{ user.phone }}" style="border-style:solid; max-width:450px; width:80%;" readonly/>
             </td>
         </tr>
         <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:center; width:20%;">이메일</td>
+            <td class="td_title" style="text-align:right; width:20%;">이메일</td>
             <td style="padding:10px;">
                 <input type="email" id="email" value="{{ user.email }}" style="border-style:solid; max-width:450px; width:80%;" readonly/>
             </td>
         </tr>
         <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:center; width:20%;">ID</td>
+            <td class="td_title" style="text-align:right; width:20%;">ID</td>
             <td style="padding:10px;">
                 <input type="text" id="id" value="{{ user.username }}" style="border-style:solid; max-width:450px; width:80%;" readonly/>
             </td>
         </tr>
         <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:center; width:20%;">비밀번호</td>
+            <td class="td_title" style="text-align:right; width:20%;">비밀번호</td>
             <td>
                 <button style="background-color: #708ae8; border:none;" class="btn btn-primary trigger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@" onclick="location.href='{% url 'main:change_password' %}'">변경하기</button>
             </td>
