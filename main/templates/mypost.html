@@ -28,10 +28,10 @@
         margin-bottom: 20px;
     }
     .board{
-        height:75%;
-        max-height:60vh;
-        align-items:center;
-        text-align:center;
+        height: 75%;
+        max-height: 60vh;
+        align-items: center;
+        text-align: center;
         position: relative;
     }
     .table{
@@ -44,11 +44,7 @@
         font-size: 24px;
         font-weight: bold;
     }
-
-   
-
-    .board tbody>tr{
-        
+    .board tbody>tr{        
         line-height: 30px;
         cursor: pointer;
     }
@@ -70,6 +66,20 @@
     .board tbody>tr:nth-child(2n+1){
         background-color:rgba(0, 0, 0, 0.025);
     }
+
+    .post-id{
+        text-align:right; 
+        padding-right: 28px;
+    }
+
+    .post-title{
+        display: block;
+        text-decoration:none;
+        text-align:left; 
+        cursor:pointer;        
+        padding-left: 10px;
+        
+    }
 </style>
 
 <body>
@@ -78,7 +88,7 @@
             <div>
                 <h2>나의 게시글</h2>
             </div>
-            <div class="board" style="height: 280px;">
+            <div class="board">
                 <table class="table table-hover">
                     <thead>
                         <tr style="cursor:default;">
@@ -105,11 +115,9 @@
                             <td>{{ board_list.hits }}</td>
                         </tr> {% endcomment %}
                         <tr class="{% cycle '' 'even_bgcolor' %}">
-                            <td scope="row" style="text-align:right; padding-right: 28px;">{{ board_list.id }}</td>
-                            <td style="text-align:center" onclick="location.href='{% url 'main:detail' board_list.id %}'" style="text-decoration:none;text-align:right; cursor:pointer;">
-    
+                            <td class="post-id" scope="row">{{ board_list.id }}</td>
+                            <td class="post-title" onclick="location.href='{% url 'main:detail' board_list.id %}'" style="padding-left: 16px;">
                                     {{ board_list.title }}  {% if board_list.reply_set.count > 0 %} [{{ board_list.reply_set.count }}] {% endif %}
-    
                             </td>
                             <td>{{ board_list.user }}</td>
                             <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>
@@ -127,13 +135,12 @@
                     {% endif %}
                     </tbody>
                 </table>
-                <div style="text-align:right;">
-                    <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-                </div>
             </div>
+
             <div class="btn-area">
                 <div id="paging">
                     <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+                        
                         <!-- 이전페이지 -->
                         {% if page_obj.has_previous %}
                         <li class="page-item">
@@ -149,7 +156,7 @@
                         </li>
                         {% endif %}
                         <!-- 페이지리스트 -->
-                       
+
                         {% for page_number in page_obj.paginator.page_range %}
                             {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
                             <span class="{% if page_number == page_obj.number %}current{% endif %}">
@@ -180,23 +187,18 @@
                         <li class="page-item disabled">
                             <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
                         </li>
-                        {% endif %}
-                        {% if user.is_authenticated %}
-                        <div>
-                            <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
-                        </div>
-                        {% endif %}
+                        {% endif %}                        
                     </ul>
                 </div>
-            </div>
-            
-        </div>
-        
-        
-        </div>
-        
-        <!-- 페이징처리 끝 -->
+                {% if user.is_authenticated %}
+                <div>
+                    <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+                </div>
+                {% endif %}
+            </div>            
+        </div> 
     </div>
+    <!-- 페이징처리 끝 -->
 </body>
 {% endblock %}
 
