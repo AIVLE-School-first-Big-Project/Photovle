@@ -278,24 +278,7 @@ def update(request, pk):    # pk = board_id
         }
         if board.upload_files:
             context['file_url'] = board.upload_files.url
-    return render(request, 'update.html', context)
-    # if request.method == 'POST':
-    #     form = BoardForm(request.POST, instance=board)
-    #     if form.is_valid():
-    #         temp_form = form.save(commit=False)
-    #         temp_form.user = request.user
-    #         temp_form.pub_date = timezone.now()
-    #         temp_form.upload_files = request.FILES.get('upload_files')
-    #         temp_form.save()
-    #         return redirect('main:board')
-    # else:
-    #     form = BoardForm(instance=board)
-    #     context = {
-    #         'form':form,
-    #         'pk':pk
-    #     }
-    # return render(request, 'update.html', context)
-        
+    return render(request, 'update.html', context)        
 
 # 게시글 삭제
 @login_required
