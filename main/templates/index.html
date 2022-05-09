@@ -4,13 +4,6 @@
 
 
 {% block content %}
-{% comment %} <div class="container-fluid mt-5>
-    <div class="row">
-        <div class="col-lg-6 offset-lg-3 mb-3">
-            <div class="row" >
-        <img src="/static/image/찐로고.png" class="center-block" width="30%" onclick="location.href='{% url 'main:home' %}'">
-            </div>
-        </div> {% endcomment %}
 <style>
     .wrapper {
         display: grid;
@@ -29,9 +22,9 @@
 <div class="wrapper" style="text-align: center;" >
   <div class="content">
     {% if user.is_authenticated %}
-    <img src="/static/image/찐로고.png"width="25%" class="center-block" onclick="location.href='{% url 'main:home' %}'">
+    <img src="/static/image/찐로고.png"width="288px" class="center-block" onclick="location.href='{% url 'main:home' %}'">
     {% else %}
-    <img src="/static/image/찐로고.png"width="25%" class="center-block" onclick="location.href='{% url 'main:login' %}'">
+    <img src="/static/image/찐로고.png"width="288px" class="center-block" onclick="location.href='{% url 'main:login' %}'">
     {% endif %}
     <h2 style="color:gray; margin-top:20px;">당신의 모델 학습 데이터를 보조하겠습니다.</h2>
     

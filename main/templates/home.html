@@ -246,8 +246,8 @@
 <div class="wrapper" style="text-align: center;">
     <div class="content" style="text-align: center;">
         <img class="image" src="/static/image/찐로고.png" width="288px;">
-        <p style="color:gray; padding-top:20px; font-size:20px">당신의 모델 학습 데이터를 보조하겠습니다.</p>
-        <div style="margin-top:30px">
+        <p style="color:gray; font-size:20px">당신의 모델 학습 데이터를 보조하겠습니다.</p>
+        <div style="margin-top:15px">
             {% if user.is_authenticated %}
             <div>
                 <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:osvos' %}'">Image Segmentation Start</button>
