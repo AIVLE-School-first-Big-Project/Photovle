@@ -4,29 +4,39 @@
     *{
         box-sizing:border-box;
         }
-    .signup-area{
-        width:100vw;
-        height: 100vh;
-        padding: 20px 0 10px 0;
+    .change-area{
+        width: 100%;
+        height:calc(100vh - 85px);
         display: flex;
-        justify-content: center;
-        align-items: center;
-        align-items: baseline
+        justify-content:center;
+        align-items: flex-start;
     }
-
-    .signup-card{
-        width:35%;
+    .change-card{
+        width:500px;
         background-color:white;
-        border-radius:4px;
-        border-width:1px;
+        border-radius:8px;
+        border-width:3px;
         box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-        padding:30px;
+        padding:8px;
         display: flex;
         flex-direction: column;
-        border-radius: 1rem; 
         align-items:center;
+        padding:32px;
     }
-    .signup-card input{
+    .change-card h2{
+        text-align: left;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .password{
+        width:100%;
+        height:100%;
+        align-items:center;
+        text-align:center;
+        padding:10px;
+    }
+    .password input{
         width:100%;
         border-top:none;
         border-left:none;
@@ -35,56 +45,88 @@
         font-size: 16px;
         border-radius: 0;
         margin: 20px;
-        
     }
-    h2{
-        margin-top: 8px;
-        text-align: left;
+
+    .password>li{
+        display: flex;
+        height: 36px;
+        align-items: center;
+        margin-bottom: 10px;
     }
-    table{
-        
-        margin: auto auto;
+    
+    .password>li>p{
+        display: block;
+        width: 160px;
+        font-size: 18px;
+        text-align: right;
+        margin-right: 10px;
     }
-    .td_title{
-        cursor:default;
+
+    .password>li>input{
+        outline: none;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom:  1px solid #707070;
+        margin-left: 12px;
+        padding-left: 4px;
+        font-size: 18px;
+        width: 60%;
+    }
+    .password>li>input:focus{
+        outline: none;
+    }
+    .base-button{
+        width:100%;
+        background-color: #708ae8; 
+        border:none;
+        color:white;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        font-size: 1.25rem;
+        border-radius: 0.3rem;
+    }
+    .base-button:hover {
+        color: #212529;
     }
 </style>
 
+<section class="change-area">
+    <div class="change-card">
+        <form action="" method="post" style="text-align: center;">
+        {% csrf_token %}
+            <div>
+                <h2 style="cursor:default;">개인정보 수정</h2>
+            </div>
+            <div>
+                <ul class= "password">
+                    <li>
+                        <p>이름</p>
+                        <input type="name" name="name" id="name" class="form-control" 
+                        placeholder="이름" value="{{ form.name.value|default_if_none:'' }}"/>
+                    </li>
+                    <li>
+                        <p>전화번호</p>
+                        <input type="phone" name="phone" id="phone" class="form-control" 
+                        placeholder="전화번호" value="{{ form.phone.value|default_if_none:'' }}"/>
+                    </li>
+                    <li>
+                        <p>이메일</p>
+                        <input type="email" name="email" id="email" class="form-control" 
+                        placeholder="이메일" value="{{ form.email.value|default_if_none:'' }}"/>
+                    </li>
+                </ul>
+            </div>
+            <button type="submit" class="base-button" style="background-color: #708ae8; color:white; width:50%; margin:20px 0;" onclick="location.href='{% url 'main:mypage' %}'; 'JavaScript:btn()'">수정완료</button>
 
-<form action="" method="post" style="text-align: center;">
-    {% csrf_token %}
-    {% comment %} {{ form }} {% endcomment %}
-<table>
-    <div class="form-outline mb-4">
-        <tr>
-            <td class="td_title" style="text-align:center; width:20%;">이름</td>
-            <td style="padding:10px;">
-                {{form.name}}
-            </td>
-        </tr>
-    </div>
-    <div class="form-outline mb-4">
-        <tr>
-            <td class="td_title" style="text-align:center; width:20%;">전화번호</td>
-            <td style="padding:10px;">
-                {{form.phone}}
-            </td>
-        </tr>
-    </div>
-    <div class="form-outline mb-4">
-        <tr>
-            <td class="td_title" style="text-align:center; width:20%;">이메일</td>
-            <td style="padding:10px;">
-                {{form.email}}
-            </td>
-        </tr>
-    </div>
-</table>
 <script language="JavaScript" type="text/javascript">
-    function CloseAndRefresh() 
+    function btn() 
      {
-        opener.location.reload(true);
-        self.close();
+        if (confirm("수정하시겠습니까?")==true){
+            alert("수정이 완료되었습니다.");
+        }else{
+            return;
+        }
      }
 </script>
     <button type="submit" class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="alert('수정되었습니다.');">수정완료</button>
