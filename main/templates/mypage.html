@@ -165,7 +165,7 @@
                 </li>
 
                 <li>
-                    <button class="opposite-button" type="button" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
+                    <button class="opposite-button" type="button" onclick="btn();">회원탈퇴</button>
                 </li>
             </ul>           
         </div>
@@ -175,8 +175,9 @@
         function btn(){
             if (confirm("정말 탈퇴하시겠습니까?")==true){
                 alert("회원 탈퇴가 완료되었습니다.");
+                location.href='{% url 'main:delete_user' %}'
             }else{
-                return;
+                return false;
             }
 
         }
