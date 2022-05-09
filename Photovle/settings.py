@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap4',
     'main.apps.MainConfig',
-
     # rest-auth
     'rest_framework.authtoken',
     'rest_auth',
@@ -197,6 +196,6 @@ AUTH_USER_MODEL = 'main.User'
 
 # login session
 ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지
-SESSION_COOKIE_AGE = 72000       # 쿠키 저장 유효시간(단위 sec)
+SESSION_COOKIE_AGE = 7200       # 쿠키 저장 유효시간(단위 sec) 2시간으로 설정
 
 

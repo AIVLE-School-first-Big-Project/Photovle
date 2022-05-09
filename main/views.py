@@ -63,8 +63,6 @@ def login(request):
         'form':form,
     }
     return render(request, 'login.html', context)
-    
-        
 
 # 카카오 로그인
 def kakao_login(request):
@@ -98,7 +96,6 @@ def kakao_callback(request):
         else:
             dj_login(request, user, 'django.contrib.auth.backends.ModelBackend')
             return redirect('main:home')
-
     else:
         # user 테이블에 넣기 위하여 임의의 password를 만들고 sha256으로 암호화
         tmp = string.ascii_letters + string.digits
@@ -211,7 +208,6 @@ def delete_user(request):
     return redirect('main:home')
 
 #######################게시판################################
-
 # 게시판 메인페이지
 def board(request):
     board = Board.objects.all().order_by("-pub_date")
@@ -219,9 +215,9 @@ def board(request):
     paginator = Paginator(board, 7)
     page_obj = paginator.get_page(page)
     context={ 
-                'page_obj':page_obj,
-                'title':'게시판',
-                'board':board
+            'page_obj':page_obj,
+            'title':'게시판',
+            'board':board
         }
     return render(request, 'board.html', context)
 
@@ -262,10 +258,8 @@ def write(request):
 # 게시판에 업로드된 파일 다운로드
 def download(request, pk):  # pk = board_id
     board = Board.objects.get(id=pk)
-
     filepath = os.path.abspath('media/')
     file_name = os.path.basename('media/'+board.upload_files.name)
-
     fs = FileSystemStorage(filepath)
     response = FileResponse(fs.open(file_name, 'rb'), content_type='application/download')
     response['Content-Disposition'] = 'attachment; filename=%s' % file_name
@@ -340,7 +334,6 @@ def update_reply(request, pk, rep_pk):  # pk = board_id # rep_pk = reply_id
         context = {
             'pk':pk,
             'reply': reply,
-            
         }
     return HttpResponseRedirect(reverse('main:detail', context))
 
@@ -372,10 +365,5 @@ def canvas(request):
 def test(request):
     return render(request, 'test.html')
 
-
 def osvos(request):
-    user = request.user
-    context = {
-        'user':user
-    }
-    return render(request, 'osvos.html', context)
+    return render(request, 'osvos.html')
