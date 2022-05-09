@@ -2,15 +2,38 @@
 {% block content %}
 
 <style>
+    .board-area{
+        width: 100%;
+        height:calc(100vh - 85px);
+        display: flex;
+        justify-content:center;
+    }
     
     .container{
         background-color:white;
-        margin-top:50px;
-        
-        border-radius:16px;
+        width: 500px;
+        height: 75vh;
+        max-height:1000px;
+        border-radius:8px;
         border-width:3px;
-        box-shadow:5px 5px 5px 5px gray;
+        box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+        padding: 32px;
+        position:relative;
+        display:flex;
+        flex-direction:column;
     }
+
+    .container>div:first-child{
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .container h2 {
+        text-align: left;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
     .board{
         width:100%;
         height:100%;
@@ -18,47 +41,23 @@
         text-align:center;
         padding:10px;
     }
-    table{
-        margin-top:5%;
-        margin-bottom:5%;
-        text-align:center;
-        margin:auto auto;
-        width:100%;
+
+    .board>li{
+        display: flex;
+        height: 36px;
+        align-items: center;
+        margin-bottom: 10px;
     }
-    td input{
-        width:80%;
-        height:40px;
-        border-radius:5px;
-    }
-    .td_title{
-        width:20%;
-        cursor:default;
-    }
-    {% comment %} modal {% endcomment %}
-    .modal { 
-        position: absolute; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%; 
-        display: none; 
-        background-color: rgba(0, 0, 0, 0.4); 
+    
+    .board>li>p{
+        display: block;
+        width: 120px;
+        font-size: 18px;
+        text-align: right;
+        margin-right: 10px;
     }
 
-    .modal_body{
-        position: absolute; 
-        top: 50%; 
-        left: 50%; 
-        width: 400px; 
-        height: 600px; 
-        padding: 40px; 
-        text-align: center; 
-        background-color: rgb(255, 255, 255); 
-        border-radius: 10px; 
-        box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15); 
-        transform: translateX(-50%) translateY(-50%);
-    }
-    input{
+    .board>li>input{
         outline: none;
         border-top: none;
         border-left: none;
@@ -66,97 +65,84 @@
         border-bottom:  1px solid #707070;
         margin-left: 12px;
         padding-left: 4px;
-}
+        font-size: 18px;
+        width: 80%;
+    }
+    .board>li>input:focus{
+        outline: none;
+    }
 
 </style>
-<div class="modal">
-    <div class="modal_body">
-        <div class="title">
-            <h2>Object Label 등록하기</h2>
-        </div>
-        <div class="close-area">X</div>
-            <div class="content">
-                <div class="preview">
-                    <input type="text" id="label_tag">
-                    <button type="button" onclick="define_tag();">label</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="board">
 
-        <h2 style="text-align:left; padding:20px; cursor:default;">마이페이지</h2>
-        <hr>
-    <table>
-        <tr class="form-outline mb-4" style="padding:10px;">
-            <td class="td_title" style="text-align:right; width:20%;">이름</td>
-            <td style="border-style:solid; padding:10px;">
-                <input type="text" name="name" id="name" value="{{ user.name }}" style="border-style:solid; max-width:450px; width:80%" readonly/>
-            </td>
-        </tr>
-        <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:right; width:20%; ">전화번호</td>
-            <td style="padding:10px;">
-                <input type="tel" id="phone" value="{{ user.phone }}" style="border-style:solid; max-width:450px; width:80%;" readonly/>
-            </td>
-        </tr>
-        <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:right; width:20%;">이메일</td>
-            <td style="padding:10px;">
-                <input type="email" id="email" value="{{ user.email }}" style="border-style:solid; max-width:450px; width:80%;" readonly/>
-            </td>
-        </tr>
-        <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:right; width:20%;">ID</td>
-            <td style="padding:10px;">
-                <input type="text" id="id" value="{{ user.username }}" style="border-style:solid; max-width:450px; width:80%;" readonly/>
-            </td>
-        </tr>
-        <tr class="form-outline mb-4">
-            <td class="td_title" style="text-align:right; width:20%;">비밀번호</td>
-            <td>
-                <button style="background-color: #708ae8; border:none;" class="btn btn-primary trigger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@" onclick="location.href='{% url 'main:change_password' %}'">변경하기</button>
-            </td>
-        </tr>
-    </table>
-    <hr>
-    <br>
-    <div class="pt-1 mb-4 gap-2">
-        <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:home' %}'">home</button>
-        <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:update_user' %}'">개인정보수정</button>
-    </div>
-        <div class="pt-1 mb-4 d-grid gap-2">
-            <button class="btn btn-lg btn-block" type="button" style="background-color: #708ae8; color:white; width:100%" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-        </div>
-        <div class="pt-1 mb-4 d-grid gap-2">
-            <button class="btn btn-lg btn-block" type="button" style="background-color: #86878b; color:white; width:100%" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
-        </div>
-        <script>
-            function btn(){
-                if (confirm("정말 탈퇴하시겠습니까?")==true){
-                    alert("회원 탈퇴가 완료되었습니다.");
-                }else{
-                    return;
-                }
 
-            }
-        </script>
-        <script>
-            const modal = document.querySelector('.modal'); 
-            const btnOpenPopup = document.querySelector('.btn-open-popup'); 
-            btnOpenPopup.addEventListener(
-                'click', () => { 
-                modal.style.display = 'block'; 
-            });
+<div class="board-area">
+    <div class="container">
+        <div>
+            <h2 style="cursor:default;">마이페이지</h2>
+        </div>
+
         
-            const closeBtn = modal.querySelector(".close-area")
-            closeBtn.addEventListener("click", e => {
-                modal.style.display = "none"
-            })
-        </script>
+
+        <div>
+            <ul class="board">
+                <li>
+                    <p>이름</p>
+                    <input type="text" name="name" id="name" value="{{ user.name }}" readonly/>
+                </li>
+
+                <li>
+                    <p>전화번호</p>
+                    <input type="tel" id="phone" value="{{ user.phone }}" readonly/>
+                </li>
+
+                <li>
+                    <p>이메일</p>
+                    <input type="email" id="email" value="{{ user.email }}" readonly/>
+                </li>
+
+                <li>
+                    <p>ID</p>
+                    <input type="text" id="id" value="{{ user.username }}" readonly/>
+                </li>
+
+                <li>
+                    <p>비밀번호</p>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary trigger" onclick="location.href='{% url 'main:change_password' %}'">변경하기</button>
+                </li>
+
+                <li>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:update_user' %}'">개인정보수정</button>
+                </li>
+
+                
+                <li>
+                    <button class="btn btn-lg btn-block" type="button" style="background-color: #708ae8; color:white; width:100%" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+                </li>
+
+                <li>
+                    <button class="btn btn-lg btn-block" type="button" style="background-color: #86878b; color:white; width:100%" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
+                </li>
+
+                <!-- <li>
+                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:home' %}'">home</button>
+                </li> -->
+            </ul>
+
+            
+        </div>
     </div>
+
+    <script>
+        function btn(){
+            if (confirm("정말 탈퇴하시겠습니까?")==true){
+                alert("회원 탈퇴가 완료되었습니다.");
+            }else{
+                return;
+            }
+
+        }
+    </script>
 </div>
+
 
 {% endblock %}
