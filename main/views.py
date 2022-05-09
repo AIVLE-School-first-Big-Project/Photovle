@@ -1,12 +1,13 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, update_session_auth_hash, login as dj_login
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
+from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect, FileResponse
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from Photovle import settings
 from Photovle.settings import SOCIAL_OUTH_CONFIG
@@ -171,6 +172,18 @@ def change_password(request):
     }
     return render(request, 'change_password.html', context)
 
+# 비밀번호 초기화
+class UserPasswordResetView(PasswordResetView):
+    template_name='registration/password_reset_form.html'
+    success_url=reverse_lazy('password_reset_done')
+    form_class= PasswordResetForm
+
+    def form_valid(self, form):
+        if User.objects.filter(email=self.request.POST.get("email")).exists():
+            return super().form_valid(form)
+        else:
+            return render(self.request, 'registration/password_reset_done_fail.html')
+
 # 회원탈퇴
 def delete_user(request):
     user = request.user
@@ -265,24 +278,7 @@ def update(request, pk):    # pk = board_id
         }
         if board.upload_files:
             context['file_url'] = board.upload_files.url
-    return render(request, 'update.html', context)
-    # if request.method == 'POST':
-    #     form = BoardForm(request.POST, instance=board)
-    #     if form.is_valid():
-    #         temp_form = form.save(commit=False)
-    #         temp_form.user = request.user
-    #         temp_form.pub_date = timezone.now()
-    #         temp_form.upload_files = request.FILES.get('upload_files')
-    #         temp_form.save()
-    #         return redirect('main:board')
-    # else:
-    #     form = BoardForm(instance=board)
-    #     context = {
-    #         'form':form,
-    #         'pk':pk
-    #     }
-    # return render(request, 'update.html', context)
-        
+    return render(request, 'update.html', context)        
 
 # 게시글 삭제
 @login_required
