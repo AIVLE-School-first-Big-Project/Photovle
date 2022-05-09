@@ -17,7 +17,7 @@ $(".signin").on("click", function(){
     
     setTimeout(function(){
       $(".title").text("Sign-in in to Pixmy");
-      $(".light").text("Or use your email account");
+      $(".light").text("Or use your email account");  
       $(".name").hide();
       $(".p-button").text("SIGN IN");
       $(".b-button").text("SIGN UP");

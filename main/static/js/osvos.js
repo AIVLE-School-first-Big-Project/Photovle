@@ -402,7 +402,7 @@ function onClickSpecificFrame(){
 function onClickSpecificFrameDegin(clickFrameID){
     // 기존 선택된 frame 디자인 삭제
     if (selectedFrameItem != null) {
-        selectedFrameItem.style.color = 'red';
+        selectedFrameItem.style.color = 'black';
         selectedFrameItem.style.fontWeight = 400;
     }
 
