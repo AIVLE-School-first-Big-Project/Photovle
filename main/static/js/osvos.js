@@ -427,7 +427,7 @@ function mouseCursorMove(e){
 
 // 비디오 전송
 function sendVideo(){
-    console.log("2. sendVideo");
+    console.log("2. sendVideo", user_id, user_phone);
     var frm = new FormData();
     frm.append("video", file);
     
