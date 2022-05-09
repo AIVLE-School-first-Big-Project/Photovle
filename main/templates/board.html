@@ -1,24 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<style>
-
-    /* .logo{
-        display:flex;
-        height:52px;
-        margin-top:40px;
-        margin-left:50px;
-        margin-bottom:18px;
-    } */
-    
+<style>    
     .board-area{
         width: 100%;
         height:calc(100vh - 85px);
-        /* background-color: pink; */
         display: flex;
         justify-content:center;
-        
     }
+
     .container{
         background-color:white;
         width:66vw;
@@ -27,7 +17,6 @@
         border-radius:8px;
         border-width:3px;
         box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-        /* background-color: yellowgreen; */
         padding: 32px;
         position:relative;
         display:flex;
@@ -43,8 +32,6 @@
         max-height:60vh;
         align-items:center;
         text-align:center;
-        /* padding: 0 30px; */
-        /* background-color: pink; */
         position: relative;
     }
     .table{
@@ -92,11 +79,8 @@
 
     .board tbody>tr:nth-child(2n+1){
         background-color:rgba(0, 0, 0, 0.025);
-        
-    
-        
     }
-   
+
 
 </style>
 
