@@ -85,7 +85,7 @@
         margin-top: 8px;
     }
     .base-button:hover {
-        color: #212529;
+        background-color: #637acf;
     }
 
     .pw-btn{
@@ -101,6 +101,20 @@
         display: flex;
         justify-content: flex-end;
         width: 80%;
+    }
+    .opposite-button{
+        width:100%;
+        background-color: #909299; 
+        border:none;
+        color:white;
+        cursor: pointer;
+        padding: 0.8rem 1rem;
+        font-size: 1.25rem;
+        border-radius: 0.3rem;
+        margin-top: 8px;
+    }
+    .opposite-button:hover{
+        background-color: #86878b;
     }
 </style>
 
@@ -138,7 +152,6 @@
                     <div class="pw-area">
                         <span class="pw-btn" onclick="location.href='{% url 'main:change_password' %}'">비밀번호 변경하기</span>
                     </div>
-                    <!-- <button class="base-button" onclick="location.href='{% url 'main:change_password' %}'">변경하기</button> -->
                 </li>
             </ul>
 
@@ -147,23 +160,14 @@
                     <button class="base-button" onclick="location.href='{% url 'main:update_user' %}'">개인정보수정</button>
                 </li>
 
-                
                 <li>
-                    <button class="base-button" type="button" style="background-color: #86878b;" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-                    <!-- <span class="pw-btn" onclick="location.href='{% url 'main:logout' %}'">로그아웃</span> -->
+                    <button class="opposite-button" type="button" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
                 </li>
 
                 <li>
-                    <button class="base-button" type="button" style="background-color: #86878b;" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
-                </li>            
-                
-
-                <!-- <li>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:home' %}'">home</button>
-                </li> -->
-            </ul>
-
-            
+                    <button class="opposite-button" type="button" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
+                </li>
+            </ul>           
         </div>
     </div>
 
@@ -178,6 +182,4 @@
         }
     </script>
 </div>
-
-
 {% endblock %}
