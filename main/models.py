@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from Photovle import settings
 
-
 # Create your models here.
 # 장고유저 기반의 커스텀 유저모델
 '''
