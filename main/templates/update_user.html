@@ -93,7 +93,7 @@
 
 <section class="change-area">
     <div class="change-card">
-        <form action="" method="post" style="text-align: center;">
+        <form action="" method="post" style="text-align: center;" name="form">
         {% csrf_token %}
             <div>
                 <h2 style="cursor:default;">개인정보 수정</h2>
@@ -117,16 +117,19 @@
                     </li>
                 </ul>
             </div>
-            <button type="submit" class="base-button" style="background-color: #708ae8; border:none;" onclick="alert('수정되었습니다.');">수정완료</button>
+            <button type="button" class="base-button" style="background-color: #708ae8; border:none;" onclick="btn();">수정완료</button>
             
 
 <script language="JavaScript" type="text/javascript">
     function btn() 
      {
         if (confirm("수정하시겠습니까?")==true){
+            document.form.submit();
             alert("수정이 완료되었습니다.");
-        }else{
-            return;
+            
+        }
+        else{
+            return false;
         }
      }
 </script>
