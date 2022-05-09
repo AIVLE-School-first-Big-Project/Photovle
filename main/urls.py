@@ -41,8 +41,6 @@ urlpatterns = [
     path('<int:pk>/delete_reply', views.delete_reply, name='delete_reply'),
     # 작업Canvas
     path('canvas/', views.canvas, name='canvas'),
-    path('index2/', views.index2, name='index2'),
-    path('index3/', views.index3, name='index3'),
 
     # 테스트TEST
     path('test/', views.test, name='test'),

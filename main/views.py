@@ -369,17 +369,13 @@ def mypost(request):
 def canvas(request):
     return render(request, 'canvas.html')
 
-
-def index2(request):
-    return render(request, 'index2.html')
-
-
-def index3(request):
-    return render(request, 'index3.html')
-
 def test(request):
     return render(request, 'test.html')
 
 
 def osvos(request):
-    return render(request, 'osvos.html')
+    user = request.user
+    context = {
+        'user':user
+    }
+    return render(request, 'osvos.html', context)

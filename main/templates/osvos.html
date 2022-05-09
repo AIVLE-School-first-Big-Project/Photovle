@@ -12,7 +12,7 @@
     <title>{% block title %}Photovle{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{% static 'css/osvos.css' %}">
-    <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
@@ -146,7 +146,10 @@
 
     </div>
 
-    
+    <script>
+        var user_id = {{ user.id }}
+        var user_phone = {{ user.phone }}
+    </script>
     <script type="text/javascript" src="{% static 'js/osvos.js' %}"> </script>
 </body>
 
