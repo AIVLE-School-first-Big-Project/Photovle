@@ -81,6 +81,19 @@
         background-color:rgba(0, 0, 0, 0.025);
     }
 
+    .post-id{
+        text-align:right; 
+        padding-right: 28px;
+    }
+
+    .post-title{
+        display: block;
+        text-decoration:none;
+        text-align:left; 
+        cursor:pointer;        
+        padding-left: 10px;
+        
+    }
 
 </style>
 
@@ -105,8 +118,8 @@
                     {% if page_obj %}
                             {% for board_list in page_obj %}
                     <tr class="{% cycle '' 'even_bgcolor' %}">
-                        <td scope="row" style="text-align:right; padding-right: 28px;">{{ board_list.id }}</td>
-                        <td style="text-align:center" onclick="location.href='{% url 'main:detail' board_list.id %}'" style="text-decoration:none;text-align:right; cursor:pointer;">
+                        <td scope="row" class="post-id">{{ board_list.id }}</td>
+                        <td class="post-title" onclick="location.href='{% url 'main:detail' board_list.id %}'" style="padding-left: 16px;">
 
                                 {{ board_list.title }}  {% if board_list.reply_set.count > 0 %} [{{ board_list.reply_set.count }}] {% endif %}
 

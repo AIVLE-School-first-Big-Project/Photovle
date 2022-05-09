@@ -15,7 +15,7 @@ var previousCanvasId = 0;
 // canvas 도구
 var dragging = false;
 var radius = 15;
-var currentSelectedColor = "black";
+var currentSelectedColor = "red";
 var currentLineWidth = radius * 2;
 
 
@@ -101,7 +101,7 @@ function saveImage(el) {
 };
 
 function initDrawingBoard(){
-    var colors = ['black', 'pink', 'red', 'yellow', 'green', 'blue']; //Color array to select from
+    var colors = ['red', 'yellow', 'yellowgreen', 'green', 'pink', 'blue']; //Color array to select from
     
     for (var i = 0, n = colors.length; i < n; i++) {
         var swatch = document.createElement('nav');
@@ -368,7 +368,7 @@ function createCanvas(bitmapWidth, bitmapHeight){
     predefinedCanvas.addEventListener('mouseleave', canvasMouseOver);
     
     /////////////////////////////////////////////////////
-    context.strokeStyle = 'black';
+    context.strokeStyle = 'red';
     context.lineWidth = '30';
     // context.lineCap = ctx.lineJoin = 'round';
     context.lineCap = "round";
@@ -402,7 +402,7 @@ function onClickSpecificFrame(){
 function onClickSpecificFrameDegin(clickFrameID){
     // 기존 선택된 frame 디자인 삭제
     if (selectedFrameItem != null) {
-        selectedFrameItem.style.color = 'black';
+        selectedFrameItem.style.color = 'red';
         selectedFrameItem.style.fontWeight = 400;
     }
 
