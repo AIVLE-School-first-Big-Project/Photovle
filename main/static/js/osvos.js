@@ -503,7 +503,7 @@ function dataURItoBlob(dataURI, filename){
 
 // 원본 이미지 & 라벨링 이미지 전송하기.
 function labelTag(){
-    if(isDivideVideo == false){
+    if(isDivideVideo == false){ 
         alert("업로드 한 영상을 분할 해주세요.");
         return;
     }

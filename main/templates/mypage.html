@@ -7,13 +7,14 @@
         height:calc(100vh - 85px);
         display: flex;
         justify-content:center;
+        padding: 20px 0 ;
     }
     
     .container{
         background-color:white;
         width: 500px;
         height: 75vh;
-        max-height:1000px;
+        max-height: 520px;
         border-radius:8px;
         border-width:3px;
         box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
@@ -36,7 +37,6 @@
 
     .board{
         width:100%;
-        height:100%;
         align-items:center;
         text-align:center;
         padding:10px;
@@ -47,6 +47,7 @@
         height: 36px;
         align-items: center;
         margin-bottom: 10px;
+        justify-content: space-between;
     }
     
     .board>li>p{
@@ -72,6 +73,49 @@
         outline: none;
     }
 
+    .base-button{
+        width:100%;
+        background-color: #708ae8; 
+        border:none;
+        color:white;
+        cursor: pointer;
+        padding: 0.8rem 1rem;
+        font-size: 1.25rem;
+        border-radius: 0.3rem;
+        margin-top: 8px;
+    }
+    .base-button:hover {
+        background-color: #637acf;
+    }
+
+    .pw-btn{
+        color: #708ae8;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .pw-btn:hover{
+        color: #212529;
+    }
+
+    .pw-area{
+        display: flex;
+        justify-content: flex-end;
+        width: 80%;
+    }
+    .opposite-button{
+        width:100%;
+        background-color: #909299; 
+        border:none;
+        color:white;
+        cursor: pointer;
+        padding: 0.8rem 1rem;
+        font-size: 1.25rem;
+        border-radius: 0.3rem;
+        margin-top: 8px;
+    }
+    .opposite-button:hover{
+        background-color: #86878b;
+    }
 </style>
 
 
@@ -80,8 +124,6 @@
         <div>
             <h2 style="cursor:default;">마이페이지</h2>
         </div>
-
-        
 
         <div>
             <ul class="board">
@@ -107,28 +149,25 @@
 
                 <li>
                     <p>비밀번호</p>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary trigger" onclick="location.href='{% url 'main:change_password' %}'">변경하기</button>
+                    <div class="pw-area">
+                        <span class="pw-btn" onclick="location.href='{% url 'main:change_password' %}'">비밀번호 변경하기</span>
+                    </div>
                 </li>
-
-                <li>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:update_user' %}'">개인정보수정</button>
-                </li>
-
-                
-                <li>
-                    <button class="btn btn-lg btn-block" type="button" style="background-color: #708ae8; color:white; width:100%" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
-                </li>
-
-                <li>
-                    <button class="btn btn-lg btn-block" type="button" style="background-color: #86878b; color:white; width:100%" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
-                </li>
-
-                <!-- <li>
-                    <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:home' %}'">home</button>
-                </li> -->
             </ul>
 
-            
+            <ul class="btn-area">
+                <li>
+                    <button class="base-button" onclick="location.href='{% url 'main:update_user' %}'">개인정보수정</button>
+                </li>
+
+                <li>
+                    <button class="opposite-button" type="button" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
+                </li>
+
+                <li>
+                    <button class="opposite-button" type="button" onclick="location.href='{% url 'main:delete_user' %}';Javascript:btn();">회원탈퇴</button>
+                </li>
+            </ul>           
         </div>
     </div>
 
@@ -143,6 +182,4 @@
         }
     </script>
 </div>
-
-
 {% endblock %}
