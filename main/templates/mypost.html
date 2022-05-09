@@ -2,6 +2,13 @@
 {% block content %}
 
 <style>
+    .board-area{
+        width: 100%;
+        height:calc(100vh - 85px);
+        display: flex;
+        justify-content:center;
+    }
+
     .container{
         background-color:white;
         width:66vw;
@@ -10,37 +17,68 @@
         border-radius:8px;
         border-width:3px;
         box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-        /* background-color: yellowgreen; */
         padding: 32px;
         position:relative;
         display:flex;
         flex-direction:column;
-        
+    }
+
+    .container>div:first-child{
+        display: block;
+        margin-bottom: 20px;
     }
     .board{
-        width:100%;
-        height:100%;
+        height:75%;
+        max-height:60vh;
         align-items:center;
         text-align:center;
-        padding:10px;
+        position: relative;
     }
+    .table{
+        margin-bottom:5%;
+        position: relative;
+    }
+
+    .container h2{
+        text-align:left;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+   
+
     .board tbody>tr{
         
         line-height: 30px;
         cursor: pointer;
     }
-    .table{
-        margin-top:5%;
-        margin-bottom:5%;
-        text-align:left;
+    
+    .btn-area{
+        height: 40px;
+        width:100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        position: relative;
+    }
+    
+    .btn-area>div:last-child{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+    .board tbody>tr:nth-child(2n+1){
+        background-color:rgba(0, 0, 0, 0.025);
     }
 </style>
 
 <body>
-    <div class="container">
-        <div class="board">
-            <p style="text-align: left; font-size:20px; font-weight:bold; cursor:default;">나의 게시글</p>
-            <div style="height: 280px;">
+    <div class="board-area">
+        <div class="container">
+            <div>
+                <h2>나의 게시글</h2>
+            </div>
+            <div class="board" style="height: 280px;">
                 <table class="table table-hover">
                     <thead>
                         <tr style="cursor:default;">
@@ -81,7 +119,10 @@
                     {% else %}
                         <tr>
                             <td></td>
-                            <td>작성된 게시글이 없습니다.</td>
+                            <td style="text-align:right;">작성된 게시글이 없습니다.</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     {% endif %}
                     </tbody>
@@ -90,57 +131,65 @@
                     <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
                 </div>
             </div>
-            <div id="paging">
-                <ul class="pagination justify-content-center" style="margin-top: 2rem;">
-                    <!-- 이전페이지 -->
-                    {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="./?&page=1">맨 앞으로</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="./?&page={{ page_obj.previous_page_number }}">이전</a>
-                        <!-- href로 뎁스 설정 -->
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
-                    </li>
-                    {% endif %}
-                    <!-- 페이지리스트 -->
-                   
-                    {% for page_number in page_obj.paginator.page_range %}
-                        {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
-                        <span class="{% if page_number == page_obj.number %}current{% endif %}">
-                            {% if page_number == page_obj.number %}
-                                <li class="page-item active" aria-current="page">
-                                    <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
-                                </li>
-                            {% else %}
-                                <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
-                            {% endif %}
-                        </span>
-                        
-                        {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
-                            ..
-                    
+            <div class="btn-area">
+                <div id="paging">
+                    <ul class="pagination justify-content-center" style="margin-top: 2rem;">
+                        <!-- 이전페이지 -->
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="./?&page=1">맨 앞으로</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="./?&page={{ page_obj.previous_page_number }}">이전</a>
+                            <!-- href로 뎁스 설정 -->
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
+                        </li>
                         {% endif %}
-                    {% endfor %}
-                    
-                    <!-- 다음페이지 -->
-                    {% if page_obj.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="./?&page={{ page_obj.next_page_number }}">다음</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="./?&page={{ page_obj.paginator.num_pages }}">맨 뒤로</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
-                    </li>
-                    {% endif %}
-                </ul>
+                        <!-- 페이지리스트 -->
+                       
+                        {% for page_number in page_obj.paginator.page_range %}
+                            {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
+                            <span class="{% if page_number == page_obj.number %}current{% endif %}">
+                                {% if page_number == page_obj.number %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
+                                    </li>
+                                {% else %}
+                                    <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
+                                {% endif %}
+                            </span>
+                            
+                            {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
+                                ..
+                        
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <!-- 다음페이지 -->
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="./?&page={{ page_obj.next_page_number }}">다음</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="./?&page={{ page_obj.paginator.num_pages }}">맨 뒤로</a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
+                        </li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <div>
+                            <button class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="location.href='{% url 'main:board' %}'">게시판</button>
+                        </div>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
+            
         </div>
         
         
