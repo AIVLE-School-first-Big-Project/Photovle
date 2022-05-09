@@ -1,153 +1,154 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
-
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Photovle{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
-    <link rel="stylesheet" href="{% static 'css/test.css' %}">
-    <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
-    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <title>Table</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <style>
+        canvas {
+            border: 2px solid #5c54ca;
+            margin: 1rem
+        }
+    </style>
 </head>
 
-<body
-
-    <div class="canvas-body">
-        <div class="control-bar">
-
-            <!-- step1 -->
-            <div id='step1'>
-                <div class="step1" id="step1">
-                    <img src="/static/image/icon_camera.png" onclick="">
-                    <p>편집할 동영상이 없습니다.</p>
-                    <p>Canvas 화면</p>
-
-
-                    <div class="input-file">
-                        <label for="upload_video" class="file-label">파일 업로드</label>
-                        <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
-                    </div>
-                </div>
-            </div>
-
-            <!-- step2 -->
-            <div class="step2" id="step2" style="display: none;">
-                <video id="video" style="display:none;"></video>
-
-                <div class="infomation-area" style="cursor:default;">
-                    <h3>Information</h3>
-                    <ul>
-                        <li>
-                            <span>File Name : </span>
-                            <p id="file_name"></p>
-                        </li>
-
-                        <li>
-                            <span>Object : </span>
-                            <div class="edit-label-name">
-                                <p id="label_name"></p>
-                                <img src="/static/image/icon_edit.svg" class="btn-open-popup">
-                            </div>
-                        </li>
-
-                        <li>
-                            <span>Total Frame : </span>
-                            <p id="file_frame">0</p>
-                        </li>
-
-                        <li>
-                            <span>Now Frame : </span>
-                            <p id="label_now"></p>
-                        </li>
-
-                        <li>
-                            <span>Size : </span>
-                            <p id="file_size"></p>
-                        </li>
-
-                        <li>
-                            <span>Type : </span>
-                            <p id="file_type"></p>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="label-add">
-                    <select disabled style="display: none;"></select>
-                </div>
-
-                <!-- 여러 설정 바 -->
-                <div class="control-bar-option-area">
-                    <img src="/static/image/icon_images.svg" id="divide_video">
-                    <!-- <img src="/static/image/icon_color_picker.svg" onclick="color_picker();"> -->
-                    <img src="/static/image/icon_train_data.svg" onclick="">
-                    <img src="/static/image/icon_all_download.svg" onclick="">
-                    <img src="/static/image/icon_video2.svg" onclick="">
-                    
-
-                </div>
-
-                <!-- 이미지 프레임 목록 -->
-                <div id="image-area">
-                    <ul id="image-list"></ul>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Object 수정 모달 -->
-        <div class="modal">
-            <div class="modal_body">
-                <div class="title">
-                    <h2>Object Label Title</h2>
-                </div>
-
-                <div class="content">
-                    <div class="preview">
-                        <p>Label Name : </p>
-                        <input type="text" id="label_tag" placeholder="입력해주세요.">
-
-                    </div>
-                    <div class="model-control">
-                        <button type="button" class="close-area">취소</button>
-                        <button type="button" onclick="define_tag();">확인</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 그림판 영역 -->
-        <div class="edit-bar" >
-            <div id="toolbara">
-                <div id="rad">
-                    Radius <span id="radval">1</span>
-                    <div id="decrad" class="radcontrol"> - </div>
-                    <div id="incrad" class="radcontrol"> + </div>
-                </div>
-
-                <div id="colors"></div>
-                                
-                <img src="/static/image/icon_eraser.svg" id="my-eraser"  onclick="eraserImage()" style="height: 30px; margin: 0 3px 0 6px;">
-                <img src="/static/image/icon_all_draw_delete.svg" id="clear" style="height: 34px; margin: 0 3px 0 3px;">
-                <img src="/static/image/icon_downloads.svg" id="save" style="height: 30px; margin: 0 3px 0 3px;">
-            </div>
-            <div class="edit-bar" style="position: relative;">    
-                <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
-                <ul id="drawAreaStack" style="position: absolute; z-index: 2;"></ul>
-
-                <!-- <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>             -->
-            </div>
-        </div>
-
+<body style="text-align:center;">
+    <div style="position:relative;padding:5rem;display:inline-block;width:55%">
+        <canvas id="canvas" width="650" height="400" style="position:absolute;left:0;"></canvas>
+        <canvas id="hover" width="650" height="400" style="position:absolute;left:0;z-index:20"></canvas>
+        <canvas id="preView" width="400" height="400" style="position:absolute;right:0;border-radius:50%;"></canvas>
     </div>
-    <script type="text/javascript" src="{% static 'js/test.js' %}"> </script>
 </body>
+<script>
+    parcelRequire = function (e, r, t, n) {
+        var i, o = "function" == typeof parcelRequire && parcelRequire, u = "function" == typeof require && require;
+        function f(t, n) {
+            if (!r[t]) {
+                if (!e[t]) {
+                    var i = "function" == typeof parcelRequire && parcelRequire;
+                    if (!n && i) return i(t, !0);
+                    if (o) return o(t, !0);
+                    if (u && "string" == typeof t) return u(t);
+                    var c = new Error("Cannot find module '" + t + "'");
+                    throw c.code = "MODULE_NOT_FOUND", c
+                }
+                p.resolve = function (r) {
+                    return e[t][1][r] || r
+                },
+                    p.cache = {};
+                var l = r[t] = new f.Module(t);
+                e[t][0].call(l.exports, p, l, l.exports, this)
+            } return r[t].exports;
+
+            function p(e) {
+                return f(p.resolve(e))
+            }
+        }
+        f.isParcelRequire = !0, f.Module = function (e) {
+            this.id = e, this.bundle = f, this.exports = {}
+        }, f.modules = e, f.cache = r, f.parent = o, f.register = function (r, t) { e[r] = [function (e, r) { r.exports = t }, {}] }; for (var c = 0; c < t.length; c++)try { f(t[c]) } catch (e) { i || (i = e) } if (t.length) { var l = f(t[t.length - 1]); "object" == typeof exports && "undefined" != typeof module ? module.exports = l : "function" == typeof define && define.amd ? define(function () { return l }) : n && (this[n] = l) } if (parcelRequire = f, i) throw i; return f
+    }({
+        "ehct": [function (require, module, exports) {
+            var e = 100, t = document.getElementById("canvas"), a = document.getElementById("preView"), n = document.getElementById("hover"), h = t.getContext("2d"), i = a.getContext("2d"), o = n.getContext("2d"), r = new Image; function d(t, n) { var o = h.getImageData(t, n, e, e), r = $("<canvas>").attr("width", o.width).attr("height", o.height)[0]; r.getContext("2d").putImageData(o, 0, 0), i.clearRect(0, 0, a.width, a.height), i.save(), i.scale(a.width / e, a.height / e), i.drawImage(r, 0, 0), i.restore(), r = null } r.src = "/static/image/certi_kakao_login.png", r.onload = function () { h.clearRect(0, 0, t.width, t.height), h.drawImage(r, 0, 0, t.width, t.height) }, n.addEventListener("mousemove", function (t) { var a = t.clientX - n.parentElement.offsetLeft - n.offsetLeft - e / 2, h = t.clientY - n.parentElement.offsetTop - n.offsetTop - e / 2; a = a < 0 ? 0 : a, h = h < 0 ? 0 : h, o.save(), o.clearRect(0, 0, n.width, n.height), o.beginPath(), o.strokeStyle = "red", o.fillStyle = "rgba(255, 73, 73, 0.2)", o.lineWidth = 3, o.arc(a + e / 2, h + e / 2, e / 2, Math.PI / 180 * 0, Math.PI / 180 * 360, !1), o.stroke(), o.fill(), o.closePath(), o.restore(), d(a, h) });
+        }, {}]
+    }, {}, ["ehct"], null)
+//# sourceMappingURL=/scp.afbef542.js.map
+</script>
 
 </html>
-{% endblock %}
+
+
+</script>
+<!-- <!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <script src=""></script>
+        
+        
+        <title>HTML meta tag</title>
+
+
+        <style>
+            body{
+                margin: 0;
+                padding: 30px;
+                overflow: hidden;
+                background-color: black;
+            }
+
+            canvas{
+                cursor: pointer;
+                box-shadow: -3px 2px 9px 6px black;
+                background-color: aliceblue;
+            }
+
+            .tools{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .tools .color-field{
+                height: 40px;
+                width: 40px;
+                min-height: 40px;
+                min-width: 40px;
+                cursor: pointer;
+                box-sizing: border-box;
+                border-radius: 50%;
+                border: 2px solid white;
+            }
+
+            .tools .button{
+                align-self: center;
+                width: 100px;
+                height: 40px;
+                border: 2px solid white;
+                cursor: pointer;
+                color: white;
+                background-color: #222;
+                font-weight: bold;
+                margin-top: 0 15px;
+            }
+
+            .color-picker{
+                align-self: center;
+                margin-top: 0 15px;
+                height: 50px;
+            }
+            .pen-range{
+                align-self: center;
+                margin-top: 0 15px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="field">
+            <canvas id="canvas"></canvas>
+            <div class="tools">
+                <button type="button" class="button">Undo</button>
+                <button type="button" class="button">clear</button>
+
+                <div class="color-field" style="background: red;"></div>
+                <div class="color-field" style="background: blue;"></div>
+                <div class="color-field" style="background: green;"></div>
+                <div class="color-field" style="background: yellow;"></div>
+
+                <input type="color" class="color-picker">
+                <input type="range" min="0" max="100" value="90" step="1">
+            </div>
+        </div>
+
+        <script>
+            const canvas = document.getElementById("canvas");
+            canvas.width = innerWidth - 60;
+            canvas.height = 400;
+
+            let content = canvas.getContext("")
+        </script>
+    </body>
+</html> -->
