@@ -1,6 +1,5 @@
 from django.urls import path
 from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
 from django.conf import settings
 from . import views
 
@@ -14,7 +13,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home, name='home'),
     # 로그인, 로그아웃
-    path('home/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('home/login/', views.login, name='login'),
     path('home/logout/', views.logout, name='logout'),
     # 카카오 소셜로그인
     path('home/login/kakao/', views.kakao_login, name='kakao_login'),

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import auth, messages
 from django.contrib.auth import authenticate, update_session_auth_hash, login as dj_login
-from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm
+from django.contrib.auth.forms import PasswordChangeForm, PasswordResetForm, AuthenticationForm
 from django.contrib.auth.views import PasswordResetView
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -46,6 +46,25 @@ def signup(request):
         'form':form,
     }
     return render(request, 'signup.html', context)
+
+# 로그인
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            dj_login(request, form.get_user())
+            return redirect('main:home')
+    else:
+        # 로그인 된 유저의 경우 로그인 페이지 접근 불가
+        if request.user.is_authenticated:
+            return redirect('main:home')
+        form = AuthenticationForm()
+    context = {
+        'form':form,
+    }
+    return render(request, 'login.html', context)
+    
+        
 
 # 카카오 로그인
 def kakao_login(request):
