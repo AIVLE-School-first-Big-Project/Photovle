@@ -114,6 +114,7 @@ function initDrawingBoard(){
 
 // 사용자 업로드 영상 불러오기
 function loadUploadVideo(evt){
+    console.log("1. loadUploadVideo");
     file = evt.target.files[0];
     
     // 1) Information 정보 추가
@@ -121,6 +122,9 @@ function loadUploadVideo(evt){
 
     // 2) 다음 작업 공간으로 이동
     setNextControlBar();
+
+    // 3) 서버 비디오 업로드
+    sendVideo();    
 } 
 
 // Information 정보 추가
@@ -262,7 +266,7 @@ function modalOff(){
     modal.style.display = "none"
 }
 
-// 사진만 띄우는 canvas 사전 선언???
+// 사진만 띄우는 canvas 사전 선언
 function baseImageViewer(){
     canvasImage = document.getElementById("imgViewer");
     ctxImage = canvasImage.getContext("2d");
@@ -421,11 +425,132 @@ function mouseCursorMove(e){
 
 }
 
-// window.onload = () =>{ 
-//     cursor = document.getElementsByClassName("cursor_item")[0]; 
-//     h1 = document.getElementsByTagName("h1")[0]; 
-//     document.addEventListener("mousemove", mouseFunc); 
+// 비디오 전송
+function sendVideo(){
+    console.log("2. sendVideo");
+    var frm = new FormData();
+    frm.append("video", file);
+    
+    axios.post('http://192.168.45.218:5000/data/video/upload', frm, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then((response) => {
+        console.log(response);
+    })
+    .catch((error) => {
+        // 예외 처리
+    })
+}
+
+function test(){
+    axios.get('http://192.168.45.218:5000', {
+    })
+    .then(function (response) {
+        console.log(response);
+        console.log(response['data']);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
+// function imageConvert(canvas, filename){
+//     var dataUrl = canvas.toDataURL('image/jpeg');
+    
+//     var byteString = window.atob(dataUrl.split(',')[1]);
+//     console.log("byteString : ", byteString)
+
+//     var array = [];
+//     // i 에 해당하는 string을 unicode로 변환
+//     for (var i = 0; i < byteString.length; i++) {
+//         array.push(byteString.charCodeAt(i));
+//     }
+//     console.log("array : ", array)
+
+//     var myBlob = new Blob([new ArrayBuffer(array)], {type: 'image/jpeg'});
+
+//       // ** Blob -> File 로 변환**
+//     var image = new File([myBlob], filename + ".jpeg");
+//     console.log("image : ", image)
+
+//     const link = document.createElement('a');
+//     link.download =  filename + ".jpeg";
+//     link.href = canvas.toDataURL();
+//     link.click();
+//     link.delete;
+
+//     return image;
 // }
+
+function dataURItoBlob(dataURI, filename){
+    var byteString = atob(dataURI.split(',')[1]);
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    console.log('mimeString : ', mimeString);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++)
+    {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    var bb = new Blob([ab], { "type": mimeString });
+
+    return bb;
+}
+
+
+// 원본 이미지 & 라벨링 이미지 전송하기.
+function labelTag(){
+    if(isDivideVideo == false){
+        alert("업로드 한 영상을 분할 해주세요.");
+        return;
+    }
+
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
+    }
+
+    // 1. orign canvas to file
+    var originCanvas = document.getElementById("imgViewer");
+    var originUrl = originCanvas.toDataURL("image/jpeg");
+    var originBlob = dataURItoBlob(originUrl, "frame-" + previousCanvasId);
+    // var originImage = imageConvert(originCanvas, "frame-" + previousCanvasId);
+
+    // 2. Draw canvas to file
+    var labelCanvas = document.getElementById("canvas-drawing-" + previousCanvasId);
+    console.log("please previousCanvasId", previousCanvasId);
+    var labelUrl = labelCanvas.toDataURL("image/jpeg");
+    var labelBlob = dataURItoBlob(labelUrl, "canvas-drawing-" + previousCanvasId);
+    // var labelImage = imageConvert(labelCanvas, "canvas-drawing-" + previousCanvasId);
+
+    console.log("originImage: ", originBlob);
+    console.log("labelImage: ", originBlob);
+
+    // 3. FormData
+    var frm = new FormData();
+    frm.append("img", originBlob);
+    frm.append("label", labelBlob);
+
+    axios.post('http://192.168.45.218:5000/data/img/upload', frm, {
+        headers: {
+        'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(function (response) {
+        console.log(response);
+        // 학습하기 ???
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
+
+
+
 
 
 

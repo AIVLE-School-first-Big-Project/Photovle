@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{% static 'css/osvos.css' %}">
     <script src="{% static 'bootstrap/css/bootstrap.min.css'%}"></script>
     <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -83,8 +84,7 @@
                 <!-- 여러 설정 바 -->
                 <div class="control-bar-option-area">
                     <img src="/static/image/icon_images.svg" id="divide_video">
-                    <!-- <img src="/static/image/icon_color_picker.svg" onclick="color_picker();"> -->
-                    <img src="/static/image/icon_train_data.svg" onclick="">
+                    <img src="/static/image/icon_train_data.svg" onclick="labelTag()">
                     <img src="/static/image/icon_all_download.svg" onclick="">
                     <img src="/static/image/icon_video2.svg" onclick="">
                     
