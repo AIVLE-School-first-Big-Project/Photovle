@@ -196,32 +196,32 @@
         {% csrf_token %}
             <ul class="login-div">
                 <li>
-                    <h2 class="login-title" style="cursor:default;">Login</h2>
+                    <h2 class="login-title" style="cursor:default;">로그인</h2>
                     <span>이미지 레이블링 보조 작업자</span>
                 </li>
 
                 <li>
                     <div>
-                        <label class="form-title" style="margin-top: 28px;">Email address</label>
+                        <label class="form-title" style="margin-top: 28px;">이메일</label>
                         <input type="text" id="input1" name="username" class="input-control" style="border-radius: none;"
-                        value="{{ form.username.value|default_if_none:'' }}" placeholder="Please enter your Email"/>
+                        value="{{ form.username.value|default_if_none:'' }}" placeholder="이메일을 입력하시오."/>
                     </div>
                 </li>
 
                 <li>
                     <div>
-                        <label class="form-title" for="form2Example27">Password</label>
+                        <label class="form-title" for="form2Example27">비밀번호</label>
                         <input type="password" id="input2" name="password" class="input-control" style="border-radius: none;"
-                        value="{{ form.password.value|default_if_none:'' }}" placeholder="Please enter your Password"/>
+                        value="{{ form.password.value|default_if_none:'' }}" placeholder="비밀번호를 입력하시오."/>
                     </div>
                 </li>
 
                 <li>
-                    <a class="small text-muted" style="color:#708AE8; text-decoration:none;" href="{% url 'password_reset' %}">Forgot password?</a>
+                    <a class="small text-muted" style="color:#708AE8; text-decoration:none;" href="{% url 'password_reset' %}">비밀번호를 잊어버리셨나요?</a>
                 </li>
 
                 <li class="login-btn">
-                    <button type="submit" style="background-color: #708ae8; color:white; width:100%; " value='Login'>Login</button>
+                    <button type="submit" style="background-color: #708ae8; color:white; width:100%; " value='Login'>로그인</button>
                 </li>
                 <li  class="kakao-btn">
                     <img src="/static/image/kakao_login_real.png" onclick="location.href='{% url 'main:kakao_login' %}'"></a>
@@ -229,8 +229,8 @@
 
                 <li>
                     <div style="text-align:center">
-                        <p class="mb-5 pb-lg-2" style="color: #393f81; cursor:default;">Don't have an account? <a href="{% url 'main:signup' %}"
-                            style="color: #393f81;">signup</a></p>
+                        <p class="mb-5 pb-lg-2" style="color: #393f81; cursor:default;">계정이 없으신가요? <a href="{% url 'main:signup' %}"
+                            style="color: #393f81;">회원가입</a></p>
                         </div>
                 </li>
             </ul>
