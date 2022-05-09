@@ -1,6 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
+    *{
+        box-sizing:border-box;
+        }
+    .signup-area{
+        width:100vw;
+        height: 100vh;
+        padding: 20px 0 10px 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-items: baseline
+    }
+
+    .signup-card{
+        width:35%;
+        background-color:white;
+        border-radius:4px;
+        border-width:1px;
+        box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+        padding:30px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 1rem; 
+        align-items:center;
+    }
+    .signup-card input{
+        width:100%;
+        border-top:none;
+        border-left:none;
+        border-right:none;
+        border-bottom:1px solid #919494;
+        font-size: 16px;
+        border-radius: 0;
+        margin: 20px;
+        
+    }
+    h2{
+        margin-top: 8px;
+        text-align: left;
+    }
     table{
         
         margin: auto auto;
