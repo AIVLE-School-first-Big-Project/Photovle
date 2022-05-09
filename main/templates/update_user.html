@@ -117,7 +117,8 @@
                     </li>
                 </ul>
             </div>
-            <button type="submit" class="base-button" style="background-color: #708ae8; color:white; width:50%; margin:20px 0;" onclick="location.href='{% url 'main:mypage' %}'; 'JavaScript:btn()'">수정완료</button>
+            <button type="submit" class="base-button" style="background-color: #708ae8; border:none;" onclick="alert('수정되었습니다.');">수정완료</button>
+            
 
 <script language="JavaScript" type="text/javascript">
     function btn() 
@@ -129,6 +130,6 @@
         }
      }
 </script>
-    <button type="submit" class="btn btn-primary" style="background-color: #708ae8; border:none;" onclick="alert('수정되었습니다.');">수정완료</button>
+    
 </form>
 {% endblock %}
