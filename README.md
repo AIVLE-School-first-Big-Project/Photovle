@@ -17,4 +17,5 @@
   * 게시판
   * 회원가입
   * 로그인
-  ![기능flow](https://user-images.githubusercontent.com/96154466/167525288-2dc5e1c8-a7dd-45d1-a36b-d1ad4dcae4b2.JPG)
+  * ![캡처](https://user-images.githubusercontent.com/96154466/167525596-b08d4def-a6cf-421b-a96d-ed85b126eaec.JPG)
+
