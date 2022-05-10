@@ -22,9 +22,9 @@
   * 로그인
   <img src="https://user-images.githubusercontent.com/96154466/167525596-b08d4def-a6cf-421b-a96d-ed85b126eaec.JPG" width="1000" height="600" />
   
-## 기능 및 UI/UX
+## 기능 별 UI/UX
  
 
-## 모델 flow
+## 모델 사용절차
  <img src="https://user-images.githubusercontent.com/96154466/167531086-42ee27da-c282-4c45-be13-b09804a19d1a.JPG" width="1000" height="600" />
 * (가이드)
