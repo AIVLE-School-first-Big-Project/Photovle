@@ -33,4 +33,6 @@
 ## 모델 사용절차
  <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
 * (가이드)
+* DEMO
+![DEMO](https://user-images.githubusercontent.com/96154466/167548152-93ce8fad-b9cb-44c3-8a48-225e0e8ae327.png)
 
