@@ -58,6 +58,14 @@
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a>&nbsp
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=black"/></a>&nbsp 
   <img src="https://img.shields.io/badge/BootStrap-5C2D91?style=flat-square&logo=BootStrap&logoColor=white"/></a>&nbsp
+</p>
+
+ * Back End
+<p align="left">
+  <img src="https://img.shields.io/badge/Ubuntu-E34F26?style=flat-square&logo=Ubuntu&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/Flask-239120?style=flat-square&logo=C-Flask&logoColor=black"/></a>&nbsp
+  <img src="https://img.shields.io/badge/Django-007396?style=flat-square&logo=Django&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/Pytorch-FF5722?style=flat-square&logo=Pytorch&logoColor=white"/></a>&nbsp
   
   <img src="https://img.shields.io/badge/C++-00599C?style=flat-square&logo=C%2B%2B&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/C-A8B9CC?style=flat-square&logo=C&logoColor=white"/></a>&nbsp 
