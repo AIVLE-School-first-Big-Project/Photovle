@@ -55,7 +55,7 @@
  <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
  
  * DEMO
- <img src="https://user-images.githubusercontent.com/96154466/167625081-1363ca00-d418-4b93-8127-3c6ecd6dc240.JPG" width="650" />
+ <img src="https://user-images.githubusercontent.com/96154466/167674744-501236b2-77cb-4538-9f20-31d422d09b79.png" width="580" />
 
 
 ## 개발 환경   
