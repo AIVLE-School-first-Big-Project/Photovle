@@ -28,13 +28,14 @@
  (OSVOS 모델 구조)
 
 ## 기능 별 UI/UX
- 
+ [UI/UX] (https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/)
 
 ## 모델 사용절차
  <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
  * (가이드)
  * DEMO
- <img src="https://user-images.githubusercontent.com/96154466/167559422-9f2432ec-00c3-4055-81f6-a8163e431b8f.jpg" width="700" />
+ <img src="https://user-images.githubusercontent.com/96154466/167562366-138227d4-a02b-4470-acf2-70a4a418b4f1.JPG" width="850" />
  
+
 
 
