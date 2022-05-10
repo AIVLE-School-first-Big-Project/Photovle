@@ -25,7 +25,7 @@
   <img src="https://user-images.githubusercontent.com/96154466/167544768-1be7102d-3e43-4d09-b1ea-defbb9c9b5ab.JPG" width="700" />
   
 ## Model Architecture
- (OSVOS 모델 구조)
+ 모델 Architecture
 
 ## UI/UX
  [UI/UX] https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
