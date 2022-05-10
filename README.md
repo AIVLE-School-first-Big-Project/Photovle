@@ -13,6 +13,7 @@
 
    * 모델링을 수행하기 위해 다량의 데이터와 라벨링을 통한 전처리가 요구됨
    * AI 모델을 활용해 영상 처리를 위한 데이터 수집부터 라벨링을 한번에 수행
+   * 1000개의 클래스, 1400만장의 데이터셋으로 학습되었으며 성능이 우수해 이미지 분류에 대표적으로 많이 사용되는 vgg16 모델을 기반으로 하여 Davis 2016 데이터셋으로 학습하여 모델을 구성  
  
  ## 프로젝트 구성
   * Image Segmentation
@@ -21,7 +22,8 @@
   * 회원가입
   * 로그인
   <img src="https://user-images.githubusercontent.com/96154466/167525596-b08d4def-a6cf-421b-a96d-ed85b126eaec.JPG" width="1000" height="600" />
-  
+## Model Architecture
+
 ## 기능 별 UI/UX
  
 
