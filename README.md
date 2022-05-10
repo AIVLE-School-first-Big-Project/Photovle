@@ -33,25 +33,29 @@
 ## UI/UX
  `[UI/UX]` https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
  
-  * LOGIN
-  <figure class="left">
+* LOGIN
+  <p align="left">
    <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="500" />
+  </p>
  
-  * MODEL
+* MODEL
+  <p align="left">
    <img src="https://user-images.githubusercontent.com/96154466/167606385-7932bbf0-2eb8-415f-a5e8-8a90cfa0e956.png" width="450" />
-  <figure>
+  </p>
 
 ## DataBase
-   `ERD`
+  `ERD`
+   
    <img src="https://user-images.githubusercontent.com/96154466/167610598-3399d9dc-e13d-4cab-be72-f3b9ef851b56.JPG" width="600" />
    
    
 ## 모델 사용절차
-
+ * Sequence
+   
  <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
  
  * DEMO
- <img src="https://user-images.githubusercontent.com/96154466/167624013-6500da20-3732-4692-a696-3ff10e88c27f.JPG" width="900" />
+ <img src="https://user-images.githubusercontent.com/96154466/167624013-6500da20-3732-4692-a696-3ff10e88c27f.JPG" width="700" />
 
 ## 개발 환경   
 * Front
