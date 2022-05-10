@@ -26,7 +26,14 @@
       flex-direction:column;
    }
 
+   .btn-area{
+      position: absolute;
+      top: 20px;
+      right: 20px;
+   }
+
    .board{
+      position: relative;
       width:100%;
       height:100%;
       align-items:center;
@@ -34,107 +41,191 @@
    }
 
    .content{
-      width:1100px;
+      width:100%;
       height:150px;
-      padding:20px;
+      padding-top:18px;
+      padding-left: 4px;
+      overflow-y: scroll;
+      
+   }
+   
+   ::-webkit-scrollbar {
+      width: 10px;
    }
 
-   table{
-      border-collapse: separate;
+   ::-webkit-scrollbar-track {
+      background-color: #e0e0e0;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+   }
+
+   .board>ul>li:first-child{
+      margin-bottom: 6px;
+   }
+
+   .board>ul>li:first-child>h2{
+      color:#708ae8; 
+      text-align:left;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 6px;
+   }
+
+   .board>ul>li:nth-child(2)>h2{
+      font-size: 16px;
+      display: block;
+      font-size: 24px;
+   }
+
+   .info{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      padding: 0 4px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(0,0,0, .2);
+      color: #707070;
+   }
+   .board>ul>li:nth-child(3)>p{
+      display: block;
+   }
+
+   .board>ul>li:nth-child(5){
+      margin-top: 12px;
+      margin-bottom: 4px;
+      border-bottom: 1px solid rgba(0,0,0, .2);
+      display: flex;
+      justify-content: space-between;
+   }
+
+   .icon-chat{
+      width: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 18px;
+   }
+
+   .icon-chat>img{
+      display: inline-block;
+      width: 32px;
+   }
+   .icon-chat>p{
+      display: inline-block;
+      /* #86878b */
+   }
+
+   .board_for_read{
+      display: flex;
+   }
+
+   .board_for_read>li:first-child{
+      width: 100%;
+   }
+
+   .reply{
+      background-color: antiquewhite;
+      width: 100%;
+   }
+   .btn-design{
+      background-color: #708ae8; 
+      border: none;
+      outline: none;
+      color: #fff;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      border-radius: 0.25rem;
+      padding: 0.375rem 0.75rem;
+      font-weight: 400;
+      line-height: 1.5;
+      transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
    }
 </style>
 
 <div class="container">
+   
    <div class="board">
-      <table>
-         <tr>
-            <td style="color:#708ae8; text-align:left;">{{ board.user }}</td>
-         </tr>
-         <tr>
-            <td>
-               <h2>{{ board.title }}</h2>
-            </td>
-         </tr>
-         <tr>
-            <td>{{ board.pub_date }}</td>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;조회수 : {{ board.hits }}</td>
-         </tr>
-      </table>
-      <hr>
+      <div class="btn-area">
+         {% if board.user == user %}
+            <button class="btn-design" onclick="location.href='{% url 'main:update' board.id %}'">수정</button>
+            <button class="btn-design" onclick="location.href='{% url 'main:delete' board.id %}'">삭제</button>
+         {% endif %}
+         <button class="btn-design" onclick="location.href='{% url 'main:board' %}'">목록으로</button>
+      </div>
+      <ul>
+         <li>
+            <h2>{{ board.user }}</h2>
+         </li>
 
-      <table>
-         <tr>
-            <td>
-               <div class="content">
-                  {{ board.content }}
-               </div>
-            </td>
-         </tr>
-         <tr style="border-spacing: 10px;">
-            <td>
+         <li>
+            <h2>{{ board.title }}</h2>
+         </li>
+
+         <li class="info">
+            <p>{{ board.pub_date }}</p>
+            <p>조회수 : {{ board.hits }}</p>
+         </li>
+
+         <li class="content">
+            {{ board.content }}
+         </li>
+
+         <li>
+            <div class="icon-chat">
+               <img src="/static/image/icon_chat.svg" href> 
+               {% if board.reply_set.count > 0 %} 
+                  <p>[{{ board.reply_set.count }}]</p>
+               {% endif %}
+            </div>
+            <div style="line-height: 30px;">
                {% if board.upload_files %}
                첨부 파일 : <a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
-               <br>
                {% endif %}
-            </td>
-         </tr>
-         <tr style="text-align:left; border-spacing: 40px;">
-            <td>
-            <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">목록으로</button>
-            {% if board.user == user %}
-               <a href="{% url 'main:update' board.id %}">수정</a>
-               <a href="{% url 'main:delete' board.id %}">삭제</a>
-            {% endif %}
-            </td>
-         </tr>
-         <tr>
-            <td>
-               <img src="/static/image/댓글.svg" style="width:3%;" href> {% if board.reply_set.count > 0 %} [{{ board.reply_set.count }}] {% endif %}
-            </td>
-         </tr>
-      </table>
-
-      <div class="reply-area">
-         <img src="/static/image/댓글.svg" style="width:3%;" href> {% if board.reply_set.count > 0 %} [{{ board.reply_set.count }}] {% endif %}
-         {% if user.is_authenticated %}
-      <form action="{% url 'main:create_reply' board.id %}" method="post">
-         {% csrf_token %}
-         <table class="board_for_read">
-            <tbody>
-               <br>
-               <tr>
-                  <td class="input-group mb-3" style="text-align:center;">
+            </div>
+            
+         </li>
+            {% if user.is_authenticated %}
+            <form action="{% url 'main:create_reply' board.id %}" method="post">
+               {% csrf_token %}
+               <ul class="board_for_read">
+                  <li>
                      <input type="text" name="comment" id="comment" class="form-control" placeholder="댓글" style="width:100%">
-                  </td>
-                  <td>
-                     <input type="submit" value="추가">
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-      </form>
-      {% endif %}
-      </div>
+                  </li>
 
-      <div class="reply_content">
-         {% if page_obj %}
-            {% for rep in page_obj %}
-               <span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span>
-               {% if rep.user == user %}
-                  <input type="button" value="수정" id="btn" onclick="document.getElementById('comment2').style.display='block'; document.getElementById('comment2').style='width:50%'; document.getElementById('update').style.display='block'; document.getElementById('btn').style.display='none'; document.getElementById('delete').style.display='none';"/>
-                  <input type="button" value="삭제" id="delete" onclick="location.href='{% url 'main:delete_reply' rep.id %}';"/>
-                  <form action="{% url 'main:update_reply' board.id rep.id %}" method="post">
-                     {% csrf_token %}
-                     <div class="form-group">
-                        <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="display:none"/>
-                     </div>
-                     <input type="submit" value="수정완료" id=update style="display:none"/>
-                  </form>
+                  <li>
+                     <input class="btn-design" type="submit" value="추가">
+                  </li>
+               </ul>
+
+            </form>
+            {% endif %}
+            
+         <li class="reply-area">
+            <div class="reply_content">
+               {% if page_obj %}
+                  {% for rep in page_obj %}
+                     <span class="reply">{{ rep.comment }} [{{ rep.rep_date|date:'Y-m-d H:i'}}] -{{ rep.user }}</span>
+                     {% if rep.user == user %}
+                        <input type="button" value="수정" id="btn" onclick="document.getElementById('comment2').style.display='block'; document.getElementById('comment2').style='width:50%'; document.getElementById('update').style.display='block'; document.getElementById('btn').style.display='none'; document.getElementById('delete').style.display='none';"/>
+                        <input type="button" value="삭제" id="delete" onclick="location.href='{% url 'main:delete_reply' rep.id %}';"/>
+                        <form action="{% url 'main:update_reply' board.id rep.id %}" method="post">
+                           {% csrf_token %}
+                           <div class="form-group">
+                              <input type="text" class="form-control" name="comment" id="comment2"  value="{{ rep.comment }}" style="display:none"/>
+                           </div>
+                           <input type="submit" value="수정완료" id=update style="display:none"/>
+                        </form>
+                     {% endif %}
+                  {% endfor %}
                {% endif %}
-			      <br>
-            {% endfor %}
-         {% endif %}
-      </div>
+            </div>
+         </li>
+      </ul>
+      
       <!-- 페이징처리 -->
       <div id="paging">
          <ul class="pagination justify-content-center" style="margin-top: 2rem;">
@@ -184,13 +275,6 @@
          </ul>
       </div>
       <!-- 페이징처리 끝 -->
-      <div>
-         <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:board' %}'">목록으로</button>
-         {% if board.user == user %}
-            <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:update' board.id %}'">수정</button>
-            <button style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:delete' board.id %}'">삭제</button>
-         {% endif %}
-      </div>
    </div>
 </div>
 {% endblock %}

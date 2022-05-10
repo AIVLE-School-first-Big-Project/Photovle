@@ -1,4 +1,5 @@
-var photovleML = 'https://c3bd-114-207-199-81.jp.ngrok.io';
+// var photovleML = 'https://5495-114-207-199-81.jp.ngrok.io';
+var photovleML =  'http://192.168.45.218:5000';
 
 // 전역 변수 정의
 const frames = [];      // 분리 된 영상 이미지 리스트
@@ -721,10 +722,29 @@ function predictObject(){
 }
 
 function predictvideo(){
-    alert("기능 구현 중..");
-    return;
+    console.log("$ predict Video");
+    axios({
+        url: photovleML + '/model/video',
+        method: "POST",
+        responseType: "blob", 
+        data: {
+            "user_id": user_phone
+        }
+    })
+    .then(function (response) {
+        if(response.status == 200){
+            const url = window.URL.createObjectURL(new Blob([response.data], {type: "video/avi"}));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', "video.avi");
+            document.body.appendChild(link);
+            link.click();
+        }
+    })
+    .catch(function (error) {
+        console.log("Train Fail : ", error);
+    });
 }
-
 
 // 그림판 상단 컬러 선택 버튼 생성
 initDrawingBoard();
