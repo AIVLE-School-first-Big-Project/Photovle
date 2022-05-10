@@ -33,18 +33,18 @@
 ## UI/UX
  `[UI/UX]` https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
  
-* LOGIN
+* Login Page
   <p align="left">
    <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="500" />
   </p>
  
-* MODEL
+* Labeling Page
   <p align="left">
    <img src="https://user-images.githubusercontent.com/96154466/167606385-7932bbf0-2eb8-415f-a5e8-8a90cfa0e956.png" width="450" />
   </p>
 
 ## DataBase
-  `ERD`
+  * ERD
    
    <img src="https://user-images.githubusercontent.com/96154466/167610598-3399d9dc-e13d-4cab-be72-f3b9ef851b56.JPG" width="600" />
    
@@ -75,7 +75,6 @@
   <img src="https://img.shields.io/badge/flask-green.svg?style=for-the-badge&logo=flask&logoColor=white"/></a>&nbsp
   <img src="https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white"/></a>&nbsp
   <img src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white"/></a>&nbsp
-  <img src="https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green"/></a>&nbsp
   <img src="https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/ngrok-brown.svg?style=for-the-badge&logo=ngrok&logoColor=white"/></a>&nbsp
@@ -85,5 +84,6 @@
 <p align="left">
   <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white"/></a>&nbsp
   <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green"/></a>&nbsp
   <img src="https://img.shields.io/badge/Notion-green.svg?style=for-the-badge&logo=notion&logoColor=white"/></a>&nbsp
 </p>
