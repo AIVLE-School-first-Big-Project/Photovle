@@ -182,7 +182,7 @@ input[id="menuicon"] + label span:nth-child(3){
     bottom:0;
 }
 input[id="menuicon"]:checked + label {
-    z-index:2;
+    z-index:9;
     right:227px;
 }
 input[id="menuicon"]:checked + label span {
@@ -207,7 +207,7 @@ input[id="menuicon"]:checked + label span:nth-child(3){
     position:fixed;
     top:0;
     right:-300px;
-    z-index:1;
+    z-index:8;
     transition:all .35s;
     /* opacity: 0.92; */
     display:flex;
