@@ -31,5 +31,6 @@
  
 
 ## 모델 사용절차
- <img src="https://user-images.githubusercontent.com/96154466/167531086-42ee27da-c282-4c45-be13-b09804a19d1a.JPG" width="1000" height="600" />
+ <img src="https://user-images.githubusercontent.com/96154466/167543267-ed75b2bd-a7bf-4d19-b8e0-7096875ab694.JPG" width="1000" height="600" />
 * (가이드)
+
