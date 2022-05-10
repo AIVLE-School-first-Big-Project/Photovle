@@ -23,7 +23,6 @@ var currentLineWidth = radius * 2;
 // 학습
 let isTrainOK = false;
 
-
 // 그림판 그리기
 function setColor(color) {
     currentSelectedColor = color;
@@ -46,7 +45,6 @@ var setRadius = function (newRadius) {
     else if (newRadius > maxRad) newRadius = maxRad;
     radius = newRadius;
     currentLineWidth = radius * 2;
-
     radSpan.innerHTML = radius;
 }
 
@@ -69,7 +67,16 @@ var buttonclear = document.getElementById('clear');
 buttonclear.addEventListener('click', clearImage);
 
 function clearImage() {
-    checkVideoLoading();    // 비디오 업로드 사전 체크
+    // 비디오 업로드 사전 체크
+    if(isDivideVideo == false){
+        alert("비디오 업로드 및 분할을 먼저 진행해주세요.");
+        return;
+    }
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
+    }
+
     const currentCanvas = document.getElementById("canvas-drawing-" + previousCanvasId);
     const currentContext = currentCanvas.getContext("2d");
 
@@ -84,7 +91,15 @@ function clearImage() {
 };
 
 function eraserImage() {
-    checkVideoLoading();    // 비디오 업로드 사전 체크
+    // 비디오 업로드 사전 체크
+    if(isDivideVideo == false){
+        alert("비디오 업로드 및 분할을 먼저 진행해주세요.");
+        return;
+    }
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
+    }
     bErasing = !bErasing;
 };
 
@@ -92,7 +107,15 @@ var button = document.getElementById('save');
 button.addEventListener('click', saveImage);
 
 function saveImage(el) {
-    checkVideoLoading();    // 비디오 업로드 사전 체크
+    // 비디오 업로드 사전 체크
+    if(isDivideVideo == false){
+        alert("비디오 업로드 및 분할을 먼저 진행해주세요.");
+        return;
+    }
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
+    }
     bErasing = true;
     
     var canvas = document.getElementById("canvas-drawing-" + previousCanvasId);
@@ -191,6 +214,11 @@ async function getVideoTrack(video, videourl) {
 
 // 비디오를 각 프레임으로 분할(분할 아이콘 클릭)
 async function divideVideo(){
+    console.log("divideVideo!!");
+    if(isDivideVideo){
+        alter("이미 동영상을 프레임별로 분할되었습니다.");
+        return;
+    }
     if (document.querySelector("#label_name").textContent == "") {
         alert("레이블링의 object를 정의해주세요.");
         return;
@@ -450,7 +478,6 @@ function mouseCursorMove(e){
     x = e.clientX, y = e.clientY; 
     h1.innerHTML = `x: ${x} y: ${y}`; 
     cursor.style.transform = `translate(${x}px, ${y}px)`;
-
 }
 
 // 비디오 전송
@@ -497,16 +524,53 @@ function dataURItoBlob(dataURI, filename){
     }
 
     var bb = new Blob([ab], { "type": mimeString });
-
     return bb;
 }
 
+function loadingVeiw(control, isView){
+    var view = document.getElementById("loading-area");
+    
+    if(control === "train"){        
+        if(isView){
+            view.style.display = "flex";
+            
+        }
+        else{
+            view.style.display = "none";
+        }
+    }
+
+    if(control === "predict"){
+        if(isView){
+            view.style.display = "flex";            
+        }
+        else{
+            view.style.display = "none";
+        }
+    }
+    
+}
 
 // 원본 이미지 & 라벨링 이미지 전송하기.
 function labelTag(){
-    checkVideoLoading();
-    console.log("$ train!");
+    if(isDivideVideo == false){
+        alert("비디오 업로드 및 분할을 먼저 진행해주세요.");
+        return;
+    }
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
+    }
 
+    if(isTrainOK){
+        alert("이미 학습을 완료했습니다. 예측을 통해 레이블링을 진행해주세요.");
+        return;
+    }
+    
+
+    console.log("$ train!");
+    
+    loadingVeiw("train", true);
     // 1. orign canvas to file
     var originCanvas = document.getElementById("imgViewer");
     var originUrl = originCanvas.toDataURL("image/jpeg");
@@ -536,6 +600,7 @@ function labelTag(){
         if(response.status == 200){
             isTrainOK = true;
             console.log("Success Train", response);
+            loadingVeiw("train", false);
         }
     })
     .catch(function (error) {
@@ -544,17 +609,31 @@ function labelTag(){
 }
 
 function predictObject(){
+    // 비디오 업로드 사전 체크
+    if(isDivideVideo == false){
+        alert("비디오 업로드 및 분할을 먼저 진행해주세요.");
+        return;
+    }
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
+    }
+    if(isTrainOK == false){
+        alert("모델 학습을 먼저 진행해주세요.");
+        return ;
+    }
+
     if(isTrainOK){
         console.log("$ predicting!");
         bErasing = false;
         // context.strokeStyle = currentSelectedColor;
-
+        loadingVeiw("predict", true);
         var originCanvas = document.getElementById("imgViewer");
         var originUrl = originCanvas.toDataURL("image/jpeg");
         var originBlob = dataURItoBlob(originUrl, "frame-" + previousCanvasId);
 
-
         var labelCanvas = document.getElementById("canvas-drawing-" + previousCanvasId);
+        // labelCanvas.clearRect(0, 0, originCanvas.width, originCanvas.height);
         console.log("please previousCanvasId", previousCanvasId);
         var labelUrl = labelCanvas.toDataURL("image/jpeg");
         var labelBlob = dataURItoBlob(labelUrl, "canvas-drawing-" + previousCanvasId);
@@ -567,7 +646,7 @@ function predictObject(){
         
         axios.post(photovleML + '/model/predict', frm, {
             headers: {
-            'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
         })
         .then(function (response) {
@@ -575,11 +654,19 @@ function predictObject(){
             console.log("response data : ", response.data);
         
             var arr = response.data;
+            if(arr.length == 0){
+                alert("학습이 잘못되었습니다. 다시 시도해주세요.");
+                return;
+            }
+
             var canvas1 = document.getElementById("canvas-drawing-" + previousCanvasId);
             
+
             var ctx = canvas1.getContext("2d");
+            ctx.fillStyle = currentSelectedColor;
+            ctx.strokeStyle = currentSelectedColor;
+            ctx.lineWidth = 5;
             ctx.closePath();
-            
             
             for(var i = 0; i < arr.length; i++){
                 var x = arr[i][0];
@@ -588,9 +675,11 @@ function predictObject(){
                 ctx.beginPath();
                 ctx.moveTo(x, y);
                 ctx.lineTo(x+1, y+1);
-                ctx.stroke(
+                ctx.stroke();
             }
             ctx.closePath();
+            ctx.beginPath();
+            loadingVeiw("predict", false);
 
             // 페이지 clear... 
             // 포인트 좌표 무산..

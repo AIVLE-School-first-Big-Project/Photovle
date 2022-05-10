@@ -360,11 +360,7 @@ def mypost(request):
     return render(request, 'mypost.html', context)
 
 #######################Canvas################################
-def canvas(request):
-    return render(request, 'canvas.html')
 
-def test(request):
-    return render(request, 'test.html')
-
+@login_required
 def osvos(request):
     return render(request, 'osvos.html')

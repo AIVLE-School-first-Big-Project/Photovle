@@ -19,6 +19,7 @@
 <body>
     
     <div class="canvas-body">
+        
         <div class="control-bar">
             <!-- step1 -->
             <div id='step1'>
@@ -124,7 +125,20 @@
                 <!-- <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>             -->
             </div>
         </div>
+
+        <!-- 대기버튼 -->
+        <div class="loading" id="loading-area">        
+            <div class="loadingio-spinner-spinner-68z6bjaawxu"><div class="ldio-2u11u1n92kj">
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                </div></div>
+
+            <p id="loading-text">잠시만 대기해주세요.</p>
+        <div>        
     </div>
+
+    
+    
+
     <script>
         var user_id = {{ user.id }}
         var user_phone = {{ user.phone }}
