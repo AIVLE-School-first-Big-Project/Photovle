@@ -22,7 +22,7 @@
   * 게시판
   * 회원가입
   * 로그인
-  <img src="https://user-images.githubusercontent.com/96154466/167525596-b08d4def-a6cf-421b-a96d-ed85b126eaec.JPG" width="1000" height="600" />
+  <img src="https://user-images.githubusercontent.com/96154466/167544768-1be7102d-3e43-4d09-b1ea-defbb9c9b5ab.JPG" width="1000" height="600" />
   
 ## Model Architecture
  (OSVOS 모델 구조)
@@ -31,6 +31,6 @@
  
 
 ## 모델 사용절차
- <img src="https://user-images.githubusercontent.com/96154466/167543267-ed75b2bd-a7bf-4d19-b8e0-7096875ab694.JPG" width="1000" height="600" />
+ <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="1000" height="600" />
 * (가이드)
 
