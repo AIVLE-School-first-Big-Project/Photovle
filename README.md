@@ -57,11 +57,11 @@
  * DEMO
  <p align="justify">
    <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
-   <video controls width="350">
-    <source src="https://user-images.githubusercontent.com/96154466/167680112-3dc76882-3950-4e44-a1c6-a4e4ba7abc47.mp4"
-            type="video/mp4">
-   </video>
  </p>
+ <video width="450" height="320" controls>
+  <source src="https://user-images.githubusercontent.com/96154466/167680939-a67965a7-de58-4d7c-aa29-cda7fee51fc5.mp4" type="video/mp4">
+ </video>
+
 
 ## 개발 환경   
 * Front
