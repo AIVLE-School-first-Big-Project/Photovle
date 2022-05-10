@@ -22,13 +22,13 @@
   * 게시판
   * 회원가입
   * 로그인
-  <img src="https://user-images.githubusercontent.com/96154466/167544768-1be7102d-3e43-4d09-b1ea-defbb9c9b5ab.JPG" width="700" />
-  
+  <img src="https://user-images.githubusercontent.com/96154466/167673485-4acddd69-092d-480f-8c60-68693987524f.JPG" width="700" />
+
 ## Model Architecture
 
 `2-TIER`
 
- <img src="https://user-images.githubusercontent.com/96154466/167588992-2a83e3c7-4ac4-453e-bd1b-72d6d0775fc8.png" width="700" />
+ <img src="https://user-images.githubusercontent.com/96154466/167673659-a8fdfac3-9af8-4f44-a510-57a1577da999.png" width="700" />
 
 ## UI/UX
  `[UI/UX]` https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
