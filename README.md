@@ -24,6 +24,5 @@
  
 
 ## 모델 flow
- * (가이드)
- <img src="https://user-images.githubusercontent.com/96154466/167530316-0a1eb42f-b4d6-4328-95b7-d31ca749a3ef.JPG" width="1000" height="600" />
-
+ <img src="https://user-images.githubusercontent.com/96154466/167531086-42ee27da-c282-4c45-be13-b09804a19d1a.JPG" width="1000" height="600" />
+* (가이드)
