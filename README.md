@@ -35,7 +35,7 @@
  
 * LOGIN
   <p align="left">
-   <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="600" />
+   <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="500" />
   </p>
  
 * MODEL
