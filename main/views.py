@@ -276,7 +276,8 @@ def update(request, pk):    # pk = board_id
         board.user = request.user
         board.pub_date=timezone.now()
         if request.FILES:
-            os.remove(os.path.join(settings.MEDIA_ROOT, board.upload_files.path))
+            if board.upload_files != "":
+                os.remove(os.path.join(settings.MEDIA_ROOT, board.upload_files.path))
             board.upload_files = request.FILES.get('upload_files')
         if board.title == '':
             board.title = tmp.title
