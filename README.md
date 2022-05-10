@@ -51,12 +51,14 @@
    
 ## 모델 사용절차
  * Sequence
-   
- <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
+
+ <img src="https://user-images.githubusercontent.com/96154466/167678738-b578d886-6ac8-4c60-9b85-5267570ccdd8.JPG" width="700" />
  
  * DEMO
  <p align="justify">
    <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
+   <iframe id="video" width="500" height="400" src="https://user-images.githubusercontent.com/96154466/167679307-e41745dc-5220-48bb-8ac7-4a6f8d4fdae9.mp4" frameborder="0">
+   </iframe>
  </p>
 
 ## 개발 환경   
