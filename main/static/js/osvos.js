@@ -153,6 +153,17 @@ function initDrawingBoard(){
     }
 }
 
+function checkVideoLoading(){
+    if(isDivideVideo == false){
+        alert("비디오 업로드 및 분할을 먼저 진행해주세요.");
+        return;
+    }
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
+    }
+}
+
 // 사용자 업로드 영상 불러오기
 function loadUploadVideo(evt){
     console.log("1. loadUploadVideo");
@@ -203,16 +214,10 @@ async function getVideoTrack(video, videourl) {
 
 // 비디오를 각 프레임으로 분할(분할 아이콘 클릭)
 async function divideVideo(){
-    console.log("divideVideo!!");
-    if(isDivideVideo){
-        alter("이미 동영상을 프레임별로 분할되었습니다.");
-        return;
-    }
     if (document.querySelector("#label_name").textContent == "") {
         alert("레이블링의 object를 정의해주세요.");
         return;
     }
-
     if (window.MediaStreamTrackProcessor) {
         isDivideVideo = true;
         const track = await getVideoTrack();
@@ -440,6 +445,9 @@ function onClickSpecificFrame(){
     document.getElementById("canvas-drawing-" + currentCanvasId).parentNode.style.display = "block";
 
     previousCanvasId = currentCanvasId;
+
+    // 모델 예측 요청
+    // predictObject();
 }
 
 function onClickSpecificFrameDegin(clickFrameID){

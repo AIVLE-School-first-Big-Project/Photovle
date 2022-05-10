@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
 <!DOCTYPE html>
 <html>
 
@@ -23,22 +22,19 @@
         
         <div class="control-bar">
             <!-- step1 -->
-                <div id='step1'>
+            <div id='step1'>
                 <div class="step1" id="step1">
                     <img src="/static/image/icon_camera.png" onclick="">
                     <p>편집할 동영상이 없습니다.</p>
-
                     <div class="input-file">
                         <label for="upload_video" class="file-label">파일 업로드</label>
                         <input id="upload_video" type="file" accept="video/mp4,video/mkv, video/x-m4v,video/*">
                     </div>
                 </div>
             </div>
-
             <!-- step2 -->
-                <div class="step2" id="step2" style="display: none;">
+            <div class="step2" id="step2" style="display: none;">
                 <video id="video" style="display: none;"></video>
-
                 <div class="infomation-area" style="cursor:default;">
                     <h3>Information</h3>
                     <ul>
@@ -46,7 +42,6 @@
                             <span>File Name : </span>
                             <p id="file_name"></p>
                         </li>
-
                         <li>
                             <span>Object : </span>
                             <div class="edit-label-name">
@@ -54,33 +49,27 @@
                                 <img src="/static/image/icon_edit.svg" class="btn-open-popup">
                             </div>
                         </li>
-
                         <li>
                             <span>Total Frame : </span>
                             <p id="file_frame">0</p>
                         </li>
-
                         <li>
                             <span>Now Frame : </span>
                             <p id="label_now"></p>
                         </li>
-
                         <li>
                             <span>Size : </span>
                             <p id="file_size"></p>
                         </li>
-
                         <li>
                             <span>Type : </span>
                             <p id="file_type"></p>
                         </li>
                     </ul>
                 </div>
-
                 <div class="label-add">
                     <select disabled style="display: none;"></select>
                 </div>
-
                 <!-- 여러 설정 바 -->
                 <div class="control-bar-option-area">
                     <img src="/static/image/icon_images.svg" id="divide_video">
@@ -90,13 +79,11 @@
                     
 
                 </div>
-
                 <!-- 이미지 프레임 목록 -->
                 <div id="image-area">
                     <ul id="image-list"></ul>
                 </div>
             </div>
-
         </div>
 
         <!-- Object 수정 모달 -->
@@ -105,12 +92,10 @@
                 <div class="title">
                     <h2>Object Label Title</h2>
                 </div>
-
                 <div class="content">
                     <div class="preview">
                         <p>Label Name : </p>
                         <input type="text" id="label_tag" placeholder="입력해주세요.">
-
                     </div>
                     <div class="model-control">
                         <button type="button" class="close-area">취소</button>
@@ -128,9 +113,7 @@
                     <div id="decrad" class="radcontrol"> - </div>
                     <div id="incrad" class="radcontrol"> + </div>
                 </div>
-
                 <div id="colors"></div>
-                                
                 <img src="/static/image/icon_eraser.svg" id="my-eraser"  onclick="eraserImage()" style="height: 30px; margin: 0 3px 0 6px;">
                 <img src="/static/image/icon_all_draw_delete.svg" id="clear" style="height: 34px; margin: 0 3px 0 3px;">
                 <img src="/static/image/icon_downloads.svg" id="save" style="height: 30px; margin: 0 3px 0 3px;">
@@ -139,7 +122,6 @@
                 <div id="mouse-cursor" style="position: absolute; z-index: 3; cursor: none; pointer-events: none; border-radius: 50%; display: none"></div>
                 <canvas id="imgViewer" style="position: absolute; z-index: 1;"></canvas>
                 <ul id="drawAreaStack" style="position: absolute; z-index: 2;"></ul>
-
                 <!-- <canvas id="drawArea" style="position: absolute; z-index: 2; "></canvas>             -->
             </div>
         </div>
@@ -153,16 +135,12 @@
             <p id="loading-text">잠시만 대기해주세요.</p>
         <div>        
     </div>
-
     
-    
-
     <script>
         var user_id = {{ user.id }}
         var user_phone = {{ user.phone }}
     </script>
     <script type="text/javascript" src="{% static 'js/osvos.js' %}"> </script>
 </body>
-
 </html>
 {% endblock %}

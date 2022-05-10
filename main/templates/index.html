@@ -1,33 +1,33 @@
 {% extends 'base_non_logo.html' %}
 {% load static %}
 
-
-
 {% block content %}
 <style>
     .wrapper {
         display: grid;
         place-items: center;
         min-height: 100vh;
-
       }
       
       .content {
-
         padding: 3rem;
         border-radius: 1rem;
       }
 </style>
-        
+
 <div class="wrapper" style="text-align: center;" >
   <div class="content">
     {% if user.is_authenticated %}
-    <img src="/static/image/찐로고.png"width="288px" class="center-block" onclick="location.href='{% url 'main:home' %}'">
+      <img src="/static/image/찐로고.png"width="288px" class="center-block" onclick="location.href='{% url 'main:home' %}'">
     {% else %}
-    <img src="/static/image/찐로고.png"width="288px" class="center-block" onclick="location.href='{% url 'main:login' %}'">
+      <img src="/static/image/찐로고.png"width="288px" class="center-block" onclick="location.href='{% url 'main:login' %}'">
     {% endif %}
+<<<<<<< HEAD
     <h2 style="color:gray;">당신의 모델 학습 데이터를 보조하겠습니다.</h2>
     
+=======
+    <h2 style="color:gray; margin-top:20px;">당신의 모델 학습 데이터를 보조하겠습니다.</h2>
+>>>>>>> origin/HEAD
   </div>
 </div>
 {% endblock %}
