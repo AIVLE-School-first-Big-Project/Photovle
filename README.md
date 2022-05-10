@@ -31,8 +31,9 @@
  [UI/UX] https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
 
 ## 모델 사용절차
- * GUIDE
+ * 
  <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
+ 
  * DEMO
  <img src="https://user-images.githubusercontent.com/96154466/167564787-47765964-d180-4249-bbbc-e5e9ba51e120.JPG" width="900" />
 
