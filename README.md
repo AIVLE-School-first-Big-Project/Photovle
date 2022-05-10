@@ -57,7 +57,7 @@
  * DEMO
  <p align="justify">
    <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
-   <img src="https://user-images.githubusercontent.com/96154466/167682959-45181d12-177b-407c-9016-cf90fa1e1a9a.gif" width="500" />
+   <img src="https://user-images.githubusercontent.com/96154466/167682959-45181d12-177b-407c-9016-cf90fa1e1a9a.gif" width="500" height="400" />
  </p>
 
 
