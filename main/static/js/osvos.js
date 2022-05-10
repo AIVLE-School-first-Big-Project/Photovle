@@ -1,4 +1,4 @@
-var photovleML = 'https://3f80-114-207-199-81.jp.ngrok.io';
+var photovleML = 'https://c3bd-114-207-199-81.jp.ngrok.io';
 
 // 전역 변수 정의
 const frames = [];      // 분리 된 영상 이미지 리스트
