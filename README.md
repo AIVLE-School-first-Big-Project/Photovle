@@ -42,7 +42,7 @@
   <figure>
 
 ## DataBase
-   * ERD
+   `ERD`
    <img src="https://user-images.githubusercontent.com/96154466/167610598-3399d9dc-e13d-4cab-be72-f3b9ef851b56.JPG" width="600" />
    
    
@@ -72,4 +72,11 @@
   <img src="https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green"/></a>&nbsp
   <img src="https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/></a>&nbsp   
+</p>
+
+* Management tool & others
+<p align="left">
+  <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white"/></a>&nbsp
 </p>
