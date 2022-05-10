@@ -9,7 +9,7 @@
         <div>
             <h2 style="cursor:default;">자유게시판</h2>
         </div>
-        
+
         <div class="board">
             <table class="table table-hover">
                 <thead>
@@ -47,8 +47,6 @@
                         {% endif %}
                 </tbody>
             </table>
-            
-            
         </div>
 
         <div class='btn-area'>
@@ -70,7 +68,6 @@
                     </li>
                     {% endif %}
                     <!-- 페이지리스트 -->
-                    
                     {% for page_number in page_obj.paginator.page_range %}
                         {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
                         <span class="{% if page_number == page_obj.number %}current{% endif %}" style="background-color: #708ae8;">
@@ -82,13 +79,10 @@
                                 <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
                             {% endif %}
                         </span>
-                        
                         {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
                             ..
-                    
                         {% endif %}
                     {% endfor %}
-                    
                     <!-- 다음페이지 -->
                     {% if page_obj.has_next %}
                     <li class="page-item">
@@ -111,7 +105,6 @@
                 <button  style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:mypost' %}'">나의 게시글</button>
                 <button  style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:write' %}'">글쓰기</button>
             </div>
-            
             {% else %}
             <div>
                 <button  style="background-color: #708ae8; border:none;" class="btn btn-primary" onclick="location.href='{% url 'main:login' %}'">글쓰기</button>
@@ -120,6 +113,10 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 
+=======
+</body>
+>>>>>>> origin/main
 {% endblock %}
 

@@ -15,7 +15,6 @@ import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ SECRET_KEY = secrets['SECRET_KEY']
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -67,7 +65,6 @@ SOCIAL_OUTH_CONFIG = {
     'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
 }
 
-
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 
@@ -83,7 +80,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-
 # # email 전송
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -93,7 +89,6 @@ EMAIL_HOST_USER = secrets['GOOGLE_HOST_USER']
 EMAIL_HOST_PASSWORD = secrets['GOOGLE_HOST_PASSWORD']
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
 
 # 다른 부분 오류 시 비밀번호 지워지는 것 방지
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
@@ -130,7 +125,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Photovle.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -163,7 +157,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -176,7 +169,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -191,8 +183,6 @@ LOGIN_REDIRECT_URL = '/home/'
 LOGOUT_REDIRECT_URL = '/home/'
 
 AUTH_USER_MODEL = 'main.User'
-
-
 
 # login session
 ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지

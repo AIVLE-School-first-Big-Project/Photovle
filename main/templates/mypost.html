@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <style>
     .board-area{
         width: 100%;
@@ -27,6 +26,7 @@
         display: block;
         margin-bottom: 20px;
     }
+
     .board{
         height: 75%;
         max-height: 60vh;
@@ -34,6 +34,7 @@
         text-align: center;
         position: relative;
     }
+
     .table{
         margin-bottom:5%;
         position: relative;
@@ -44,6 +45,7 @@
         font-size: 24px;
         font-weight: bold;
     }
+
     .board tbody>tr{        
         line-height: 30px;
         cursor: pointer;
@@ -63,6 +65,7 @@
         bottom: 0;
         right: 0;
     }
+
     .board tbody>tr:nth-child(2n+1){
         background-color:rgba(0, 0, 0, 0.025);
     }
@@ -78,7 +81,6 @@
         text-align:left; 
         cursor:pointer;        
         padding-left: 10px;
-        
     }
 </style>
 
@@ -99,32 +101,20 @@
                             <th scope="col" style="width: 8%;">조회수</th>
                         </tr>
                     </thead>
-                    
                     <tbody>
-                    {% if page_obj %}
-                        {% for board_list in page_obj %}
-                        {% comment %} <tr class="{% cycle '' 'even_bgcolor' %}">
-                            <td style="text-align: center;">{{ forloop.counter }}</td>
-                            <td>
-                                <a href="{% url 'main:detail' board_list.id %}">
-                                    {{ board_list.title }}
-                                </a>
-                            </td>
-                            <td>{{ board_list.user }}</td>
-                            <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>
-                            <td>{{ board_list.hits }}</td>
-                        </tr> {% endcomment %}
-                        <tr class="{% cycle '' 'even_bgcolor' %}">
-                            <td class="post-id" scope="row">{{ board_list.id }}</td>
-                            <td class="post-title" onclick="location.href='{% url 'main:detail' board_list.id %}'" style="padding-left: 16px;">
+                        {% if page_obj %}
+                            {% for board_list in page_obj %}
+                            <tr class="{% cycle '' 'even_bgcolor' %}">
+                                <td class="post-id" scope="row">{{ board_list.id }}</td>
+                                <td class="post-title" onclick="location.href='{% url 'main:detail' board_list.id %}'" style="padding-left: 16px;">
                                     {{ board_list.title }}  {% if board_list.reply_set.count > 0 %} [{{ board_list.reply_set.count }}] {% endif %}
-                            </td>
-                            <td>{{ board_list.user }}</td>
-                            <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>
-                            <td>{{ board_list.hits }}</td>
-                        </tr>
-                        {% endfor %}
-                    {% else %}
+                                </td>
+                                <td>{{ board_list.user }}</td>
+                                <td>{{ board_list.pub_date|date:'Y-m-d' }}</td>
+                                <td>{{ board_list.hits }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
                         <tr>
                             <td></td>
                             <td style="text-align:right;">작성된 게시글이 없습니다.</td>
@@ -132,15 +122,13 @@
                             <td></td>
                             <td></td>
                         </tr>
-                    {% endif %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
-
             <div class="btn-area">
                 <div id="paging">
                     <ul class="pagination justify-content-center" style="margin-top: 2rem;">
-                        
                         <!-- 이전페이지 -->
                         {% if page_obj.has_previous %}
                         <li class="page-item">
@@ -156,25 +144,21 @@
                         </li>
                         {% endif %}
                         <!-- 페이지리스트 -->
-
                         {% for page_number in page_obj.paginator.page_range %}
                             {% if page_number >= page_obj.number|add:-2 and page_number <= page_obj.number|add:2 %}
                             <span class="{% if page_number == page_obj.number %}current{% endif %}">
                                 {% if page_number == page_obj.number %}
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
-                                    </li>
-                                {% else %}
+                                <li class="page-item active" aria-current="page">
                                     <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
+                                </li>
+                                {% else %}
+                                <a class="page-link" href="./?&page={{ page_number }}">{{ page_number }}</a>
                                 {% endif %}
                             </span>
-                            
                             {% elif page_number >= page_obj.number|add:-3 and page_number <= page_obj.number|add:3 %}
                                 ..
-                        
                             {% endif %}
                         {% endfor %}
-                        
                         <!-- 다음페이지 -->
                         {% if page_obj.has_next %}
                         <li class="page-item">
@@ -201,4 +185,3 @@
     <!-- 페이징처리 끝 -->
 </body>
 {% endblock %}
-

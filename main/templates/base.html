@@ -17,33 +17,27 @@
         <img class="logo" src="/static/image/찐로고.png" onclick="location.href='{% url "main:home" %}'">
         {% if user.is_authenticated %}
         <input type="checkbox" id="menuicon">
-
         <label for="menuicon">
             <span></span>
             <span></span>
             <span></span>
         </label>
         <div class="sidebar">
-            
             <ul class="nav-links">
                 <li>
                     <a style="color:#fff; cursor:default;">{{user.name}}</a>
                     <span style="cursor:default;">님 안녕하세요.</span>
                 </li>
-
                 <li>
                     <a href="{% url 'main:osvos' %}" class="link">Image Segmentation</a>        
                 </li>
-
                 <li>
                     <a href="{% url 'main:board' %}" class="link">게시판</a>        
                 </li>
-
                 <li>
                     <a href="{% url 'main:mypost' %}" class="link">나의 게시글</a>
                 </li>
             </ul>        
-                
             <ul class="nav-login">
                 <li>
                     <a href="{% url 'main:mypage' %}" class="link" style="font-size: 1.2rem;">마이페이지</a>
@@ -52,7 +46,6 @@
                     <a href="{% url 'main:logout' %}" class="link">로그아웃</a>
                 </li>
             </ul>        
-            
         </div>
         {% else %}
         <input type="checkbox" id="menuicon">
@@ -66,16 +59,13 @@
                 <li>
                     <span style="text-align:left;">로그인이 필요합니다.</span>
                 </li>
-
                 <li>
                     <a href="{% url 'main:login' %}" class="link">Image Segmentation</a>
                 </li>
-
                 <li>
                     <a href="{% url 'main:login' %}" class="link">게시판</a>
                 </li>
             </ul>
-            
             <div class="nav-login">
                 <li>
                     <a href="{% url 'main:login' %}" class="link">로그인</a>
