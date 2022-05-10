@@ -1,5 +1,4 @@
 {% if form.errors %}
-
     {% for field in form %}
         {% for error in field.errors %}
             <!-- 필드 오류를 출력한다. -->
@@ -16,5 +15,4 @@
             <strong>{{ error }}</strong>
         </div>
     {% endfor %}
-    
 {% endif %}

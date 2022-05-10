@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <!DOCTYPE html>
-
 <style>
 	.logo{
 		margin-left:1rem;
 		margin-top:1rem;
 	}
+
 	.container{
 		background-color:white;
 		margin-top:50px;
@@ -15,50 +15,41 @@
 		border-width:3px;
 		box-shadow:5px 5px 5px 5px gray;
 	}
+
 	.board{
 		width:100%;
 		height:100%;
 		align-items:center;
-		{% comment %} text-align:center; {% endcomment %}
 		padding:10px;
 	}
-
-	{% comment %} #upload_files{
-        visibility: hidden;
-    } {% endcomment %}
 </style>	
+
 <div class="logo">
 	<img src="/static/image/찐로고.png"width="20%" onclick="location.href='{% url 'main:board' %}'">
-</div>
-
-
 </div>
 <div class="container">
 	<div class="board">
 		<h2 style="text-align:left; padding:10px;">글쓰기</h2>
 		<form method="POST" action="" enctype="multipart/form-data">
 			{% csrf_token %}
-				<div class="form-group">
-					<label for="subject" style="text-align:left; padding:10px">제목</label>
-					<input type="text" class="form-control" name="title" id="title"
-					value="{{ board.title }}"/>
-				</div>
-				<div class="form-group">
-					<label for="content" style="text-align:left; padding:10px">내용</label>
-					<textarea class="form-control" name="content"
-						id="content" rows="10">{{board.content}}</textarea>
-				</div>
-				<div class="from-group" style="padding:10px">
-					<label for="upload_files">
-						<input type="file" value="{{board.upload_files }}" id="upload_files" name="upload_files" accept="image/*" onchange="loadFile(this)">
-					</label>
-					<label for="subject" style="text-align:left; padding:10px">새로운 파일 업로드 시 기존 파일은 삭제됩니다.</label>
-				</div>
-				<div style="text-align:right;">
-					<button type="submit" class="btn btn-primary rounded-pill col-5" style="background-color: #708ae8; border:none;">등록</button>
-				</div>
+			<div class="form-group">
+				<label for="subject" style="text-align:left; padding:10px">제목</label>
+				<input type="text" class="form-control" name="title" id="title" value="{{ board.title }}"/>
+			</div>
+			<div class="form-group">
+				<label for="content" style="text-align:left; padding:10px">내용</label>
+				<textarea class="form-control" name="content" id="content" rows="10">{{board.content}}</textarea>
+			</div>
+			<div class="from-group" style="padding:10px">
+				<label for="upload_files">
+					<input type="file" value="{{board.upload_files }}" id="upload_files" name="upload_files" accept="image/*" onchange="loadFile(this)">
+				</label>
+				<label for="subject" style="text-align:left; padding:10px">새로운 파일 업로드 시 기존 파일은 삭제됩니다.</label>
+			</div>
+			<div style="text-align:right;">
+				<button type="submit" class="btn btn-primary rounded-pill col-5" style="background-color: #708ae8; border:none;">등록</button>
+			</div>
 		</form>
 	</div>
 </div>
-
 {% endblock %}

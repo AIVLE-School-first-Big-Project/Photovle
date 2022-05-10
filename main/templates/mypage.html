@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <style>
     .board-area{
         width: 100%;
@@ -9,7 +8,7 @@
         justify-content:center;
         padding: 20px 0 ;
     }
-    
+
     .container{
         background-color:white;
         width: 500px;
@@ -49,7 +48,7 @@
         margin-bottom: 10px;
         justify-content: space-between;
     }
-    
+
     .board>li>p{
         display: block;
         width: 120px;
@@ -69,6 +68,7 @@
         font-size: 18px;
         width: 80%;
     }
+
     .board>li>input:focus{
         outline: none;
     }
@@ -84,6 +84,7 @@
         border-radius: 0.3rem;
         margin-top: 8px;
     }
+
     .base-button:hover {
         background-color: #637acf;
     }
@@ -93,6 +94,7 @@
         font-weight: bold;
         cursor: pointer;
     }
+
     .pw-btn:hover{
         color: #212529;
     }
@@ -102,6 +104,7 @@
         justify-content: flex-end;
         width: 80%;
     }
+
     .opposite-button{
         width:100%;
         background-color: #909299; 
@@ -113,40 +116,35 @@
         border-radius: 0.3rem;
         margin-top: 8px;
     }
+
     .opposite-button:hover{
         background-color: #86878b;
     }
 </style>
-
 
 <div class="board-area">
     <div class="container">
         <div>
             <h2 style="cursor:default;">마이페이지</h2>
         </div>
-
         <div>
             <ul class="board">
                 <li>
                     <p>이름</p>
                     <input type="text" name="name" id="name" value="{{ user.name }}" readonly/>
                 </li>
-
                 <li>
                     <p>전화번호</p>
                     <input type="tel" id="phone" value="{{ user.phone }}" readonly/>
                 </li>
-
                 <li>
                     <p>이메일</p>
                     <input type="email" id="email" value="{{ user.email }}" readonly/>
                 </li>
-
                 <li>
                     <p>아이디</p>
                     <input type="text" id="id" value="{{ user.username }}" readonly/>
                 </li>
-
                 <li>
                     <p>비밀번호</p>
                     <div class="pw-area">
@@ -154,23 +152,19 @@
                     </div>
                 </li>
             </ul>
-
             <ul class="btn-area">
                 <li>
                     <button class="base-button" onclick="location.href='{% url 'main:update_user' %}'">개인정보수정</button>
                 </li>
-
                 <li>
                     <button class="opposite-button" type="button" onclick="location.href='{% url 'main:logout' %}'">로그아웃</button>
                 </li>
-
                 <li>
                     <button class="opposite-button" type="button" onclick="btn();">회원탈퇴</button>
                 </li>
             </ul>           
         </div>
     </div>
-
     <script>
         function btn(){
             if (confirm("정말 탈퇴하시겠습니까?")==true){

@@ -4,6 +4,7 @@
     *{
         box-sizing:border-box;
         }
+
     .change-area{
         width: 100%;
         height:calc(100vh - 85px);
@@ -11,6 +12,7 @@
         justify-content:center;
         align-items: flex-start;
     }
+
     .change-card{
         width:500px;
         background-color:white;
@@ -23,12 +25,14 @@
         align-items:center;
         padding:32px;
     }
+
     .change-card h2{
         text-align: left;
         font-size: 24px;
         font-weight: bold;
         margin-bottom: 20px;
     }
+
     .password{
         width:100%;
         height:100%;
@@ -36,6 +40,7 @@
         text-align:center;
         padding:10px;
     }
+
     .password input{
         width:100%;
         border-top:none;
@@ -53,7 +58,7 @@
         align-items: center;
         margin-bottom: 10px;
     }
-    
+
     .password>li>p{
         display: block;
         width: 160px;
@@ -73,9 +78,11 @@
         font-size: 18px;
         width: 60%;
     }
+
     .password>li>input:focus{
         outline: none;
     }
+
     .base-button{
         width:100%;
         background-color: #708ae8; 
@@ -86,6 +93,7 @@
         font-size: 1.25rem;
         border-radius: 0.3rem;
     }
+
     .base-button:hover {
         color: #212529;
     }
@@ -94,7 +102,7 @@
 <section class="change-area">
     <div class="change-card">
         <form action="" method="post" style="text-align: center;" name="form">
-        {% csrf_token %}
+            {% csrf_token %}
             <div>
                 <h2 style="cursor:default;">개인정보 수정</h2>
             </div>
@@ -103,36 +111,35 @@
                     <li>
                         <p>이름</p>
                         <input type="name" name="name" id="name" class="form-control" 
-                        placeholder="이름" value="{{ form.name.value|default_if_none:'' }}"/>
+                            placeholder="이름" value="{{ form.name.value|default_if_none:'' }}"/>
                     </li>
                     <li>
                         <p>전화번호</p>
                         <input type="phone" name="phone" id="phone" class="form-control" 
-                        placeholder="전화번호" value="{{ form.phone.value|default_if_none:'' }}"/>
+                            placeholder="전화번호" value="{{ form.phone.value|default_if_none:'' }}"/>
                     </li>
                     <li>
                         <p>이메일</p>
                         <input type="email" name="email" id="email" class="form-control" 
-                        placeholder="이메일" value="{{ form.email.value|default_if_none:'' }}"/>
+                            placeholder="이메일" value="{{ form.email.value|default_if_none:'' }}"/>
                     </li>
                 </ul>
             </div>
             <button type="button" class="base-button" style="background-color: #708ae8; border:none;" onclick="btn();">수정완료</button>
-            
-
-<script language="JavaScript" type="text/javascript">
-    function btn() 
-     {
-        if (confirm("수정하시겠습니까?")==true){
-            document.form.submit();
-            alert("수정이 완료되었습니다.");
-            
-        }
-        else{
-            return false;
-        }
-     }
-</script>
-    
-</form>
+            <script language="JavaScript" type="text/javascript">
+                function btn() 
+                {
+                    if (confirm("수정하시겠습니까?")==true){
+                        document.form.submit();
+                        alert("수정이 완료되었습니다.");
+                        
+                    }
+                    else{
+                        return false;
+                    }
+                }
+            </script>
+        </form>
+    </div>
+</section>
 {% endblock %}
