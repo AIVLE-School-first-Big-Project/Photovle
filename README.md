@@ -25,7 +25,9 @@
   <img src="https://user-images.githubusercontent.com/96154466/167544768-1be7102d-3e43-4d09-b1ea-defbb9c9b5ab.JPG" width="700" />
   
 ## Model Architecture
+
 `2-TIER`
+
  <img src="https://user-images.githubusercontent.com/96154466/167588992-2a83e3c7-4ac4-453e-bd1b-72d6d0775fc8.png" width="700" />
 
 ## UI/UX
