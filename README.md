@@ -28,7 +28,7 @@
 
 `2-TIER`
 
- <img src="https://user-images.githubusercontent.com/96154466/167673659-a8fdfac3-9af8-4f44-a510-57a1577da999.png" width="550" />
+ <img src="https://user-images.githubusercontent.com/96154466/167673659-a8fdfac3-9af8-4f44-a510-57a1577da999.png" width="700" />
 
 ## UI/UX
  `[UI/UX]` https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
@@ -55,8 +55,9 @@
  <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
  
  * DEMO
- <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
-
+ <p align="left">
+   <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
+ </p>
 
 ## 개발 환경   
 * Front
