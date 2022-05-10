@@ -57,10 +57,9 @@
  * DEMO
  <p align="justify">
    <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
- </p>
  
- <iframe id="video" width="500" height="400" src="https://user-images.githubusercontent.com/96154466/167679307-e41745dc-5220-48bb-8ac7-4a6f8d4fdae9.mp4" frameborder="0">
- </iframe>
+   https://user-images.githubusercontent.com/96154466/167680112-3dc76882-3950-4e44-a1c6-a4e4ba7abc47.mp4
+ </p>
 
 ## 개발 환경   
 * Front
