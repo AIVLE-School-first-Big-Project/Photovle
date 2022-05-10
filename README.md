@@ -35,7 +35,7 @@
  
 * LOGIN
   <p align="left">
-   <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="500" />
+   <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="600" />
   </p>
  
 * MODEL
@@ -55,7 +55,8 @@
  <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
  
  * DEMO
- <img src="https://user-images.githubusercontent.com/96154466/167624013-6500da20-3732-4692-a696-3ff10e88c27f.JPG" width="700" />
+ <img src="https://user-images.githubusercontent.com/96154466/167625081-1363ca00-d418-4b93-8127-3c6ecd6dc240.JPG" width="650" />
+
 
 ## 개발 환경   
 * Front
