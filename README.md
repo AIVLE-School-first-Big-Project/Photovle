@@ -11,10 +11,10 @@
 이런 컴퓨터의 눈으로 보는 **‘인식’** 그 뒷 배경에는 방대한 양의 학습 데이터가 요구되며 학습 데이터는 레이블링을 통한 전처리 작업이 필수적이다. 하지만 방대한 양의 학습 데이터를 모으기 위해 일일이 수집하는 것에도 한계와 어려움이 있으며, 또 수집한 데이터에서 레이블링 작업을 수행하기 위해서 많은 시간과 돈이 지출되게 된다. 
 그래서 우리는 이런 번거롭고 시간과 돈이 많이드는 작업을 AI 모델을 활용해 자동으로 **데이터 수집부터 레이블링 작업까지 한번에** 할 수 있으면 어떨까 라는 취지에서 본 프로젝트를 진행하게 되었다.
 
-   > 모델링을 수행하기 위해 다량의 데이터와 레이블링을 통한 전처리가 요구됨
-   > AI 모델을 활용해 영상 처리를 위한 데이터 수집부터 레이블링을 한번에 수행
-   > 1000개의 클래스, 1400만장의 데이터셋으로 학습된 우수한 성능의 vgg16 모델 기반
-   > Davis 2016 데이터셋으로 학습하여 AI모델 구성  
+   * 모델링을 수행하기 위해 다량의 데이터와 레이블링을 통한 전처리가 요구됨
+   * AI 모델을 활용해 영상 처리를 위한 데이터 수집부터 레이블링을 한번에 수행
+   * 1000개의 클래스, 1400만장의 데이터셋으로 학습된 우수한 성능의 vgg16 모델 기반
+   * Davis 2016 데이터셋으로 학습하여 AI모델 구성  
  
  ## 프로젝트 구성
   * Image Segmentation
@@ -54,7 +54,10 @@
 ## 개발 환경   
  * Front
 <p align="center">
-  <img alt="HTML" src ="https://img.shields.io/badge/HTML5-orange.svg?&style=for-the-badge&logo=HTML5&logoColor=white"/></a>&nbsp 
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=yello"/></a>&nbsp 
+  
   <img src="https://img.shields.io/badge/C++-00599C?style=flat-square&logo=C%2B%2B&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/C-A8B9CC?style=flat-square&logo=C&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/C-Sharp-239120?style=flat-square&logo=C-Sharp&logoColor=white"/></a>&nbsp 
@@ -62,10 +65,10 @@
   <img src="https://img.shields.io/badge/Visual-Studio-5C2D91?style=flat-square&logo=Visual-Studio&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/Xcode-147EFB?style=flat-square&logo=Xcode&logoColor=white"/></a>&nbsp <br>
   <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white"/></a>&nbsp 
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a>&nbsp 
+  
   <img src="https://img.shields.io/badge/JSON-000000?style=flat-square&logo=JSON&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat-square&logo=jQuery&logoColor=white"/></a>&nbsp 
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a>&nbsp 
+  
   <img src="https://img.shields.io/badge/Eclipse-IDE-2C2255?style=flat-square&logo=Eclipse-IDE&logoColor=white"/></a>&nbsp <br>
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/></a>&nbsp 
   <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white"/></a>&nbsp 
