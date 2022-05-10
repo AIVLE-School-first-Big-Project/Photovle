@@ -23,7 +23,9 @@
   * 회원가입
   * 로그인
   <img src="https://user-images.githubusercontent.com/96154466/167525596-b08d4def-a6cf-421b-a96d-ed85b126eaec.JPG" width="1000" height="600" />
+  
 ## Model Architecture
+ (OSVOS 모델 구조)
 
 ## 기능 별 UI/UX
  
