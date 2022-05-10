@@ -33,7 +33,8 @@
  
   * LOGIN
   <figure class="half">
-   <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="350" />
+   <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="450" />
+ 
   * MODEL
    <img src="https://user-images.githubusercontent.com/96154466/167606385-7932bbf0-2eb8-415f-a5e8-8a90cfa0e956.png" width="320" />
   <figure>
