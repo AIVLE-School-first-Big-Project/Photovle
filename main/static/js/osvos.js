@@ -503,19 +503,7 @@ function sendVideo(){
         console.log(response);
     })
     .catch((error) => {
-        // 예외 처리
-    });
-}
-
-function test(){
-    axios.get(photovleML, {
-    })
-    .then(function (response) {
-        console.log(response);
-        console.log(response['data']);
-    })
-    .catch(function (error) {
-        console.log(error);
+        alert("영상 업로드가 실패되었습니다. 서버를 확인해주세요.");
     });
 }
 
@@ -623,6 +611,7 @@ function labelTag(){
     })
     .catch(function (error) {
         console.log("Train Fail : ", error);
+        alert("학습에 실패하였습니다. 서버를 확인해주세요.");
     });
 }
 
@@ -690,7 +679,6 @@ function predictObject(){
 
             var canvas1 = document.getElementById("canvas-drawing-" + previousCanvasId);
             
-
             var ctx = canvas1.getContext("2d");
             ctx.fillStyle = currentSelectedColor;
             ctx.strokeStyle = currentSelectedColor;
@@ -715,6 +703,9 @@ function predictObject(){
         });
     }else{
         console.log("not predict!");
+        alert("예측에 실패하였습니다. 서버를 확인해주세요.");
+        return ;
+        
     }
 }
 
