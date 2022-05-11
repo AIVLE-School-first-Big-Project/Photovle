@@ -1,32 +1,11 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/update.css' %}"
 <!DOCTYPE html>
-<style>
-	.logo{
-		margin-left:1rem;
-		margin-top:1rem;
-	}
+	
 
-	.container{
-		background-color:white;
-		margin-top:50px;
-		
-		border-radius:16px;
-		border-width:3px;
-		box-shadow:5px 5px 5px 5px gray;
-	}
-
-	.board{
-		width:100%;
-		height:100%;
-		align-items:center;
-		padding:10px;
-	}
-</style>	
-
-<div class="logo">
-	<img src="/static/image/찐로고.png"width="20%" onclick="location.href='{% url 'main:board' %}'">
-</div>
 <div class="container">
 	<div class="board">
 		<h2 style="text-align:left; padding:10px;">글쓰기</h2>

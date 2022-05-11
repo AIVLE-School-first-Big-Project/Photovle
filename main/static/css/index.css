@@ -1,0 +1,11 @@
+/* html css init */
+.wrapper {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+}
+
+.content {
+    padding: 3rem;
+    border-radius: 1rem;
+}

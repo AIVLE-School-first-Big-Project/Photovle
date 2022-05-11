@@ -1,0 +1,46 @@
+/* html css init */
+.write-area{
+    width: 100%;
+    height:calc(100vh - 85px);
+    display: flex;
+    justify-content:center;
+}
+
+.container{
+    background-color:white;
+    width:66vw;
+    height: 75vh;
+    max-height:1000px;
+    border-radius:8px;
+    border-width:3px;
+    box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+    padding: 32px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+}
+
+.container h2{
+    text-align:left;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.container>div:first-child {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.base-button{
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width:20%;
+    background-color: #708ae8; 
+    border:none;
+    color:white;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.3rem;
+}
