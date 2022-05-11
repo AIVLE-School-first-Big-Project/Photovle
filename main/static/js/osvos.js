@@ -711,6 +711,7 @@ function predictObject(){
 
 function predictvideo(){
     console.log("$ predict Video");
+    loadingVeiw("train", true);
     axios({
         url: photovleML + '/model/video',
         method: "POST",
@@ -727,6 +728,7 @@ function predictvideo(){
             link.setAttribute('download', "video.avi");
             document.body.appendChild(link);
             link.click();
+            loadingVeiw("train", false);
         }
     })
     .catch(function (error) {
