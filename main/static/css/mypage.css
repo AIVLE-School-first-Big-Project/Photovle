@@ -1,0 +1,119 @@
+.board-area{
+    width: 100%;
+    height:calc(100vh - 85px);
+    display: flex;
+    justify-content:center;
+    padding: 20px 0 ;
+}
+
+.container{
+    background-color:white;
+    width: 500px;
+    height: 75vh;
+    max-height: 520px;
+    border-radius:8px;
+    border-width:3px;
+    box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
+    padding: 32px;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+}
+
+.container>div:first-child{
+    display: block;
+    margin-bottom: 20px;
+}
+
+.container h2 {
+    text-align: left;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.board{
+    width:100%;
+    align-items:center;
+    text-align:center;
+    padding:10px;
+}
+
+.board>li{
+    display: flex;
+    height: 36px;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.board>li>p{
+    display: block;
+    width: 120px;
+    font-size: 18px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.board>li>input{
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom:  1px solid #707070;
+    margin-left: 12px;
+    padding-left: 4px;
+    font-size: 18px;
+    width: 80%;
+}
+
+.board>li>input:focus{
+    outline: none;
+}
+
+.base-button{
+    width:100%;
+    background-color: #708ae8; 
+    border:none;
+    color:white;
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.3rem;
+    margin-top: 8px;
+}
+
+.base-button:hover {
+    background-color: #637acf;
+}
+
+.pw-btn{
+    color: #708ae8;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pw-btn:hover{
+    color: #212529;
+}
+
+.pw-area{
+    display: flex;
+    justify-content: flex-end;
+    width: 80%;
+}
+
+.opposite-button{
+    width:100%;
+    background-color: #909299; 
+    border:none;
+    color:white;
+    cursor: pointer;
+    padding: 0.8rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.3rem;
+    margin-top: 8px;
+}
+
+.opposite-button:hover{
+    background-color: #86878b;
+}

@@ -1,73 +1,8 @@
 {% extends 'base_non_logo.html' %}
+{% load static %}
 {% block content %}
-<style>
-    .signup-title{
-        font:normal normal bold 50px/67px Segoe UI;
-        font-size: 34px;
-        margin-bottom: 10px;
-    }
 
-    .signup-body{
-        position: absolute;
-        width: 100%;
-        height: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .float-area{
-        position: relative;
-        top: 0;
-        left: 20px;
-    }
-
-    .signup-area{
-        width:100vw;
-        height: 100vh;
-        padding: 20px 0 10px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .signup-card{
-        width:35%;
-        background-color:white;
-        border-radius:4px;
-        border-width:1px;
-        box-shadow: 5px 5px 3px rgba(0,0,0, .2),0 0 3px rgba(0,0,0, .2);
-        padding:40px;
-        display: flex;
-        flex-direction: column;
-        border-radius: 1rem; 
-        align-items:center;
-    }
-
-    .signup-name{
-        width: 400px;
-        /* background-color: #708ae8; */
-    }
-
-    .signup-card input{
-        border-top:none;
-        border-left:none;
-        border-right:none;
-        border-bottom:1px solid #919494;
-        font-size: 16px;
-        border-radius: 0;
-        margin: 0;
-        
-    }
-
-    .signup-name>input:focus{
-        outline: none;
-    }
-
-    .label{
-        margin-top: 8px;
-    }
-</style>
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
 
 <div class="signup-body">
     <div class="float-area">
