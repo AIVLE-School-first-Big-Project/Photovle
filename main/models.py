@@ -17,7 +17,7 @@ class User(AbstractUser):
     email = models.EmailField("이메일", max_length=200, unique=True)
     first_name = None
     last_name = None
-
+    
     class Meta:
         db_table = 'user'
 

@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'rest_auth.registration',
     # provider 소셜로그인 제공업체
-    'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.kakao',
 
     #이미지 라벨링 추가 : 강준영
@@ -186,6 +185,6 @@ AUTH_USER_MODEL = 'main.User'
 
 # login session
 ACCOUNT_SESSION_REMEMBER = True     # 브라우저를 닫아도 로그인 유지
-SESSION_COOKIE_AGE = 7200       # 쿠키 저장 유효시간(단위 sec) 2시간으로 설정
+SESSION_COOKIE_AGE = 14400       # 쿠키 저장 유효시간(단위 sec) 4시간으로 설정
 
 

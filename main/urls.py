@@ -36,9 +36,7 @@ urlpatterns = [
     path('<int:pk>/<int:rep_pk>/update_reply/', views.update_reply, name='update_reply'),
     path('<int:pk>/delete_reply', views.delete_reply, name='delete_reply'),
     # 작업Canvas
-    path('canvas/', views.canvas, name='canvas'),
     path('osvos/', views.osvos, name='osvos'),
-    path('test/', views.test, name='test'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

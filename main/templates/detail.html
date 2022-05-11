@@ -47,7 +47,6 @@
                첨부 파일 : <a href="{% url 'main:download' pk %}">{{ board.upload_files.name }}</a>
                {% endif %}
             </div>
-            
          </li>
             {% if user.is_authenticated %}
             <form action="{% url 'main:create_reply' board.id %}" method="post">
@@ -61,7 +60,6 @@
                      <input class="btn-design" type="submit" value="추가">
                   </li>
                </ul>
-
             </form>
             {% endif %}
             

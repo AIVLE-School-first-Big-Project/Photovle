@@ -228,10 +228,8 @@ def detail(request, pk):    # pk = board_id
     page = int(request.GET.get('page', 1))
     paginator = Paginator(reply, 5)
     page_obj = paginator.get_page(page)
-    reply_form = ReplyForm()
     context = {
         'board':board,
-        'reply_form':reply_form,
         'page_obj':page_obj,
         'pk':pk
     }
@@ -360,11 +358,5 @@ def mypost(request):
     return render(request, 'mypost.html', context)
 
 #######################Canvas################################
-def canvas(request):
-    return render(request, 'canvas.html')
-
-def test(request):
-    return render(request, 'test.html')
-
 def osvos(request):
     return render(request, 'osvos.html')
