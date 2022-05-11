@@ -573,7 +573,6 @@ function labelTag(){
         return;
     }
     
-
     console.log("$ train!");
     
     loadingVeiw("train", true);
@@ -705,7 +704,6 @@ function predictObject(){
         console.log("not predict!");
         alert("예측에 실패하였습니다. 서버를 확인해주세요.");
         return ;
-        
     }
 }
 
