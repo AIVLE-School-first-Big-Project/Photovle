@@ -58,7 +58,70 @@
  <p align="justify">
    <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
    <img src="https://user-images.githubusercontent.com/96154466/167682959-45181d12-177b-407c-9016-cf90fa1e1a9a.gif" width="500" height="300" />
+   <br>
  </p>
+ <br>
+ <br>
+ 
+## PHOTOVLE 실행방법
+
+ ### 사전 준비
+ 
+ #### 소스코드 다운로드
+ ```
+ git clone https://github.com/AIVLE-School-first-Big-Project/Photovle-core.git
+ cd Photovle-core
+ ```
+
+
+ #### 초기 환경 설정
+ 
+ * 가상환경 생성
+  ```
+  Anaconda Powershell Prompt 오픈
+  conda create -n venv python=3.8.8
+   
+    - y/n이 나오면 y 를 선택
+  ```
+   
+ * 가상환경 활성화
+  ```
+  conda activate lastenv
+  ```
+   
+ * 파이토치 설치
+  ```
+  pip3 install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+  ```
+   
+ * 전체 패키지 설지
+  ```
+  pip3 install -r requirements.txt
+  ```
+   
+ * 데이터베이스 모델 생성 및 적용
+  ```
+  python manage.py makemigrations
+  python manage.py migrate
+  ``` 
+   
+ * 로컬호스트 서버 구동
+  ```
+  python manage.py runserver
+  ``` 
+   
+ ### 프로그램 실행
+  ```
+  python3 -m photovleml
+  ```
+  
+  > **서버를 사용하기 위해서 photovleML을 개인의 서버 ip 와 동일하게 진행**
+  
+  <img src="https://user-images.githubusercontent.com/96154466/167748997-92b8dc43-2487-4e88-8801-692c90258d8b.png" width="500" />
+  
+ <span style="color:#2D3748;background-color:#fff5b1;">
+   <h2>Secret Key는 개인정보가 포함되어 있어 따로 요청 부탁드립니다.<h2>
+ </span>
 
 
 ## 개발 환경   
