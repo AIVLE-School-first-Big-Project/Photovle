@@ -22,19 +22,70 @@
   * 게시판
   * 회원가입
   * 로그인
-  <img src="https://user-images.githubusercontent.com/96154466/167544768-1be7102d-3e43-4d09-b1ea-defbb9c9b5ab.JPG" width="700" />
-  
+  <img src="https://user-images.githubusercontent.com/96154466/167673485-4acddd69-092d-480f-8c60-68693987524f.JPG" width="700" />
+
 ## Model Architecture
- (OSVOS 모델 구조)
+
+`2-TIER`
+
+ <img src="https://user-images.githubusercontent.com/96154466/167673659-a8fdfac3-9af8-4f44-a510-57a1577da999.png" width="700" />
 
 ## UI/UX
- [UI/UX] https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
+ `[UI/UX]` https://xd.adobe.com/view/dd45f359-f2b2-4ed7-951a-3f72daa98b6c-8816/
+ 
+* Login Page
+  <p align="left">
+   <img src="https://user-images.githubusercontent.com/96154466/167606249-fa7dfe30-db61-4a0f-8207-909f32737160.png" width="500" />
+  </p>
+ 
+* Labeling Page
+  <p align="left">
+   <img src="https://user-images.githubusercontent.com/96154466/167606385-7932bbf0-2eb8-415f-a5e8-8a90cfa0e956.png" width="450" />
+  </p>
 
+## DataBase
+  * ERD
+   
+   <img src="https://user-images.githubusercontent.com/96154466/167610598-3399d9dc-e13d-4cab-be72-f3b9ef851b56.JPG" width="600" />
+   
+   
 ## 모델 사용절차
+ * Sequence
 
- <img src="https://user-images.githubusercontent.com/96154466/167544830-6a0ed649-d0cc-48d5-85a1-eeb31afe0e82.JPG" width="700" />
+ <img src="https://user-images.githubusercontent.com/96154466/167678738-b578d886-6ac8-4c60-9b85-5267570ccdd8.JPG" width="700" />
  
  * DEMO
- <img src="https://user-images.githubusercontent.com/96154466/167568463-6169dc81-4d4b-48da-a877-85c5b0203892.JPG" width="900" />
+ <p align="justify">
+   <img src="https://user-images.githubusercontent.com/96154466/167675641-bfb41422-defd-448e-86c5-445b24004118.png" width="500" />
+   <img src="https://user-images.githubusercontent.com/96154466/167682959-45181d12-177b-407c-9016-cf90fa1e1a9a.gif" width="500" height="300" />
+ </p>
 
 
+## 개발 환경   
+* Front
+<p align="left">
+  <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/></a>&nbsp 
+  <img src="https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white"/></a>&nbsp
+</p>
+
+* Back End
+<p align="left">
+  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54"/></a>&nbsp 
+  <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/flask-green.svg?style=for-the-badge&logo=flask&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white"/></a>&nbsp 
+  <img src="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/></a>&nbsp 
+  <img src="https://img.shields.io/badge/ngrok-brown.svg?style=for-the-badge&logo=ngrok&logoColor=white"/></a>&nbsp
+</p>
+
+* Management tool & others
+<p align="left">
+  <img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/></a>&nbsp
+  <img src="https://img.shields.io/badge/pycharm-143?style=for-the-badge&logo=pycharm&logoColor=black&color=black&labelColor=green"/></a>&nbsp
+  <img src="https://img.shields.io/badge/Notion-green.svg?style=for-the-badge&logo=notion&logoColor=white"/></a>&nbsp
+</p>

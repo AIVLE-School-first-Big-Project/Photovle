@@ -1,3 +1,5 @@
+var photovleML = 'https://3f80-114-207-199-81.jp.ngrok.io';
+
 // 전역 변수 정의
 const frames = [];      // 분리 된 영상 이미지 리스트
 let file;               // 동영상 파일 객체
@@ -6,8 +8,8 @@ let stopped = false;    // 이미지 분리 기준
 let canvasImage;        // 이미지만 띄우는 Canvas
 let ctxImage;           // 이미지만 띄우는 Canvas
 
-let bErasing = false;       // 지우개 토글 기준
-let isDivideVideo = false;
+let bErasing = false;   // 지우개 토글 기준
+let isDivideVideo = false; // 영상 분할 여부
 
 var selectedFrameItem;  // 현재 이미지 선택된 객체
 var previousCanvasId = 0;
@@ -17,6 +19,9 @@ var dragging = false;
 var radius = 15;
 var currentSelectedColor = "red";
 var currentLineWidth = radius * 2;
+
+// 학습
+let isTrainOK = false;
 
 
 // 그림판 그리기
@@ -46,9 +51,9 @@ var setRadius = function (newRadius) {
 }
 
 var minRad = 1,
-    maxRad = 40,
+    maxRad = 200,
     defaultRad = 15,
-    interval = 5,
+    interval = 30,
     radSpan = document.getElementById('radval'),
     decRad = document.getElementById('decrad'),
     incRad = document.getElementById('incrad');
@@ -64,6 +69,7 @@ var buttonclear = document.getElementById('clear');
 buttonclear.addEventListener('click', clearImage);
 
 function clearImage() {
+    checkVideoLoading();    // 비디오 업로드 사전 체크
     const currentCanvas = document.getElementById("canvas-drawing-" + previousCanvasId);
     const currentContext = currentCanvas.getContext("2d");
 
@@ -78,6 +84,7 @@ function clearImage() {
 };
 
 function eraserImage() {
+    checkVideoLoading();    // 비디오 업로드 사전 체크
     bErasing = !bErasing;
 };
 
@@ -85,23 +92,34 @@ var button = document.getElementById('save');
 button.addEventListener('click', saveImage);
 
 function saveImage(el) {
+    checkVideoLoading();    // 비디오 업로드 사전 체크
     bErasing = true;
     
     var canvas = document.getElementById("canvas-drawing-" + previousCanvasId);
     const link = document.createElement('a');
     const labelName = document.getElementById('label_name').innerHTML;
-    if(labelName === null){
+    if(labelName == null){
         labelName = "object";
     }
 
-    link.download = labelName + "-" + previousCanvasId + ".png";
+    link.download = labelName + "-label-" + previousCanvasId + ".png";
     link.href = canvas.toDataURL();
     link.click();
     link.delete;
+
+    var canvasImage = document.getElementById("imgViewer");
+    const linkImage = document.createElement('a');
+    
+    console.log("labelName: ", labelName);
+    linkImage.download = labelName + "-image-" + previousCanvasId + ".png";
+    linkImage.href = canvasImage.toDataURL();
+    linkImage.click();
+    linkImage.delete;
+
 };
 
 function initDrawingBoard(){
-    var colors = ['red', 'yellow', 'yellowgreen', 'green', 'pink', 'blue']; //Color array to select from
+    var colors = ['red', 'pink', 'yellow', 'yellowgreen', 'green', 'cyan']; //Color array to select from
     
     for (var i = 0, n = colors.length; i < n; i++) {
         var swatch = document.createElement('nav');
@@ -109,6 +127,17 @@ function initDrawingBoard(){
         swatch.style.backgroundColor = colors[i];
         swatch.addEventListener('click', setSwatch);
         document.getElementById('colors').appendChild(swatch);
+    }
+}
+
+function checkVideoLoading(){
+    if(isDivideVideo == false){
+        alert("비디오 업로드 및 분할을 먼저 진행해주세요.");
+        return;
+    }
+    if(previousCanvasId == 0){
+        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
+        return ;
     }
 }
 
@@ -162,10 +191,10 @@ async function getVideoTrack(video, videourl) {
 
 // 비디오를 각 프레임으로 분할(분할 아이콘 클릭)
 async function divideVideo(){
-    // if (document.querySelector("#label_name").textContent == "") {
-    //     alert("레이블링의 object를 정의해주세요.");
-    //     return;
-    // }
+    if (document.querySelector("#label_name").textContent == "") {
+        alert("레이블링의 object를 정의해주세요.");
+        return;
+    }
     if (window.MediaStreamTrackProcessor) {
         isDivideVideo = true;
         const track = await getVideoTrack();
@@ -315,15 +344,11 @@ function createCanvas(bitmapWidth, bitmapHeight){
             document.getElementById("mouse-cursor").style.left = (e.offsetX - w / 2) + "px";
         }
 
-        
-        // console.log(e.offsetX, e.offsetY);
-
         if (dragging) {
             context.lineTo(e.offsetX, e.offsetY);
             context.stroke();
             context.beginPath();
             context.arc(e.offsetX, e.offsetY, radius, 0, Math.PI * 2);
-            // context.arc(e.offsetX, e.offsetY, 1, 0, Math.PI * 2);
             context.fill();
             context.beginPath();
             if (bErasing == true) {
@@ -397,6 +422,9 @@ function onClickSpecificFrame(){
     document.getElementById("canvas-drawing-" + currentCanvasId).parentNode.style.display = "block";
 
     previousCanvasId = currentCanvasId;
+
+    // 모델 예측 요청
+    // predictObject();
 }
 
 function onClickSpecificFrameDegin(clickFrameID){
@@ -430,8 +458,9 @@ function sendVideo(){
     console.log("2. sendVideo", user_id, user_phone);
     var frm = new FormData();
     frm.append("video", file);
+    frm.append("user_id", user_phone);
     
-    axios.post('http://192.168.45.218:5000/data/video/upload', frm, {
+    axios.post(photovleML + '/data/video/upload', frm, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -441,11 +470,11 @@ function sendVideo(){
     })
     .catch((error) => {
         // 예외 처리
-    })
+    });
 }
 
 function test(){
-    axios.get('http://192.168.45.218:5000', {
+    axios.get(photovleML, {
     })
     .then(function (response) {
         console.log(response);
@@ -455,34 +484,6 @@ function test(){
         console.log(error);
     });
 }
-
-// function imageConvert(canvas, filename){
-//     var dataUrl = canvas.toDataURL('image/jpeg');
-    
-//     var byteString = window.atob(dataUrl.split(',')[1]);
-//     console.log("byteString : ", byteString)
-
-//     var array = [];
-//     // i 에 해당하는 string을 unicode로 변환
-//     for (var i = 0; i < byteString.length; i++) {
-//         array.push(byteString.charCodeAt(i));
-//     }
-//     console.log("array : ", array)
-
-//     var myBlob = new Blob([new ArrayBuffer(array)], {type: 'image/jpeg'});
-
-//       // ** Blob -> File 로 변환**
-//     var image = new File([myBlob], filename + ".jpeg");
-//     console.log("image : ", image)
-
-//     const link = document.createElement('a');
-//     link.download =  filename + ".jpeg";
-//     link.href = canvas.toDataURL();
-//     link.click();
-//     link.delete;
-
-//     return image;
-// }
 
 function dataURItoBlob(dataURI, filename){
     var byteString = atob(dataURI.split(',')[1]);
@@ -503,29 +504,20 @@ function dataURItoBlob(dataURI, filename){
 
 // 원본 이미지 & 라벨링 이미지 전송하기.
 function labelTag(){
-    if(isDivideVideo == false){ 
-        alert("업로드 한 영상을 분할 해주세요.");
-        return;
-    }
-
-    if(previousCanvasId == 0){
-        alert("학습할 이미지 Frame을 선택 후 라벨링을 진행해주세요.");
-        return ;
-    }
+    checkVideoLoading();
+    console.log("$ train!");
 
     // 1. orign canvas to file
     var originCanvas = document.getElementById("imgViewer");
     var originUrl = originCanvas.toDataURL("image/jpeg");
     var originBlob = dataURItoBlob(originUrl, "frame-" + previousCanvasId);
-    // var originImage = imageConvert(originCanvas, "frame-" + previousCanvasId);
 
     // 2. Draw canvas to file
     var labelCanvas = document.getElementById("canvas-drawing-" + previousCanvasId);
     console.log("please previousCanvasId", previousCanvasId);
     var labelUrl = labelCanvas.toDataURL("image/jpeg");
     var labelBlob = dataURItoBlob(labelUrl, "canvas-drawing-" + previousCanvasId);
-    // var labelImage = imageConvert(labelCanvas, "canvas-drawing-" + previousCanvasId);
-
+    
     console.log("originImage: ", originBlob);
     console.log("labelImage: ", originBlob);
 
@@ -533,25 +525,88 @@ function labelTag(){
     var frm = new FormData();
     frm.append("img", originBlob);
     frm.append("label", labelBlob);
+    frm.append("user_id", user_phone);
 
-    axios.post('http://192.168.45.218:5000/data/img/upload', frm, {
+    axios.post(photovleML + '/model/train', frm, {
         headers: {
         'Content-Type': 'multipart/form-data'
         }
     })
     .then(function (response) {
-        console.log(response);
-        // 학습하기 ???
+        if(response.status == 200){
+            isTrainOK = true;
+            console.log("Success Train", response);
+        }
     })
     .catch(function (error) {
-        console.log(error);
+        console.log("Train Fail : ", error);
     });
 }
 
+function predictObject(){
+    if(isTrainOK){
+        console.log("$ predicting!");
+        bErasing = false;
+        // context.strokeStyle = currentSelectedColor;
+
+        var originCanvas = document.getElementById("imgViewer");
+        var originUrl = originCanvas.toDataURL("image/jpeg");
+        var originBlob = dataURItoBlob(originUrl, "frame-" + previousCanvasId);
 
 
+        var labelCanvas = document.getElementById("canvas-drawing-" + previousCanvasId);
+        console.log("please previousCanvasId", previousCanvasId);
+        var labelUrl = labelCanvas.toDataURL("image/jpeg");
+        var labelBlob = dataURItoBlob(labelUrl, "canvas-drawing-" + previousCanvasId);
+        
+        var frm = new FormData();
+        
+        frm.append("user_id", user_phone);
+        frm.append("img", originBlob);
+        frm.append("label", labelBlob);
+        
+        axios.post(photovleML + '/model/predict', frm, {
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(function (response) {
+            console.log("Success predict", response);
+            console.log("response data : ", response.data);
+        
+            var arr = response.data;
+            var canvas1 = document.getElementById("canvas-drawing-" + previousCanvasId);
+            
+            var ctx = canvas1.getContext("2d");
+            ctx.closePath();
+            
+            
+            for(var i = 0; i < arr.length; i++){
+                var x = arr[i][0];
+                var y = arr[i][1];
 
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x+1, y+1);
+                ctx.stroke(
+            }
+            ctx.closePath();
 
+            // 페이지 clear... 
+            // 포인트 좌표 무산..
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }else{
+        console.log("not predict!");
+    }
+}
+
+function predictvideo(){
+    alert("기능 구현 중..");
+    return;
+}
 
 
 // 그림판 상단 컬러 선택 버튼 생성
@@ -573,4 +628,4 @@ const btnOpenPopup = document.querySelector('.btn-open-popup');
 btnOpenPopup.addEventListener('click', modalOpen)
 
 const closeBtn = modal.querySelector(".close-area");
-closeBtn.addEventListener('click', modalOff)
+closeBtn.addEventListener('click', modalOff);
