@@ -709,9 +709,6 @@ function predictObject(){
             ctx.closePath();
             ctx.beginPath();
             loadingVeiw("predict", false);
-
-            // 페이지 clear... 
-            // 포인트 좌표 무산..
         })
         .catch(function (error) {
             console.log(error);
